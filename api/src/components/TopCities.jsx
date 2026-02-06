@@ -1,14 +1,14 @@
 import "./TopCities.css";
 
 const CITIES = [
-  { name: "Delhi / NCR", count: "227,000+", slug: "delhi-ncr" },
-  { name: "Mumbai", count: "64,000+", slug: "mumbai" },
-  { name: "Bangalore", count: "62,000+", slug: "bangalore" },
-  { name: "Hyderabad", count: "29,000+", slug: "hyderabad" },
-  { name: "Pune", count: "64,000+", slug: "pune" },
-  { name: "Kolkata", count: "41,000+", slug: "kolkata" },
-  { name: "Chennai", count: "42,000+", slug: "chennai" },
-  { name: "Ahmedabad", count: "29,000+", slug: "ahmedabad" },
+  { name: "Delhi / NCR", count: "22+", slug: "delhi-ncr" },
+  { name: "Mumbai", count: "64+", slug: "mumbai" },
+  { name: "Bangalore", count: "62+", slug: "bangalore" },
+  { name: "Hyderabad", count: "29+", slug: "hyderabad" },
+  { name: "Pune", count: "64+", slug: "pune" },
+  { name: "Kolkata", count: "41+", slug: "kolkata" },
+  { name: "Chennai", count: "42+", slug: "chennai" },
+  { name: "Ahmedabad", count: "29+", slug: "ahmedabad" },
 ];
 
 const TopCities = () => {

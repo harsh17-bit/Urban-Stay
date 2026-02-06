@@ -4,17 +4,17 @@ const TOOLS = [
   {
     title: "EMI Calculator",
     desc: "Calculate your home loan EMI",
-    href: "#",
+    href: "",
   },
   {
     title: "Loan Eligibility",
     desc: "See what you can borrow for your home",
-    href: "#",
+    href: "loan-eligibility",
   },
   {
     title: "Area Converter",
     desc: "Convert one area into any other easily",
-    href: "#",
+    href: "area-converter",
   },
 ];
 

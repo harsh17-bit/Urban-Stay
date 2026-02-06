@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
-  FiHeart, FiShare2, FiMapPin, FiCalendar, FiHome, FiMaximize, FiLayers,
-  FiCheck, FiPhone, FiMail, FiMessageSquare, FiChevronLeft, FiChevronRight,
-  FiStar, FiShield, FiPrinter, FiX, FiDollarSign, FiTrendingUp, FiCloud, FiGlobe
+  FiHeart, FiShare2, FiMapPin, FiHome, FiMaximize, FiLayers,
+  FiCheck, FiPhone, FiMessageSquare, FiChevronLeft, FiChevronRight,
+  FiStar, FiShield, FiPrinter, FiX,  FiTrendingUp, FiCloud, FiGlobe
 } from "react-icons/fi";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -13,9 +13,9 @@ import { propertyService } from "../services/propertyservice";
 import { inquiryService, reviewService } from "../services/dataservice";
 import { weatherService } from "../services/weatherservice";
 import { currencyService } from "../services/currencyservice";
-import { emailService } from "../services/emailservice";
 import PropertyCard from "../components/propertycard";
 import "./PropertyDetails.css";
+
 
 // Fix Leaflet default icon issue with Vite
 delete L.Icon.Default.prototype._getIconUrl;
@@ -303,8 +303,7 @@ const PropertyDetails = () => {
               >
                 <FiHeart />
               </button>
-              <button className="action-btn"><FiShare2 /></button>
-              <button className="action-btn"><FiPrinter /></button>
+              
             </div>
           </div>
 

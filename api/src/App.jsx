@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/authcontext.jsx'
+import { motion, AnimatePresence } from 'framer-motion'
 
 // Layout Components
 import Header from './components/Header'
@@ -16,7 +17,7 @@ import CommercialSection from './components/CommercialSection'
 import PopularTools from './components/PopularTools'
 import BenefitsSection from './components/BenefitsSection'
 import TestimonialsSection from './components/TestimonialsSection'
-import PostPropertyCTA from './components/PostPropertyCTA'
+
 
 // Pages
 import PropertyDetails from "./pages/propertydetails.jsx"
@@ -45,7 +46,6 @@ const HomePage = () => {
       <PopularTools />
       <BenefitsSection />
       <TestimonialsSection />
-      <PostPropertyCTA />
     </>
   )
 }
@@ -93,8 +93,8 @@ function AppContent() {
     <div className="app">
       <Header />
       <main>
-        <Routes>
-          {/* Public Routes */}
+        <AnimatePresence mode="wait">
+          <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -152,7 +152,18 @@ function AppContent() {
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
+      </AnimatePresence>
       </main>
+      
+      {/* Floating Action Button (Step 8) */}
+      <a 
+        href="/post-property"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-[var(--emerald)] to-[var(--pacific-cyan)] rounded-full flex items-center justify-center text-white shadow-lg hover:scale-110 transition-transform z-50"
+        title="Post Property"
+      >
+        <span className="text-2xl">+</span>
+      </a>
+      
       <Footer />
       <CookieConsentBanner />
     </div>

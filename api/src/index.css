@@ -1,26 +1,28 @@
 @import "tailwindcss";
 
 :root {
-  /* User Requested Palette */
-  /*--light-yellow: #f8ffe5;*/
-  --emerald: #06d6a0;
+   --emerald: #06d6a0;
   --pacific-cyan: #1b9aaa;
   --amber-gold: #ffc43d;
-
-  /* Semantic Mappings */
   --primary-color: var(--emerald);
   --secondary-color: var(--pacific-cyan);
   --accent-color: var(--amber-gold);
-  --background-color: var(--light-yellow);
-
-  /* Helper Variants (optional, if needed by components) */
-  --primary-hover: #05b586;
-  --secondary-hover: #157a8a;
-
-  /* Text Colors */
-  --text-primary: #333333;
-  --text-secondary: #666666;
-  --text-light: #ffffff;
+  
+  /* Add new modern colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-color: #e2e8f0;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Ensure root and body render so content is visible */
@@ -31,8 +33,53 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--background-color);
+  background-color: var(--bg-secondary);
   color: var(--text-primary);
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Inter',-apple-system,BlinkMacSystemFont, sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing: antialiased;
   /* Ensuring font consistency */
+}/* Import Modern Fonts */
+
+/* Update headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* Better scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color);
+}
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --border-color: #334155;
+  }
+  
+  .property-card,
+  .card,
+  .search-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
 }

@@ -2,25 +2,13 @@ import "./ExploreOptions.css";
 import {
   FaHome,
   FaKey,
-  FaChartLine,
   FaClipboardList,
-  FaTree,
-  FaChartBar,
-  FaUsers,
-  FaBuilding,
-  FaFileContract
 } from "react-icons/fa";
 
 const OPTIONS = [
-  { label: "Buying a home", icon: FaHome, href: "#" },
-  { label: "Renting a home", icon: FaKey, href: "#" },
-  { label: "Invest in Real Estate", icon: FaChartLine, href: "#", badge: "NEW" },
-  { label: "Sell/Rent your property", icon: FaClipboardList, href: "#" },
-  { label: "Plots/Land", icon: FaTree, href: "#", badge: "NEW" },
-  { label: "Explore Insights", icon: FaChartBar, href: "#" },
-  { label: "PG and co-living", icon: FaUsers, href: "#" },
-  { label: "Buying commercial spaces", icon: FaBuilding, href: "#" },
-  { label: "Lease commercial spaces", icon: FaFileContract, href: "#" },
+  { label: "Buying a home", icon: FaHome, href:"properties?listingtype=buy" },
+  { label: "Renting a home", icon: FaKey, href: "properties?listingtype=rent" },
+  { label: "Sell your property", icon: FaClipboardList, href: "post-property" },
 ];
 
 

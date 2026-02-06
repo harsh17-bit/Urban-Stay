@@ -1,0 +1,1267 @@
+{
+  "info": {
+    "name": "Logic Wave Real Estate API",
+    "description": "Complete API collection for Logic Wave Real Estate Platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\",\n  \"phone\": \"1234567890\",\n  \"role\": \"buyer\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/register",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login User",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.token) {",
+                  "    pm.environment.set('TOKEN', response.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current User",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/me",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "me"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Updated\",\n  \"phone\": \"9876543210\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/updateprofile",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "updateprofile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentPassword\": \"password123\",\n  \"newPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/updatepassword",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "updatepassword"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/forgotpassword",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "forgotpassword"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/resetpassword/:resettoken",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "resetpassword", ":resettoken"],
+              "variable": [
+                {
+                  "key": "resettoken",
+                  "value": "your-reset-token-here"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Favorite",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/favorites/:propertyId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "favorites", ":propertyId"],
+              "variable": [
+                {
+                  "key": "propertyId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Users (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/users",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "users"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Role (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"seller\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/users/:id/role",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "users", ":id", "role"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User (Admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/auth/users/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "auth", "users", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Properties",
+      "item": [
+        {
+          "name": "Get All Properties",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties?page=1&limit=10&propertyType=apartment&listingType=buy&city=Mumbai",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "limit",
+                  "value": "10",
+                  "description": "Items per page"
+                },
+                {
+                  "key": "propertyType",
+                  "value": "apartment",
+                  "description": "apartment, house, villa, etc.",
+                  "disabled": true
+                },
+                {
+                  "key": "listingType",
+                  "value": "buy",
+                  "description": "buy or rent",
+                  "disabled": true
+                },
+                {
+                  "key": "city",
+                  "value": "Mumbai",
+                  "disabled": true
+                },
+                {
+                  "key": "minPrice",
+                  "value": "1000000",
+                  "disabled": true
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "10000000",
+                  "disabled": true
+                },
+                {
+                  "key": "bedrooms",
+                  "value": "3",
+                  "disabled": true
+                },
+                {
+                  "key": "search",
+                  "value": "luxury apartment",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Property by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Property by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/slug/:slug",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", "slug", ":slug"],
+              "variable": [
+                {
+                  "key": "slug",
+                  "value": "luxury-apartment-mumbai"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Featured Properties",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/featured",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", "featured"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Similar Properties",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/:id/similar",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", ":id", "similar"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Property Count by City",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/stats/cities",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", "stats", "cities"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Properties",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/user/my",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", "user", "my"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Property",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Luxury 3BHK Apartment in Mumbai\",\n  \"description\": \"Beautiful apartment with sea view\",\n  \"propertyType\": \"apartment\",\n  \"listingType\": \"buy\",\n  \"price\": 15000000,\n  \"location\": {\n    \"address\": \"123 Marine Drive\",\n    \"city\": \"Mumbai\",\n    \"state\": \"Maharashtra\",\n    \"pincode\": \"400001\",\n    \"coordinates\": {\n      \"latitude\": 18.9432,\n      \"longitude\": 72.8236\n    }\n  },\n  \"specifications\": {\n    \"bedrooms\": 3,\n    \"bathrooms\": 2,\n    \"carpetArea\": 1200,\n    \"builtUpArea\": 1500,\n    \"furnishing\": \"semi-furnished\",\n    \"facing\": \"west\",\n    \"floorNumber\": 12,\n    \"totalFloors\": 20\n  },\n  \"amenities\": [\"swimming-pool\", \"gym\", \"parking\", \"security\"],\n  \"images\": [\n    {\n      \"url\": \"https://example.com/image1.jpg\",\n      \"public_id\": \"property_1\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Property",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Luxury Apartment\",\n  \"price\": 16000000\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Property",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Property (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/:id/verify",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", ":id", "verify"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Feature Property (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/:id/feature",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", ":id", "feature"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Admin Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/properties/stats/admin",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "properties", "stats", "admin"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Inquiries",
+      "item": [
+        {
+          "name": "Create Inquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propertyId\": \"property-id-here\",\n  \"message\": \"I'm interested in this property\",\n  \"phone\": \"1234567890\",\n  \"inquiryType\": \"general\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/inquiries",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "inquiries"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Received Inquiries",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/inquiries/received",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "inquiries", "received"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Sent Inquiries",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/inquiries/sent",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "inquiries", "sent"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Inquiry by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/inquiries/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "inquiries", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Respond to Inquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Thank you for your interest. Let's schedule a visit.\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/inquiries/:id/respond",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "inquiries", ":id", "respond"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Inquiry Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"contacted\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/inquiries/:id/status",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "inquiries", ":id", "status"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Inquiry",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/inquiries/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "inquiries", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Inquiry Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/inquiries/stats",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "inquiries", "stats"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"propertyId\": \"property-id-here\",\n  \"rating\": 5,\n  \"title\": \"Excellent Property\",\n  \"comment\": \"Great location and amenities\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Property Reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews/property/:propertyId",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews", "property", ":propertyId"],
+              "variable": [
+                {
+                  "key": "propertyId",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Reviews",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews/my",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews", "my"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Review",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 4,\n  \"title\": \"Good Property\",\n  \"comment\": \"Nice location\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Review",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Vote Review",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"isHelpful\": true\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews/:id/vote",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews", ":id", "vote"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Respond to Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Thank you for your feedback!\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews/:id/respond",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews", ":id", "respond"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Reviews (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews/pending",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews", "pending"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Moderate Review (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\",\n  \"rejectionReason\": \"\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/reviews/:id/moderate",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "reviews", ":id", "moderate"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Alerts",
+      "item": [
+        {
+          "name": "Create Alert",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Mumbai Apartments\",\n  \"filters\": {\n    \"propertyType\": \"apartment\",\n    \"listingType\": \"buy\",\n    \"city\": \"Mumbai\",\n    \"minPrice\": 5000000,\n    \"maxPrice\": 20000000,\n    \"bedrooms\": 3\n  },\n  \"frequency\": \"weekly\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/alerts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "alerts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My Alerts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/alerts",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "alerts"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Alert by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/alerts/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "alerts", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Alert",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Alert Name\",\n  \"frequency\": \"daily\"\n}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/api/alerts/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "alerts", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Alert",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/alerts/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "alerts", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Toggle Alert Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/alerts/:id/toggle",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "alerts", ":id", "toggle"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Matching Properties",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{TOKEN}}"
+              }
+            ],
+            "url": {
+              "raw": "{{BASE_URL}}/api/alerts/:id/matches",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "alerts", ":id", "matches"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Get All Projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/projects",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "projects"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Project by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/api/projects/:id",
+              "host": ["{{BASE_URL}}"],
+              "path": ["api", "projects", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "TOKEN",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
