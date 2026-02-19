@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { FiLock, FiEye, FiEyeOff, FiHome, FiCheckCircle } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { FiLock, FiEye, FiEyeOff, FiCheckCircle } from "react-icons/fi";
 import authService from "../services/authservice";
 import "./Auth.css";
 
 const ResetPassword = () => {
-    const { token } = useParams();
     const navigate = useNavigate();
+    const [email, setEmail] = useState("");
+    const [otp, setOtp] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -16,6 +17,22 @@ const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!email || !otp) {
+            setError("Email and OTP are required");
+            return;
+        }
+
+        const emailPattern = /^\S+@\S+\.\S+$/;
+        if (!emailPattern.test(email)) {
+            setError("Please enter a valid email");
+            return;
+        }
+
+        if (!/^\d{6}$/.test(otp)) {
+            setError("OTP must be a 6-digit number");
+            return;
+        }
 
         if (password !== confirmPassword) {
             setError("Passwords do not match");
@@ -30,13 +47,21 @@ const ResetPassword = () => {
         setIsLoading(true);
         setError("");
         try {
-            await authService.resetPassword(token, password);
+            console.log("Sending reset password request:", { email, otp: otp.substring(0, 2) + "****" });
+            const response = await authService.resetPassword({
+                email,
+                otp,
+                newPassword: password,
+            });
+            console.log("Reset password response:", response);
             setIsSuccess(true);
             setTimeout(() => {
                 navigate("/login");
             }, 3000);
         } catch (err) {
-            setError(err.response?.data?.message || "Invalid or expired reset token.");
+            console.error("Reset password error:", err);
+            console.error("Error response:", err.response?.data);
+            setError(err.response?.data?.message || "Invalid or expired OTP.");
         } finally {
             setIsLoading(false);
         }
@@ -65,12 +90,41 @@ const ResetPassword = () => {
                             <>
                                 <div className="auth-header text-center">
                                     <h2 className="text-2xl font-bold mb-2">Reset Password</h2>
-                                    <p className="text-gray-500">Please enter your new password below.</p>
+                                    <p className="text-gray-500">Enter the OTP from your email and set a new password.</p>
                                 </div>
 
                                 {error && <div className="auth-error mb-4">{error}</div>}
 
                                 <form onSubmit={handleSubmit} className="auth-form">
+                                    <div className="form-group mb-4">
+                                        <label htmlFor="email">Email Address</label>
+                                        <div className="input-wrapper">
+                                            <input
+                                                type="email"
+                                                id="email"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                placeholder="you@example.com"
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="form-group mb-4">
+                                        <label htmlFor="otp">OTP</label>
+                                        <div className="input-wrapper">
+                                            <input
+                                                type="text"
+                                                id="otp"
+                                                value={otp}
+                                                onChange={(e) => setOtp(e.target.value)}
+                                                placeholder="6-digit OTP"
+                                                maxLength={6}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+
                                     <div className="form-group mb-4">
                                         <label htmlFor="new-password">New Password</label>
                                         <div className="input-wrapper">

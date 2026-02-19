@@ -227,9 +227,56 @@ exports.createProperty = async (req, res) => {
         // Add owner to request body
         req.body.owner = req.user.id;
 
-        console.log("Creating property with data:", JSON.stringify(req.body, null, 2));
+        // Parse JSON fields from FormData
+        const location = req.body.location ? JSON.parse(req.body.location) : {};
+        const specifications = req.body.specifications ? JSON.parse(req.body.specifications) : {};
+        const amenities = req.body.amenities ? JSON.parse(req.body.amenities) : [];
+        const highlights = req.body.highlights ? JSON.parse(req.body.highlights) : [];
+        const priceBreakdown = req.body.priceBreakdown ? JSON.parse(req.body.priceBreakdown) : {};
 
-        const property = await Property.create(req.body);
+        // Handle image uploads
+        let images = [];
+        if (req.files && req.files.length > 0) {
+            // Convert uploaded files to image objects
+            images = req.files.map((file, index) => ({
+                url: `/uploads/propertyimages/${file.filename}`,
+                caption: "",
+                isPrimary: parseInt(req.body.primaryImageIndex || 0) === index
+            }));
+            
+            console.log("Uploaded images:", images);
+        } else if (req.body.images) {
+            // Fallback for images in JSON format
+            try {
+                images = typeof req.body.images === 'string' ? JSON.parse(req.body.images) : req.body.images;
+            } catch (e) {
+                images = [];
+            }
+        }
+
+        // Use placeholder if no images
+        if (!images || images.length === 0) {
+            images = [{ url: "https://via.placeholder.com/800x600", isPrimary: true }];
+        }
+
+        const propertyData = {
+            owner: req.body.owner,
+            title: req.body.title,
+            description: req.body.description,
+            listingType: req.body.listingType,
+            propertyType: req.body.propertyType,
+            price: Number(req.body.price),
+            location,
+            specifications,
+            amenities,
+            highlights,
+            images,
+            priceBreakdown
+        };
+
+        console.log("Creating property with data:", JSON.stringify(propertyData, null, 2));
+
+        const property = await Property.create(propertyData);
 
         res.status(201).json({
             success: true,
@@ -282,7 +329,7 @@ exports.updateProperty = async (req, res) => {
         }
 
         property = await Property.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
+            returnDocument: 'after',
             runValidators: true,
         });
 
@@ -398,7 +445,16 @@ exports.getMyProperties = async (req, res) => {
 // @access  Public
 exports.getSimilarProperties = async (req, res) => {
     try {
-        const property = await Property.findById(req.params.id);
+        const { id } = req.params;
+
+        if (!require("mongoose").Types.ObjectId.isValid(id)) {
+            return res.status(404).json({
+                success: false,
+                message: "Property not found (Invalid ID)",
+            });
+        }
+
+        const property = await Property.findById(id);
 
         if (!property) {
             return res.status(404).json({
@@ -519,7 +575,7 @@ exports.verifyProperty = async (req, res) => {
                 verifiedAt: new Date(),
                 verifiedBy: req.user.id,
             },
-            { new: true }
+            { returnDocument: 'after' }
         );
 
         if (!property) {
@@ -557,7 +613,7 @@ exports.featureProperty = async (req, res) => {
                 isFeatured: true,
                 featuredUntil,
             },
-            { new: true }
+            { returnDocument: 'after' }
         );
 
         if (!property) {

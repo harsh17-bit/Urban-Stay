@@ -2,7 +2,6 @@ import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
-
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props)
@@ -14,7 +13,7 @@ class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       return (
-        <div style={{ padding: '2rem', fontFamily: 'sans-serif', color: '#c00' }}>
+        <div className="error-boundary">
           <h1>Something went wrong</h1>
           <pre>{this.state.error?.message ?? 'Unknown error'}</pre>
         </div>
@@ -31,10 +30,10 @@ if (!root) {
 } else {
   console.log('Rendering React App...');
   createRoot(root).render(
-    <StrictMode>
+    <React.StrictMode>
       <ErrorBoundary>
         <App />
       </ErrorBoundary>
-    </StrictMode>,
+    </React.StrictMode>,
   )
 }

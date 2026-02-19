@@ -11,18 +11,18 @@ export const AuthProvider = ({ children }) => {
     // Check for existing session on mount
     useEffect(() => {
         const initAuth = async () => {
-            const token = localStorage.getItem("token");
-            const savedUser = localStorage.getItem("user");
+            const token = sessionStorage.getItem("token");
+            const savedUser = sessionStorage.getItem("user");
 
             if (token && savedUser) {
                 try {
                     // Verify token is still valid
                     const response = await authService.getMe();
                     setUser(response.user);
-                } catch (err) {
+                } catch {
                     // Token invalid - clear storage
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user");
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("user");
                 }
             }
             setLoading(false);
@@ -30,7 +30,6 @@ export const AuthProvider = ({ children }) => {
 
         initAuth();
     }, []);
-
     const register = async (userData) => {
         try {
             setError(null);
@@ -47,6 +46,8 @@ export const AuthProvider = ({ children }) => {
         try {
             setError(null);
             const response = await authService.login(credentials);
+            sessionStorage.setItem("token", response.token);
+            sessionStorage.setItem("user", JSON.stringify(response.user));
             setUser(response.user);
             return response;
         } catch (err) {
@@ -57,6 +58,8 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         authService.logout();
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("user");
         setUser(null);
     };
 
@@ -73,14 +76,16 @@ export const AuthProvider = ({ children }) => {
     };
 
     const toggleFavorite = async (propertyId) => {
+        // eslint-disable-next-line no-useless-catch
         try {
             const response = await authService.toggleFavorite(propertyId);
             // Update user favorites in state
             const updatedUser = await authService.getMe();
             setUser(updatedUser.user);
             return response;
-        } catch (err) {
-            throw err;
+        } catch 
+        {
+            throw new Error("Failed to update favorites");
         }
     };
 
@@ -112,6 +117,7 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useAuth = () => {
     const context = useContext(AuthContext);
     if (!context) {

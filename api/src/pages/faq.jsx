@@ -133,11 +133,7 @@ const FAQ = () => {
         <div className="faq-page">
             {/* Hero Section */}
             <div className="faq-hero">
-                <div className="faq-hero-content">
-                    <FiHelpCircle className="faq-hero-icon" />
-                    <h1>Frequently Asked Questions</h1>
-                    <p>Find answers to common questions about Logic Wave Property</p>
-                </div>
+                
             </div>
 
             {/* FAQ Content */}
@@ -190,31 +186,6 @@ const FAQ = () => {
 
                 {/* Sidebar */}
                 <aside className="faq-sidebar">
-                    <div className="sidebar-card">
-                        <h3>Still have questions?</h3>
-                        <p>Can't find the answer you're looking for? Contact our support team.</p>
-                        <a href="mailto:support@logicwaveproperty.com" className="btn-primary">
-                            Contact Support
-                        </a>
-                    </div>
-
-                    <div className="sidebar-card">
-                        <h3>Legal Documents</h3>
-                        <ul className="legal-links">
-                            <li><Link to="/terms-of-service">Terms of Service</Link></li>
-                            <li><Link to="/privacy-policy">Privacy Policy</Link></li>
-                        </ul>
-                    </div>
-
-                    <div className="sidebar-card">
-                        <h3>Quick Tips</h3>
-                        <ul className="tips-list">
-                            <li>📸 Upload clear property photos</li>
-                            <li>💰 Use EMI calculator for estimates</li>
-                            <li>⭐ Get verified for credibility</li>
-                            <li>🔔 Set up property alerts</li>
-                        </ul>
-                    </div>
                 </aside>
             </div>
         </div>

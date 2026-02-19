@@ -4,9 +4,9 @@
  * Manages communication between property seekers and sellers
  * Tracks inquiry status, responses, and visit scheduling
  * 
- * @module models/Inquiry
- */
-
+ @module models/Inquiry
+ 
+*/
 const mongoose = require("mongoose");
 
 /**

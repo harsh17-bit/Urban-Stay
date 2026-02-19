@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useSearchParams} from "react-router-dom";
 import {
     FiSearch, FiFilter, FiMapPin, FiGrid, FiList, FiX, FiChevronDown
 } from "react-icons/fi";
@@ -9,7 +9,6 @@ import "./SearchResults.css";
 
 const SearchResults = () => {
     const [searchParams, setSearchParams] = useSearchParams();
-    const navigate = useNavigate();
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
     const [totalResults, setTotalResults] = useState(0);

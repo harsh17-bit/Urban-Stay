@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+/* eslint-disable no-unused-vars */
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
     FiUser, FiHeart, FiMessageSquare, FiBell, FiSettings, FiEdit2,
@@ -6,6 +7,7 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "../context/authcontext.jsx";
 import { inquiryService, alertService } from "../services/dataservice";
+import { getImageUrl } from "../utils/imageUtils";
 import PropertyCard from "../components/propertycard";
 import "./Dashboard.css";
 
@@ -15,20 +17,16 @@ const UserDashboard = () => {
     const [favorites, setFavorites] = useState([]);
     const [inquiries, setInquiries] = useState([]);
     const [alerts, setAlerts] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [editMode, setEditMode] = useState(false);
     const [profileData, setProfileData] = useState({
         name: user?.name || "",
         phone: user?.phone || "",
         bio: user?.bio || "",
+        role: user?.role || "user",
     });
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        setLoading(true);
+   
+    async function fetchData() {
         try {
             const [inquiriesRes, alertsRes] = await Promise.all([
                 inquiryService.getSent(),
@@ -39,10 +37,12 @@ const UserDashboard = () => {
             setFavorites(user?.favorites || []);
         } catch (error) {
             console.error("Error fetching data:", error);
-        } finally {
-            setLoading(false);
         }
-    };
+    }
+
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
     const handleProfileUpdate = async (e) => {
         e.preventDefault();
@@ -99,12 +99,7 @@ const UserDashboard = () => {
                         ))}
                     </nav>
 
-                    <div className="sidebar-footer">
-                        <Link to="/settings" className="nav-item">
-                            <FiSettings />
-                            <span>Settings</span>
-                        </Link>
-                    </div>
+                    
                 </aside>
 
                 {/* Main Content */}
@@ -112,7 +107,7 @@ const UserDashboard = () => {
                     {/* Overview Tab */}
                     {activeTab === "overview" && (
                         <div className="dashboard-content">
-                            <h1>Welcome back, {user?.name?.split(" ")[0]}! 👋</h1>
+                            <h1>Welcome back, {user?.name?.split(" ")[0]}!</h1>
                             <p className="subtitle">Here's what's happening with your property search</p>
 
                             <div className="stats-grid">
@@ -139,7 +134,7 @@ const UserDashboard = () => {
                                         {inquiries.slice(0, 3).map((inquiry) => (
                                             <div key={inquiry._id} className="inquiry-card">
                                                 <div className="inquiry-property">
-                                                    <img src={inquiry.property?.images?.[0]?.url || "https://via.placeholder.com/80"} alt="" />
+                                                    <img src={getImageUrl(inquiry.property?.images?.[0]?.url)} alt="" />
                                                     <div>
                                                         <h4>{inquiry.property?.title}</h4>
                                                         <p><FiMapPin /> {inquiry.property?.location?.city}</p>
@@ -200,7 +195,7 @@ const UserDashboard = () => {
                                     {inquiries.map((inquiry) => (
                                         <div key={inquiry._id} className="inquiry-card detailed">
                                             <div className="inquiry-property">
-                                                <img src={inquiry.property?.images?.[0]?.url || "https://via.placeholder.com/100"} alt="" />
+                                                <img src={getImageUrl(inquiry.property?.images?.[0]?.url)} alt="" />
                                                 <div>
                                                     <h4>{inquiry.property?.title}</h4>
                                                     <p><FiMapPin /> {inquiry.property?.location?.city}</p>
@@ -347,6 +342,25 @@ const UserDashboard = () => {
                                                 />
                                             ) : (
                                                 <p>{user?.phone || "Not provided"}</p>
+                                            )}
+                                        </div>
+
+                                        <div className="form-group">
+                                            <label><FiHome /> You want to</label>
+                                            {editMode ? (
+                                                <select
+                                                    value={profileData.role}
+                                                    onChange={(e) => setProfileData({ ...profileData, role: e.target.value })}
+                                                >
+                                                    <option value="user">Buy / Rent Property</option>
+                                                    <option value="seller">Sell / List Property</option>
+                                                </select>
+                                            ) : (
+                                                <p>
+                                                    {user?.role === "seller"
+                                                        ? "Sell / List Property"
+                                                        : "Buy / Rent Property"}
+                                                </p>
                                             )}
                                         </div>
 

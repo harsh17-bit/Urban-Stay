@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { FiHeart, FiMapPin, FiMaximize, FiHome, FiStar, FiShield } from "react-icons/fi";
+import { getImageUrl } from "../utils/imageUtils";
 import "./PropertyCard.css";
 
 const PropertyCard = ({ property, viewMode = "grid" }) => {
@@ -14,14 +15,9 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
     propertyType = "Apartment",
     listingType = "buy",
     images = [],
-    isFeatured = false,
-    isVerified = false,
-    views = 0,
   } = property;
 
-  const image = images?.[0]?.url ||
-    images?.[0] ||
-    "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400";
+  const image = getImageUrl(images?.[0]?.url || images?.[0]);
 
   const formatPrice = (price, type) => {
     if (type === "rent") {
@@ -39,9 +35,12 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
   const bhk = specifications?.bedrooms || property.bhk || 0;
   const area = specifications?.carpetArea || property.area || 0;
 
+  const Wrapper = _id ? Link : "div";
+  const wrapperProps = _id ? { to: `/property/${_id}` } : { role: "article", "aria-disabled": true };
+
   if (viewMode === "list") {
     return (
-      <Link to={`/property/${_id}`} className="property-card list-view">
+      <Wrapper {...wrapperProps} className="property-card list-view">
       <div className="property-image-wrap">
         <img 
           src={image} 
@@ -53,14 +52,7 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
           }}
           loading="lazy"
         />
-        <div className="image-badges">
-            {isFeatured && (
-              <span className="badge featured"><FiStar /> Featured</span>
-            )}
-            {isVerified && (
-              <span className="badge verified"><FiShield /></span>
-            )}
-          </div>
+       
           <span className="listing-type-badge">{listingType === "rent" ? "For Rent" : "For Sale"}</span>
         </div>
 
@@ -96,12 +88,12 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
             </button>
           </div>
         </div>
-      </Link>
+      </Wrapper>
     );
   }
 
   return (
-    <Link to={`/property/${_id}`} className="property-card">
+    <Wrapper {...wrapperProps} className="property-card">
       <div className="property-image-wrap">
         <img 
           src={image} 
@@ -113,14 +105,7 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
           }}
           loading="lazy"
         />
-        <div className="image-badges">
-          {isFeatured && (
-            <span className="badge featured"><FiStar /> Featured</span>
-          )}
-          {isVerified && (
-            <span className="badge verified"><FiShield /></span>
-          )}
-        </div>
+       
         <span className="listing-type-badge">{listingType === "rent" ? "For Rent" : "For Sale"}</span>
         <button className="favorite-btn" onClick={(e) => e.preventDefault()}>
           <FiHeart />
@@ -144,7 +129,7 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
           <p className="property-price">{formatPrice(price, listingType)}</p>
         </div>
       </div>
-    </Link>
+    </Wrapper>
   );
 };
 

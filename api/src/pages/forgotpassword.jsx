@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FiMail, FiHome, FiArrowLeft, FiCheckCircle } from "react-icons/fi";
+import {  FiArrowLeft, FiCheckCircle } from "react-icons/fi";
 import authService from "../services/authservice";
 import "./Auth.css";
 
@@ -9,20 +9,14 @@ const ForgotPassword = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSent, setIsSent] = useState(false);
     const [error, setError] = useState("");
-    const [resetToken, setResetToken] = useState(""); // Only for demo/dev purposes
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError("");
         try {
-            const response = await authService.forgotPassword(email);
+            await authService.forgotPassword(email);
             setIsSent(true);
-            // In a real app, we wouldn't return the token. 
-            // But for this project's convenience, we display it.
-            if (response.resetToken) {
-                setResetToken(response.resetToken);
-            }
         } catch (err) {
             setError(err.response?.data?.message || "Something went wrong. Please try again.");
         } finally {
@@ -53,7 +47,7 @@ const ForgotPassword = () => {
                             <>
                                 <div className="auth-header text-center">
                                     <h2 className="text-2xl font-bold mb-2">Forgot Password?</h2>
-                                    <p className="text-gray-500">Enter your email and we'll send you a reset link.</p>
+                                    <p className="text-gray-500">Enter your email and we'll send you a 6-digit OTP.</p>
                                 </div>
 
                                 {error && <div className="auth-error mb-4">{error}</div>}
@@ -79,7 +73,7 @@ const ForgotPassword = () => {
                                         className="auth-button bg-gradient-to-r from-blue-500 to-indigo-600"
                                         disabled={isLoading}
                                     >
-                                        {isLoading ? <span className="loading-spinner"></span> : "Send Reset Link"}
+                                        {isLoading ? <span className="loading-spinner"></span> : "Send OTP"}
                                     </button>
                                 </form>
                             </>
@@ -88,21 +82,14 @@ const ForgotPassword = () => {
                                 <FiCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
                                 <h2 className="text-2xl font-bold mb-2">Check Your Email</h2>
                                 <p className="text-gray-500 mb-6">
-                                    We've sent a password reset link to <strong>{email}</strong>.
+                                    If the email exists, an OTP was sent to <strong>{email}</strong>. Use it to reset your password.
                                 </p>
-
-                                {resetToken && (
-                                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 mb-6 text-left">
-                                        <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">Development Demo Mode:</p>
-                                        <p className="text-sm text-gray-700 mb-3">Since email sending is currently mocked, use this link to reset:</p>
-                                        <Link
-                                            to={`/reset-password/${resetToken}`}
-                                            className="text-blue-600 font-semibold break-all hover:underline"
-                                        >
-                                            {window.location.origin}/reset-password/{resetToken}
-                                        </Link>
-                                    </div>
-                                )}
+                                <Link
+                                    to="/reset-password"
+                                    className="text-blue-600 font-semibold hover:underline"
+                                >
+                                    Continue to reset password
+                                </Link>
                             </div>
                         )}
 

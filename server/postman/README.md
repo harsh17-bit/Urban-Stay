@@ -62,7 +62,7 @@ The environment includes two variables:
 - ✅ PUT `/updateprofile` - Update user profile
 - ✅ PUT `/updatepassword` - Update password
 - ✅ POST `/forgotpassword` - Request password reset
-- ✅ PUT `/resetpassword/:resettoken` - Reset password
+- ✅ POST `/resetpassword` - Reset password with OTP
 - ✅ PUT `/favorites/:propertyId` - Toggle favorite property
 - 🔐 GET `/users` - Get all users (admin only)
 - 🔐 PUT `/users/:id/role` - Update user role (admin only)

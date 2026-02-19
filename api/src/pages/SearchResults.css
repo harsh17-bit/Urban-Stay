@@ -37,7 +37,7 @@
 }
 
 .search-input-wrapper:focus-within {
-    border-color: var(--primary-color);
+    
     background: white;
 }
 
@@ -53,11 +53,7 @@
     border: none;
     background: transparent;
     font-size: 1rem;
-    color: #1e293b;
-}
-
-.search-input-wrapper input:focus {
-    outline: none;
+    
 }
 
 .quick-filters {
@@ -67,8 +63,8 @@
 }
 
 .quick-filters select {
-    padding: 0.75rem 2rem 0.75rem 1rem;
-    border: 2px solid #e5e7eb;
+    padding: 0.75rem 1rem 0.75rem rem;
+   
     border-radius: 10px;
     font-size: 0.9rem;
     color: #1e293b;
@@ -96,11 +92,6 @@
     transition: all 0.2s;
 }
 
-.filter-btn:hover,
-.filter-btn.active {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
 
 .filter-count {
     width: 20px;

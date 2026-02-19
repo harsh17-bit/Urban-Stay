@@ -1,3 +1,39 @@
+const { z } = require("zod");       
+// -------- ZOD SCHEMAS --------
+const passwordRegex =
+  /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$/;
+
+const registerSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email format"),
+  password: z
+    .string()
+    .regex(passwordRegex, 
+      "Password must have uppercase, lowercase, number & special character"),
+  phone: z.string().optional(),
+  role: z.enum(["user", "seller"]).optional(),
+});
+
+const loginSchema = z.object({
+  email: z.string().email("Invalid email"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
+
+const updatePasswordSchema = z.object({
+  currentPassword: z.string().min(8),
+  newPassword: z
+    .string()
+    .regex(passwordRegex, "New password is too weak"),
+});
+
+const resetPasswordSchema = z.object({
+  email: z.string().email(),
+  otp: z.string().regex(/^\d{6}$/),
+  newPassword: z
+    .string()
+    .regex(passwordRegex, "Password is too weak"),
+});
+
 /**
  * Authentication Controller
  * Handles all user authentication operations including registration, login,
@@ -8,7 +44,7 @@
 
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
-const { sendWelcomeEmail } = require("../utils/email");
+const { sendWelcomeEmail, sendPasswordResetOtpEmail } = require("../utils/email");
 const crypto = require("crypto");
 
 /**
@@ -222,13 +258,17 @@ exports.updateProfile = async (req, res) => {
             gender: req.body.gender,
         };
 
+        if (req.user.role !== "admin" && ["user", "seller"].includes(req.body.role)) {
+            fieldsToUpdate.role = req.body.role;
+        }
+
         // Remove undefined fields
         Object.keys(fieldsToUpdate).forEach(
             (key) => fieldsToUpdate[key] === undefined && delete fieldsToUpdate[key]
         );
 
         const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
-            new: true,
+            returnDocument: 'after',
             runValidators: true,
         });
 
@@ -276,70 +316,167 @@ exports.updatePassword = async (req, res) => {
     }
 };
 
-// @desc    Forgot password
+// @desc    Forgot password (send OTP)
 // @route   POST /api/auth/forgotpassword
 // @access  Public
 exports.forgotPassword = async (req, res) => {
     try {
-        const user = await User.findOne({ email: req.body.email });
-
-        if (!user) {
-            return res.status(404).json({
+        const email = (req.body.email || "").trim().toLowerCase();
+        if (!email) {
+            return res.status(400).json({
                 success: false,
-                message: "No user found with this email",
+                message: "Email is required",
+            });
+        }
+        const emailPattern = /^\S+@\S+\.\S+$/;
+        if (!emailPattern.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid email format",
             });
         }
 
-        // Get reset token
-        const resetToken = user.generateResetToken();
-        await user.save({ validateBeforeSave: false });
+        const user = await User.findOne({ email });
+        if (!user) {
+            console.log("Forgot password - User not found:", email);
+            return res.status(200).json({
+                success: true,
+                message: "If the email exists, an OTP was sent",
+            });
+        }
 
-        // In production, send email with reset link
-        // For now, just return the token
+        const otp = crypto.randomInt(0, 1000000).toString().padStart(6, "0");
+        const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+        user.otpHash = otpHash;
+        user.otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+        await user.save({ validateBeforeSave: false });
+        
+        console.log("OTP generated for:", email, "- OTP:", otp, "Expires:", user.otpExpiresAt);
+
+        await sendPasswordResetOtpEmail({
+            email: user.email,
+            otp,
+        });
+        
+        console.log("OTP email sent to:", user.email);
+
         res.status(200).json({
             success: true,
-            message: "Password reset email sent",
-            resetToken, // Remove this in production
+            message: "If the email exists, an OTP was sent",
         });
     } catch (error) {
         console.error("Forgot password error:", error);
         res.status(500).json({
             success: false,
-            message: "Error sending password reset email",
+            message: "Error sending password reset OTP",
         });
     }
 };
 
-// @desc    Reset password
-// @route   PUT /api/auth/resetpassword/:resettoken
+// @desc    Check if email is already registered
+// @route   GET /api/auth/check-email
 // @access  Public
-exports.resetPassword = async (req, res) => {
+exports.checkEmail = async (req, res) => {
     try {
-        // Get hashed token
-        const resetPasswordToken = crypto
-            .createHash("sha256")
-            .update(req.params.resettoken)
-            .digest("hex");
-
-        const user = await User.findOne({
-            resetPasswordToken,
-            resetPasswordExpire: { $gt: Date.now() },
-        });
-
-        if (!user) {
+        const email = (req.query.email || "").trim().toLowerCase();
+        if (!email) {
             return res.status(400).json({
                 success: false,
-                message: "Invalid or expired reset token",
+                message: "Email is required",
             });
         }
 
-        // Set new password
-        user.password = req.body.password;
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpire = undefined;
-        await user.save();
+        const existingUser = await User.findOne({ email }).select("_id");
+        return res.status(200).json({
+            success: true,
+            exists: !!existingUser,
+        });
+    } catch (error) {
+        console.error("Check email error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Error checking email",
+        });
+    }
+};
 
-        sendTokenResponse(user, 200, res);
+// @desc    Reset password (verify OTP)
+// @route   POST /api/auth/resetpassword
+// @access  Public
+exports.resetPassword = async (req, res) => {
+    try {
+        console.log("Reset password request received:", { email: req.body.email, hasOtp: !!req.body.otp, hasPassword: !!req.body.newPassword });
+        const email = (req.body.email || "").trim().toLowerCase();
+        const otp = (req.body.otp || "").trim();
+        const newPassword = req.body.newPassword || "";
+
+        if (!email || !otp || !newPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "Email, OTP, and new password are required",
+            });
+        }
+
+        const emailPattern = /^\S+@\S+\.\S+$/;
+        if (!emailPattern.test(email)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid email format",
+            });
+        }
+
+        if (!/^\d{6}$/.test(otp)) {
+            return res.status(400).json({
+                success: false,
+                message: "OTP must be a 6-digit number",
+            });
+        }
+
+        if (newPassword.length < 6) {
+            return res.status(400).json({
+                success: false,
+                message: "Password must be at least 6 characters",
+            });
+        }
+
+        const user = await User.findOne({ email }).select("+password");
+        console.log("User found:", !!user, "Has OTP hash:", !!user?.otpHash, "Has expiry:", !!user?.otpExpiresAt);
+        if (!user || !user.otpHash || !user.otpExpiresAt) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid or expired OTP",
+            });
+        }
+
+        const now = Date.now();
+        const expiresAt = new Date(user.otpExpiresAt).getTime();
+        console.log("OTP expiry check:", { now, expiresAt, expired: expiresAt < now });
+        if (user.otpExpiresAt < Date.now()) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid or expired OTP",
+            });
+        }
+
+        const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+        console.log("OTP hash match:", otpHash === user.otpHash);
+        if (otpHash !== user.otpHash) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid or expired OTP",
+            });
+        }
+
+        user.password = newPassword;
+        user.otpHash = undefined;
+        user.otpExpiresAt = undefined;
+        await user.save();
+        console.log("Password reset successful for:", email);
+
+        res.status(200).json({
+            success: true,
+            message: "Password reset successfully",
+        });
     } catch (error) {
         console.error("Reset password error:", error);
         res.status(500).json({
@@ -439,7 +576,7 @@ exports.updateUserRole = async (req, res) => {
         const user = await User.findByIdAndUpdate(
             req.params.id,
             { role },
-            { new: true }
+            { returnDocument: 'after' }
         );
 
         if (!user) {

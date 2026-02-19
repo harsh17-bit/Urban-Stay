@@ -28,8 +28,8 @@ const Footer = () => {
     <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-gray-300 mt-20 overflow-hidden">
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-[var(--emerald)]/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[var(--pacific-cyan)]/10 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-[var(--color-primary)]/8 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[var(--color-accent)]/8 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
@@ -37,9 +37,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand Column */}
           <div className="lg:col-span-1">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-[var(--emerald)] to-[var(--pacific-cyan)] bg-clip-text text-transparent mb-5">
-              UrbanStay.com
-            </h2>
+            <Link to="/" className="flex-shrink-0 group">
+            <h1 className="text-2xl font-bold">
+              <span className="brand-gradient">Urban</span>
+              <span className="brand-accent">Stay</span>
+            </h1>
+          </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               Your trusted platform to buy, rent, and sell properties across India.
               We make finding your dream home simple and seamless.
@@ -51,7 +54,7 @@ const Footer = () => {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:bg-gradient-to-r hover:from-[var(--emerald)] hover:to-[var(--pacific-cyan)] hover:text-white hover:border-transparent hover:scale-110 transition-all duration-300"
+                  className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-gray-400 hover:bg-[var(--color-primary)] hover:text-white hover:border-transparent hover:scale-110 transition-all duration-300"
                 >
                   <social.icon className="w-4 h-4" />
                 </a>
@@ -63,16 +66,16 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold text-lg mb-5 relative">
               Company
-              <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-[var(--emerald)] to-[var(--pacific-cyan)] rounded-full"></span>
+              <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-[var(--color-accent)] rounded-full"></span>
             </h4>
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-gray-400 hover:text-[var(--emerald)] transition-colors duration-300 text-sm flex items-center gap-2 group"
+                    className="text-gray-400 hover:text-[var(--color-accent)] transition-colors duration-300 text-sm flex items-center gap-2 group"
                   >
-                    <span className="w-0 h-0.5 bg-[var(--emerald)] transition-all duration-300 group-hover:w-2 rounded-full"></span>
+                    <span className="w-0 h-0.5 bg-[var(--color-accent)] transition-all duration-300 group-hover:w-2 rounded-full"></span>
                     {link.label}
                   </a>
                 </li>
@@ -84,7 +87,7 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold text-lg mb-5 relative">
               Services
-              <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-[var(--emerald)] to-[var(--pacific-cyan)] rounded-full"></span>
+              <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-[var(--color-accent)] rounded-full"></span>
             </h4>
             <ul className="space-y-3">
               {serviceLinks.map((link) => (
@@ -105,15 +108,15 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold text-lg mb-5 relative">
               Get In Touch
-              <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-gradient-to-r from-[var(--emerald)] to-[var(--pacific-cyan)] rounded-full"></span>
+              <span className="absolute -bottom-1 left-0 w-8 h-0.5 bg-[var(--color-accent)] rounded-full"></span>
             </h4>
             <ul className="space-y-4">
               <li>
                 <a
                   href="mailto:support@urbanstay.com"
-                  className="flex items-center gap-3 text-gray-400 hover:text-[var(--emerald)] transition-colors duration-300 text-sm group"
+                  className="flex items-center gap-3 text-gray-400 hover:text-[var(--color-accent)] transition-colors duration-300 text-sm group"
                 >
-                  <span className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 group-hover:bg-[var(--emerald)]/20 group-hover:border-[var(--emerald)]/30 transition-all duration-300">
+                  <span className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 group-hover:bg-[var(--color-primary)]/15 group-hover:border-[var(--color-primary)]/25 transition-all duration-300">
                     <FiMail className="w-4 h-4" />
                   </span>
                   support@urbanstay.com
@@ -122,26 +125,13 @@ const Footer = () => {
               <li>
                 <a
                   href="tel:+919878854312"
-                  className="flex items-center gap-3 text-gray-400 hover:text-[var(--emerald)] transition-colors duration-300 text-sm group"
+                  className="flex items-center gap-3 text-gray-400 hover:text-[var(--color-accent)] transition-colors duration-300 text-sm group"
                 >
-                  <span className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 group-hover:bg-[var(--emerald)]/20 group-hover:border-[var(--emerald)]/30 transition-all duration-300">
+                  <span className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 group-hover:bg-[var(--color-primary)]/15 group-hover:border-[var(--color-primary)]/25 transition-all duration-300">
                     <FiPhone className="w-4 h-4" />
                   </span>
                   +91 98788 54312
                 </a>
-              </li>
-              <li className="flex items-start gap-3 text-gray-400 text-sm">
-                <span className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 flex-shrink-0">
-                  <FiMapPin className="w-4 h-4" />
-                </span>
-                <span className="pt-2">Mumbai, Maharashtra, India</span>
-              </li>
-              <li className="mt-6 pt-4 border-t border-white/10">
-                <p className="text-xs text-gray-500 mb-2">Certified & Licensed</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 bg-white/5 border border-white/10 rounded text-xs text-gray-400">RERA Approved</span>
-                  <span className="px-2 py-1 bg-white/5 border border-white/10 rounded text-xs text-gray-400">ISO 9001:2015</span>
-                </div>
               </li>
             </ul>
           </div>
@@ -153,14 +143,7 @@ const Footer = () => {
             <p className="text-gray-500 text-sm text-center sm:text-left">
               © {currentYear} <span className="text-gray-400">UrbanStay.com</span>. All rights reserved.
             </p>
-            <div className="flex items-center gap-6 text-sm">
-              <Link to="/privacy-policy" className="text-gray-500 hover:text-[var(--emerald)] transition-colors duration-300">
-                Privacy Policy
-              </Link>
-              <Link to="/terms-of-service" className="text-gray-500 hover:text-[var(--emerald)] transition-colors duration-300">
-                Terms of Service
-              </Link>
-            </div>
+            
           </div>
         </div>
       </div>

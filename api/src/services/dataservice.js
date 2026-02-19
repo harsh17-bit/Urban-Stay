@@ -1,3 +1,4 @@
+
 import api from "./api";
 
 // Inquiry Services
@@ -42,10 +43,9 @@ export const inquiryService = {
         return response.data;
     },
 };
-
 // Review Services
 export const reviewService = {
-    create: async (data) => {
+    createReview: async (data) => {
         const response = await api.post("/reviews", data);
         return response.data;
     },

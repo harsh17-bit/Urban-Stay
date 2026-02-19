@@ -35,7 +35,7 @@ exports.getAlert = async (req, res) => {
 exports.updateAlert = async (req, res) => {
     try {
         const alert = await Alert.findOneAndUpdate(
-            { _id: req.params.id, user: req.user.id }, req.body, { new: true, runValidators: true }
+            { _id: req.params.id, user: req.user.id }, req.body, { returnDocument: 'after', runValidators: true }
         );
         if (!alert) return res.status(404).json({ success: false, message: "Alert not found" });
         res.status(200).json({ success: true, alert });

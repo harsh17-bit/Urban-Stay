@@ -1,0 +1,240 @@
+:root {
+  --sunset-cream: #f8f2e9;
+  --deep-teal: #1f5f5b;
+  --warm-amber: #f2a154;
+  --shadow-ink: rgba(12, 23, 23, 0.12);
+}
+
+.projects-page {
+  min-height: 100vh;
+
+  color: #1a1a1a;
+}
+
+.projects-hero {
+  padding: 4.5rem 1.5rem 3rem;
+  
+}
+
+.projects-hero-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.projects-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--deep-teal);
+  margin-bottom: 0.75rem;
+}
+
+.projects-hero-content h1 {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  color: var(--deep-teal);
+  margin-bottom: 0.75rem;
+}
+
+.projects-hero-content p {
+  font-size: 1.05rem;
+  color: #495454;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+.projects-controls {
+  padding: 0 1.5rem 2rem;
+}
+
+.projects-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.25rem;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px var(--shadow-ink);
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #4f5d5b;
+}
+
+.filter-field input,
+.filter-field select {
+  border: 1px solid #d6d6d6;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.95rem;
+  background: #fffdf8;
+}
+
+.projects-grid {
+  padding: 2rem 1.5rem 4rem;
+}
+
+.projects-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.project-card {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 18px 35px rgba(31, 95, 91, 0.12);
+  display: flex;
+  flex-direction: column;
+}
+
+.project-media {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.project-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-media img {
+  transform: scale(1.05);
+}
+
+.project-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(31, 95, 91, 0.9);
+  color: #ffffff;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.project-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.project-header h3 {
+  font-size: 1.2rem;
+  color: #1f2d2c;
+}
+
+.project-status {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  background: #f0f0f0;
+  color: #4a4a4a;
+}
+
+.status-coming-soon {
+  background: rgba(242, 161, 84, 0.2);
+  color: #8a4f1f;
+}
+
+.status-under-construction {
+  background: rgba(31, 95, 91, 0.15);
+  color: #1f5f5b;
+}
+
+.status-ready-to-move {
+  background: rgba(89, 170, 80, 0.2);
+  color: #2f6a2c;
+}
+
+.status-completed {
+  background: rgba(72, 99, 224, 0.15);
+  color: #2f3d8a;
+}
+
+.project-location {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #5b6b68;
+  font-size: 0.9rem;
+}
+
+.project-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  background: #faf6ef;
+  padding: 0.85rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  color: #475452;
+}
+
+.project-details span {
+  display: block;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.25rem;
+}
+
+.project-details strong {
+  font-size: 0.95rem;
+  color: #1f2d2c;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.project-description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #5b6b68;
+}
+
+.projects-state {
+  text-align: center;
+  padding: 2rem;
+  color: #51605e;
+}
+
+.projects-state.error {
+  color: #b94739;
+}
+
+@media (max-width: 640px) {
+  .projects-hero {
+    padding: 3.5rem 1.25rem 2.5rem;
+  }
+
+  .projects-filters {
+    padding: 1rem;
+  }
+}

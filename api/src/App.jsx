@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/authcontext.jsx'
 import { AnimatePresence } from 'framer-motion'
@@ -33,7 +33,8 @@ import PostProperty from "./pages/postproperty.jsx"
 import TermsOfService from "./pages/termsofservice.jsx"
 import PrivacyPolicy from "./pages/privacypolicy.jsx"
 import FAQ from "./pages/faq.jsx"
-import GravityBackground from "./components/GravityBackground";
+import Projects from "./pages/projects.jsx"
+
 
 // Home Page Component with all sections
 const HomePage = () => {
@@ -90,24 +91,44 @@ const DashboardRouter = () => {
 };
 
 function AppContent() {
+  useEffect(() => {
+    const interval = setInterval(async()=>{
+      try{
+        const res=await fetch("/api/health");
+        if(!res.ok){
+          throw new Error("Server Down");
+        }
+      }
+      catch
+      {
+        localStorage.removeItem("token");
+        window.location.href="/login";
+      }
+    },60000);
+    return () => clearInterval(interval);
+  },[]);
+
   return (
-    <div className="app">
-      <GravityBackground />
-      <Header />
-      <main>
+  <>
+  
+    <div className='app relative min-h-screen'>
+        <Header />
+      <main className="relative z-10">
         <AnimatePresence mode="wait">
           <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/properties" element={<SearchResults />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/property/:id" element={<PropertyDetails />} />
+          
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/projects" element={<Projects />} />
 
           {/* Protected Routes */}
           <Route
@@ -168,19 +189,20 @@ function AppContent() {
       
       <Footer />
       <CookieConsentBanner />
-    </div>
-  )
+      </div>
+  </>
+)
 }
 
 function App() {
   console.log('App component rendering');
   return (
     <BrowserRouter>
-      <AuthProvider>
+      <AuthProvider>  
         <AppContent />
       </AuthProvider>
     </BrowserRouter>
-  )
+  );
 }
 
 export default App

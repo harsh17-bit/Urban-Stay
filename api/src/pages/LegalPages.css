@@ -6,9 +6,9 @@
 
 /* Hero Section */
 .legal-hero {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    background: #e2e8f0;
     color: white;
-    padding: 4rem 2rem;
+    padding: 2rem 1rem;
     text-align: center;
 }
 
@@ -75,7 +75,7 @@
 }
 
 .legal-section h2 svg {
-    color: #3b82f6;
+    color: darkcyan;
     font-size: 1.5rem;
 }
 
@@ -223,7 +223,7 @@
 .btn-primary {
     display: inline-block;
     padding: 0.875rem 2rem;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: black;
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -232,16 +232,12 @@
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-}
+
 
 .btn-outline {
     display: block;
     padding: 0.75rem 1.5rem;
-    border: 2px solid #3b82f6;
-    color: #3b82f6;
+    
     text-decoration: none;
     border-radius: 8px;
     font-weight: 600;
@@ -249,10 +245,7 @@
     transition: all 0.3s;
 }
 
-.btn-outline:hover {
-    background: #3b82f6;
-    color: white;
-}
+
 
 /* Version History Styles */
 .version-history {

@@ -28,9 +28,6 @@
   transition: transform 0.5s ease;
 }
 
-.property-card:hover .property-image {
-  transform: scale(1.08);
-}
 
 /* Badges */
 .image-badges {
@@ -192,7 +189,7 @@
   font-weight: 700;
   color: #1e293b;
   margin: 0;
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: black;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

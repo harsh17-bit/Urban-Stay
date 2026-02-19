@@ -7,7 +7,6 @@
  */
 
 import api from "./api";
-
 /**
  * Authentication service object containing all auth-related methods
  * Automatically manages JWT tokens and user data in localStorage
@@ -31,6 +30,19 @@ export const authService = {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.user));
         }
+        return response.data;
+    },
+
+    /**
+     * Check if an email is already registered
+     * 
+     * @param {string} email - Email address to check
+     * @returns {Promise<Object>} Availability response
+     */
+    checkEmail: async (email) => {
+        const response = await api.get("/auth/check-email", {
+            params: { email },
+        });
         return response.data;
     },
 
@@ -121,8 +133,8 @@ export const authService = {
      * @param {string} password - New password
      * @returns {Promise<Object>} Success response with new token
      */
-    resetPassword: async (token, password) => {
-        const response = await api.put(`/auth/resetpassword/${token}`, { password });
+    resetPassword: async (data) => {
+        const response = await api.post("/auth/resetpassword", data);
         return response.data;
     },
 

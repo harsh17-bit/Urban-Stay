@@ -161,7 +161,7 @@
         {
           "name": "Reset Password",
           "request": {
-            "method": "PUT",
+            "method": "POST",
             "header": [
               {
                 "key": "Content-Type",
@@ -170,18 +170,12 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"password\": \"newpassword123\"\n}"
+              "raw": "{\n  \"email\": \"john@example.com\",\n  \"otp\": \"123456\",\n  \"newPassword\": \"newpassword123\"\n}"
             },
             "url": {
-              "raw": "{{BASE_URL}}/api/auth/resetpassword/:resettoken",
+              "raw": "{{BASE_URL}}/api/auth/resetpassword",
               "host": ["{{BASE_URL}}"],
-              "path": ["api", "auth", "resetpassword", ":resettoken"],
-              "variable": [
-                {
-                  "key": "resettoken",
-                  "value": "your-reset-token-here"
-                }
-              ]
+              "path": ["api", "auth", "resetpassword"]
             }
           },
           "response": []

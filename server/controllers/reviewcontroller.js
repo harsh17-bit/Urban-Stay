@@ -31,7 +31,7 @@ exports.getPropertyReviews = async (req, res) => {
             .skip((page - 1) * limit).limit(limit).sort("-createdAt");
         const total = await Review.countDocuments(filter);
 
-        res.status(200).json({ success: true, count: reviews.length, total, page, pages: Math.ceil(total / limit), reviews });
+        res.status(201).json({ success: true, count: reviews.length, total, page, pages: Math.ceil(total / limit), reviews });
     } catch (error) {
         res.status(500).json({ success: false, message: "Error fetching reviews" });
     }
@@ -41,7 +41,7 @@ exports.getMyReviews = async (req, res) => {
     try {
         const reviews = await Review.find({ user: req.user.id })
             .populate("property", "title images location").sort("-createdAt");
-        res.status(200).json({ success: true, reviews });
+        res.status(201).json({ success: true, reviews });
     } catch (error) {
         res.status(500).json({ success: false, message: "Error fetching reviews" });
     }
@@ -53,7 +53,7 @@ exports.updateReview = async (req, res) => {
         if (!review) return res.status(404).json({ success: false, message: "Review not found" });
         if (review.user.toString() !== req.user.id) return res.status(403).json({ success: false, message: "Not authorized" });
 
-        review = await Review.findByIdAndUpdate(req.params.id, { ...req.body, status: "pending" }, { new: true });
+        review = await Review.findByIdAndUpdate(req.params.id, { ...req.body, status: "pending" }, { returnDocument: 'after' });
         res.status(200).json({ success: true, review });
     } catch (error) {
         res.status(500).json({ success: false, message: "Error updating review" });
@@ -114,7 +114,7 @@ exports.moderateReview = async (req, res) => {
         const review = await Review.findByIdAndUpdate(req.params.id, {
             status: req.body.status,
             rejectionReason: req.body.status === "rejected" ? req.body.rejectionReason : undefined
-        }, { new: true });
+        }, { returnDocument: 'after' });
         res.status(200).json({ success: true, review });
     } catch (error) {
         res.status(500).json({ success: false, message: "Error moderating review" });

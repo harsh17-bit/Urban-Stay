@@ -128,6 +128,12 @@ const userSchema = new mongoose.Schema(
             type: Date,
             default: Date.now,
         },
+        otpHash: {
+            type: String,
+        },
+        otpExpiresAt: {
+            type: Date,
+        },
     },
     {
         timestamps: true,

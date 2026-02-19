@@ -139,43 +139,57 @@ const PostProperty = () => {
         });
     };
 
-    const handleImageAdd = () => {
-        const urlInput = document.getElementById("image-url-input");
-        const url = urlInput.value.trim();
+    const handleImageAdd = (e) => {
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
         
-        if (!url) {
-            setErrors({ ...errors, imageUrl: "Please enter an image URL" });
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        const maxImages = 10;
+        
+        if (formData.images.length >= maxImages) {
+            setErrors({ ...errors, imageFile: `Maximum ${maxImages} images allowed` });
             return;
         }
         
-        // Basic URL validation
-        try {
-            new URL(url);
-        } catch (e) {
-            setErrors({ ...errors, imageUrl: "Please enter a valid URL" });
-            return;
-        }
-        
-        // Check if it's an image URL (basic check)
-        const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg'];
-        const lowerUrl = url.toLowerCase();
-        const isImageUrl = imageExtensions.some(ext => lowerUrl.includes(ext)) || 
-                          lowerUrl.includes('unsplash') || 
-                          lowerUrl.includes('pexels') ||
-                          lowerUrl.includes('pixabay') ||
-                          lowerUrl.includes('imgur');
-        
-        if (!isImageUrl && !lowerUrl.startsWith('data:image')) {
-            setErrors({ ...errors, imageUrl: "URL doesn't appear to be an image. Supported: JPG, PNG, GIF, WebP" });
-            return;
-        }
-        
-        setFormData({
-            ...formData,
-            images: [...formData.images, { url, caption: "", isPrimary: formData.images.length === 0 }]
+        Array.from(files).forEach((file) => {
+            // Validate file type
+            if (!allowedTypes.includes(file.type)) {
+                setErrors({ ...errors, imageFile: "Only JPG, PNG, WebP, and GIF files are allowed" });
+                return;
+            }
+            
+            // Validate file size
+            if (file.size > maxSize) {
+                setErrors({ ...errors, imageFile: "Each image must be less than 5MB" });
+                return;
+            }
+            
+            // Check total images don't exceed limit
+            if (formData.images.length >= maxImages) {
+                setErrors({ ...errors, imageFile: `Maximum ${maxImages} images allowed` });
+                return;
+            }
+            
+            // Create preview URL
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setFormData({
+                    ...formData,
+                    images: [...formData.images, { 
+                        file,
+                        url: event.target.result, // Data URL for preview
+                        caption: "", 
+                        isPrimary: formData.images.length === 0 
+                    }]
+                });
+            };
+            reader.readAsDataURL(file);
         });
-        urlInput.value = "";
-        setErrors({ ...errors, imageUrl: "" });
+        
+        // Reset input
+        e.target.value = '';
+        setErrors({ ...errors, imageFile: "" });
     };
 
     const handleImageRemove = (index) => {
@@ -261,26 +275,82 @@ const PostProperty = () => {
                 cleanedSpecifications.possessionStatus = formData.specifications.possessionStatus;
             }
 
-            const propertyData = {
-                title: formData.title,
-                description: formData.description,
-                listingType: formData.listingType,
-                propertyType: formData.propertyType,
-                price: Number(formData.price),
-                location: formData.location,
-                specifications: cleanedSpecifications,
-                amenities: formData.amenities,
-                highlights: formData.highlights,
-                images: formData.images.length > 0 ? formData.images : [{ url: "https://via.placeholder.com/800x600", isPrimary: true }],
-                priceBreakdown: {
+            // Check if any images have file objects
+            const hasFileUploads = formData.images.some(img => img.file instanceof File);
+
+            if (hasFileUploads) {
+                // Use FormData for file uploads
+                const formDataObj = new FormData();
+                
+                // Add basic fields
+                formDataObj.append('title', formData.title);
+                formDataObj.append('description', formData.description);
+                formDataObj.append('listingType', formData.listingType);
+                formDataObj.append('propertyType', formData.propertyType);
+                formDataObj.append('price', Number(formData.price));
+                formDataObj.append('owner', user._id);
+                
+                // Add location
+                formDataObj.append('location', JSON.stringify(formData.location));
+                
+                // Add specifications
+                formDataObj.append('specifications', JSON.stringify(cleanedSpecifications));
+                
+                // Add amenities
+                formDataObj.append('amenities', JSON.stringify(formData.amenities));
+                
+                // Add highlights
+                formDataObj.append('highlights', JSON.stringify(formData.highlights));
+                
+                // Add price breakdown
+                formDataObj.append('priceBreakdown', JSON.stringify({
                     maintenanceCharges: Number(formData.priceBreakdown.maintenanceCharges) || 0,
-                },
-                owner: user._id,
-            };
+                }));
+                
+                // Add image files
+                formData.images.forEach((img) => {
+                    if (img.file instanceof File) {
+                        formDataObj.append('images', img.file);
+                    }
+                });
+                
+                // Add metadata for primary image
+                const primaryIndex = formData.images.findIndex(img => img.isPrimary);
+                formDataObj.append('primaryImageIndex', primaryIndex >= 0 ? primaryIndex : 0);
+                
+                console.log("Submitting property with file uploads");
+                
+                // Make direct API call with FormData
+                const api = (await import('../services/api')).default;
+                await api.post('/properties', formDataObj, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            } else {
+                // Original JSON submission (no file uploads)
+                const propertyData = {
+                    title: formData.title,
+                    description: formData.description,
+                    listingType: formData.listingType,
+                    propertyType: formData.propertyType,
+                    price: Number(formData.price),
+                    location: formData.location,
+                    specifications: cleanedSpecifications,
+                    amenities: formData.amenities,
+                    highlights: formData.highlights,
+                    images: formData.images.length > 0 ? formData.images : [{ url: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600'%3E%3Crect fill='%23e5e7eb' width='800' height='600'/%3E%3Ctext x='50%25' y='50%25' font-size='24' fill='%239ca3af' text-anchor='middle' dominant-baseline='middle'%3ENo Image%3C/text%3E%3C/svg%3E", isPrimary: true }],
+                    priceBreakdown: {
+                        maintenanceCharges: Number(formData.priceBreakdown.maintenanceCharges) || 0,
+                    },
+                    owner: user._id,
+                };
 
-            console.log("Submitting property data:", propertyData);
+                console.log("Submitting property data:", propertyData);
 
-            await propertyService.createProperty(propertyData);
+                await propertyService.createProperty(propertyData);
+            }
+
             navigate("/seller/dashboard");
         } catch (error) {
             console.error("Error creating property:", error);
@@ -293,7 +363,7 @@ const PostProperty = () => {
             
             setErrors({ submit: errorMessage });
         } finally {
-            setLoading(false);x
+            setLoading(false);
         }
     };
 
@@ -332,6 +402,7 @@ const PostProperty = () => {
                     {/* Step 1: Basic Info */}
                     {currentStep === 1 && (
                         <div className="form-step">
+                                
                             <h2>Basic Information</h2>
                             <p className="step-description">Tell us about your property</p>
 
@@ -708,23 +779,19 @@ const PostProperty = () => {
 
                             <div className="section">
                                 <h3>Property Images</h3>
-                                <p className="section-note">Add image URLs (JPG, PNG, WebP) - Max 10 images</p>
+                                <p className="section-note">Upload photos (JPG, PNG, WebP) - Max 10 images, 5MB each</p>
                                 <div className="highlights-input">
                                     <input
-                                        type="url"
-                                        id="image-url-input"
-                                        placeholder="https://example.com/image.jpg"
-                                        onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), handleImageAdd())}
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={handleImageAdd}
+                                        type="file"
+                                        id="image-file-input"
+                                        multiple
+                                        accept="image/jpeg,image/png,image/webp,image/gif"
+                                        onChange={handleImageAdd}
                                         disabled={formData.images.length >= 10}
-                                    >
-                                        <FiPlus /> Add Image
-                                    </button>
+                                        style={{ display: 'block', marginBottom: '12px' }}
+                                    />
                                 </div>
-                                {errors.imageUrl && <p style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '4px' }}>{errors.imageUrl}</p>}
+                                {errors.imageFile && <p style={{ color: '#ef4444', fontSize: '0.875rem', marginTop: '4px' }}>{errors.imageFile}</p>}
                                 
                                 {formData.images.length === 0 ? (
                                     <div style={{ textAlign: 'center', padding: '40px', background: '#f9fafb', borderRadius: '12px', border: '2px dashed #d1d5db', marginTop: '16px' }}>

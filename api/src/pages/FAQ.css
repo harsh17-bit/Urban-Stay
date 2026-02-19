@@ -6,9 +6,9 @@
 
 /* Hero Section */
 .faq-hero {
-    background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+    background:#e2e8f0;
     color: white;
-    padding: 4rem 2rem;
+    padding: 2rem 1rem;
     text-align: center;
 }
 
@@ -90,7 +90,7 @@
 }
 
 .category-header.expanded {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: var(--color-accent);
     color: white;
 }
 
@@ -103,7 +103,7 @@
 
 .category-icon {
     font-size: 1.5rem;
-    color: #3b82f6;
+    color: darkcyan;
 }
 
 .category-header.expanded .category-icon {
@@ -177,13 +177,11 @@
 
 .faq-question:hover {
     background: #f1f5f9;
-    border-color: #3b82f6;
+    border-color: var(--color-accent);
 }
 
 .faq-question.expanded {
-    background: #dbeafe;
-    border-color: #3b82f6;
-    color: #1e40af;
+    background: var(--color-accent);
 }
 
 .faq-chevron {
@@ -237,8 +235,8 @@
 
 .btn-primary {
     display: block;
-    padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    padding: 0.75rem 0.5rem;
+   
     color: white;
     text-decoration: none;
     border-radius: 8px;
@@ -248,10 +246,7 @@
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
 
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-}
+
 
 /* Legal Links */
 .legal-links {

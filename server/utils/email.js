@@ -17,6 +17,9 @@ const nodemailer = require('nodemailer');
  * @throws {Error} If EMAIL_USER or EMAIL_PASSWORD is not configured
  */
 const createTransporter = () => {
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    throw new Error("Email service is not configured");
+  }
   return nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -49,7 +52,7 @@ const sendInquiryNotification = async (data) => {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: `"Logic Wave Property" <${process.env.EMAIL_USER}>`,
+      from: `"Urban Stay Property" <${process.env.EMAIL_USER}>`,
       to: data.ownerEmail,
       subject: `New ${data.inquiryType} Inquiry for ${data.propertyTitle}`,
       html: `
@@ -68,9 +71,7 @@ const sendInquiryNotification = async (data) => {
         </head>
         <body>
           <div class="container">
-            <div class="header">
-              <h1>🏠 New Property Inquiry</h1>
-            </div>
+              <h1>New Property Inquiry</h1>
             <div class="content">
               <p>Hello,</p>
               <p>You have received a new <strong>${data.inquiryType.replace(/-/g, ' ')}</strong> inquiry for your property.</p>
@@ -142,78 +143,76 @@ const sendWelcomeEmail = async (data) => {
       to: data.email,
       subject: 'Welcome to UrbanStay.com!',
       html: `
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <style>
-            body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-            .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-            .header { background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0; }
-            .content { background: white; padding: 30px; border: 1px solid #e5e7eb; border-radius: 0 0 8px 8px; }
-            .welcome-box { background: #f0fdf4; padding: 20px; border-left: 4px solid #10b981; margin: 20px 0; border-radius: 4px; }
-            .features { background: #f9fafb; padding: 20px; border-radius: 8px; margin: 20px 0; }
-            .feature-item { margin: 15px 0; padding-left: 25px; position: relative; }
-            .feature-item:before { content: "✓"; position: absolute; left: 0; color: #10b981; font-weight: bold; font-size: 18px; }
-            .button { display: inline-block; background: linear-gradient(135deg, #10b981 0%, #06b6d4 100%); color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; margin-top: 20px; font-weight: bold; }
-            .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #6b7280; font-size: 14px; }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <div class="header">
-              <h1 style="margin: 0; font-size: 32px;">Welcome to UrbanStay.com!</h1>
-              <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Your journey to finding the perfect property starts here</p>
-            </div>
-            <div class="content">
-              <div class="welcome-box">
-                <h2 style="margin-top: 0; color: #10b981;">Hello ${data.name}! 👋</h2>
-                <p style="margin-bottom: 0;">Thank you for joining UrbanStay.com. We're excited to have you as part of our community!</p>
-              </div>
-              
-              <p>As a <strong>${data.role === 'seller' ? 'Property Seller' : 'Property Seeker'}</strong>, you now have access to:</p>
-              
-              <div class="features">
-                ${data.role === 'seller' ? `
-                  <div class="feature-item">List unlimited properties for sale or rent</div>
-                  <div class="feature-item">Manage property inquiries in one place</div>
-                  <div class="feature-item">Track property views and analytics</div>
-                  <div class="feature-item">Connect with genuine buyers and renters</div>
-                  <div class="feature-item">Professional property showcase tools</div>
-                ` : `
-                  <div class="feature-item">Browse thousands of verified properties</div>
-                  <div class="feature-item">Save your favorite listings</div>
-                  <div class="feature-item">Get instant inquiry responses</div>
-                  <div class="feature-item">Schedule property visits</div>
-                  <div class="feature-item">Receive personalized property alerts</div>
-                `}
-              </div>
-              
-              <p><strong>Getting Started:</strong></p>
-              <ul>
-                ${data.role === 'seller' ? `
-                  <li>Complete your seller profile</li>
-                  <li>Post your first property listing</li>
-                  <li>Set up notifications for inquiries</li>
-                ` : `
-                  <li>Explore properties in your preferred locations</li>
-                  <li>Set up your search preferences</li>
-                  <li>Save properties you're interested in</li>
-                `}
-              </ul>
-              
-              <div style="text-align: center;">
-                <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}" class="button">Start Exploring</a>
-              </div>
-              
-              <div class="footer">
-                <p>Need help? Our support team is here to assist you.</p>
-                <p>Contact us at <a href="mailto:${process.env.EMAIL_USER}" style="color: #10b981;">${process.env.EMAIL_USER}</a></p>
-                <p style="margin-top: 20px;">© 2026 UrbanStay.com. All rights reserved.</p>
-              </div>
-            </div>
-          </div>
-        </body>
-        </html>
+      <!DOCTYPE html>
+<html>
+<body style="margin:0;background:#f5f7fa;font-family:Arial,Helvetica,sans-serif;">
+
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:20px 0;">
+<tr>
+<td align="center">
+
+<table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;padding:28px;">
+
+<tr>
+<td align="center">
+<h2 style="margin:0;color:#0f172a;">Welcome to UrbanStay</h2>
+<p style="margin:8px 0 20px;color:#64748b;font-size:14px;">
+Find your perfect property easily
+</p>
+</td>
+</tr>
+
+<tr>
+<td style="font-size:15px;color:#334155;line-height:1.6;">
+Hello <strong>${data.name}</strong>,<br><br>
+
+Thanks for joining UrbanStay. Your account as a 
+<strong>${data.role}</strong> is now ready.
+</td>
+</tr>
+
+<tr>
+<td style="padding-top:18px;">
+<strong style="color:#0f172a;">What you can do:</strong>
+
+<ul style="margin-top:10px;padding-left:18px;color:#475569;">
+<li>Browse verified properties</li>
+<li>Save favourite listings</li>
+<li>Contact property owners</li>
+<li>Get property alerts</li>
+</ul>
+
+</td>
+</tr>
+
+<tr>
+<td align="center" style="padding:25px 0;">
+<a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}"
+style="background:#0ea5a4;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:6px;display:inline-block;font-size:14px;">
+Start Exploring
+</a>
+</td>
+</tr>
+
+<tr>
+<td style="border-top:1px solid #e5e7eb;padding-top:18px;font-size:12px;color:#94a3b8;text-align:center;">
+Need help? Contact
+<a href="mailto:${process.env.EMAIL_USER}" style="color:#0ea5a4;text-decoration:none;">
+${process.env.EMAIL_USER}
+</a><br><br>
+© ${new Date().getFullYear()} UrbanStay
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>
+
       `,
     };
 
@@ -226,7 +225,46 @@ const sendWelcomeEmail = async (data) => {
   }
 };
 
+/**
+ * Sends a password reset OTP email
+ * 
+ * @param {Object} data - OTP email data
+ * @param {string} data.email - User's email address
+ * @param {string} data.otp - 6-digit OTP code
+ * 
+ * @returns {Promise<Object>} Success object with messageId
+ * @throws {Error} If email sending fails
+ */
+const sendPasswordResetOtpEmail = async (data) => {
+  try {
+    const transporter = createTransporter();
+
+    const mailOptions = {
+      from: `"UrbanStay.com" <${process.env.EMAIL_USER}>`,
+      to: data.email,
+      subject: "Your UrbanStay.com password reset OTP",
+      text: `Your OTP for password reset is ${data.otp}. It is valid for 10 minutes.`,
+      html: `
+        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+          <h2 style="margin: 0 0 12px;">Password Reset OTP</h2>
+          <p>Your OTP for password reset is:</p>
+          <p style="font-size: 24px; font-weight: bold; letter-spacing: 2px;">${data.otp}</p>
+          <p>This code is valid for 10 minutes. If you did not request this, you can ignore this email.</p>
+        </div>
+      `,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Password reset OTP email sent:", info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error("Error sending OTP email:", error.message);
+    throw error;
+  }
+};
+
 module.exports = {
   sendInquiryNotification,
   sendWelcomeEmail,
+  sendPasswordResetOtpEmail,
 };

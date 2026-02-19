@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./styles/theme.css";
 
 @layer base {
   /* Override Tailwind's base - Remove display block from media elements */
@@ -9,23 +10,15 @@
 }
 
 :root {
-   --emerald: #06d6a0;
-  --pacific-cyan: #1b9aaa;
-  --amber-gold: #ffc43d;
-  --primary-color: var(--emerald);
-  --secondary-color: var(--pacific-cyan);
-  --accent-color: var(--amber-gold);
-  
-  /* Add new modern colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8fafc;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --border-color: #e2e8f0;
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 40px rgba(0,0,0,0.12);
-  --shadow-xl: 0 20px 60px rgba(0,0,0,0.15);
+  --bg-primary: var(--color-surface);
+  --bg-secondary: var(--color-ink-50);
+  --text-primary: var(--color-text);
+  --text-secondary: var(--color-ink-600);
+  --border-color: var(--color-border);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.15);
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
@@ -36,27 +29,39 @@
 /* Ensure root and body render so content is visible */
 #root {
   min-height: 100vh;
+  position: relative;
+  background: transparent;
 }
+
 
 body {
   margin: 0;
   min-height: 100vh;
-  background-color: var(--bg-secondary);
+  background-color: var(--color-bg);
   color: var(--text-primary);
-  font-family: 'Inter',-apple-system,BlinkMacSystemFont, sans-serif;
-  line-height:1.6;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  /* Ensuring font consistency */
-}/* Import Modern Fonts */
+}
+
+.app {
+  background: transparent;
+}
+
+.error-boundary {
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--color-danger);
+}
 
 /* Update headings */
- h2, h3, h4, h5, h6 {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+h1, h2, h3, h4, h5, h6 {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 h1{
-  color:#06d6a0;
+  color: var(--color-accent);
 }
 
 /* Better scrollbar */
@@ -65,11 +70,11 @@ h1{
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: var(--color-ink-100);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-color);
+  background: white;
   border-radius: 10px;
 }
 
@@ -80,17 +85,41 @@ h1{
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --border-color: #334155;
+    --bg-primary: var(--color-surface);
+    --bg-secondary: var(--color-surface-soft);
+    --text-primary: var(--color-text);
+    --text-secondary: var(--color-text-muted);
+    --border-color: var(--color-border);
   }
   
   .property-card,
   .card,
   .search-card {
-    background: #1e293b;
-    border-color: #334155;
+    background: var(--color-surface);
+    border-color: var(--color-border);
   }
+}
+/* Particles background styling */
+#tsparticles {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 0 !important;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-surface);
+}
+
+/* Brand logo styles */
+.brand-gradient {
+  color: var(--color-primary);
+}
+
+.brand-accent {
+  color: var(--color-accent);
 }

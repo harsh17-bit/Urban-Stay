@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   FiHeart, FiShare2, FiMapPin, FiHome, FiMaximize, FiLayers,
   FiCheck, FiPhone, FiMessageSquare, FiChevronLeft, FiChevronRight,
@@ -12,8 +12,9 @@ import { useAuth } from "../context/authcontext.jsx";
 import { propertyService } from "../services/propertyservice";
 import { inquiryService, reviewService } from "../services/dataservice";
 import { weatherService } from "../services/weatherservice";
-import { currencyService } from "../services/currencyservice";
+import { getImageUrl } from "../utils/imageUtils";
 import PropertyCard from "../components/propertycard";
+import BookingConfirmation from "../components/BookingConfirmation";
 import "./PropertyDetails.css";
 
 
@@ -27,6 +28,7 @@ L.Icon.Default.mergeOptions({
 
 const PropertyDetails = () => {
   const { id } = useParams();
+  const Navigate = useNavigate();
   const { user, isAuthenticated, toggleFavorite } = useAuth();
   const [property, setProperty] = useState(null);
   const [similarProperties, setSimilarProperties] = useState([]);
@@ -40,6 +42,7 @@ const PropertyDetails = () => {
     phone: "",
     inquiryType: "general",
   });
+  const [showBookingModal, setShowBookingModal] = useState(false);
   const [activeTab, setActiveTab] = useState("overview");
   const [showEMICalculator, setShowEMICalculator] = useState(false);
   const [emiData, setEmiData] = useState({
@@ -49,68 +52,75 @@ const PropertyDetails = () => {
   });
   const [emiResult, setEmiResult] = useState(null);
   const [weather, setWeather] = useState(null);
-  const [currencyRates, setCurrencyRates] = useState(null);
-  const [loadingWeather, setLoadingWeather] = useState(false);
+  
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [userHasReviewed, setUserHasReviewed] = useState(false);
+  const [reviewData, setReviewData] = useState({
+    rating: 5,
+    title: "",
+    comment: "",
+    ratings: {
+      location: 5,
+      valueForMoney: 5,
+      amenities: 5,
+      connectivity: 5,
+      safety: 5,
+    },
+    pros: [],
+    cons: [],
+  });
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
   useEffect(() => {
-    if (id) {
-      fetchProperty();
+    const isValidId = id && id !== "undefined" && /^[a-f\d]{24}$/i.test(id);
+
+    if (!isValidId) {
+      setLoading(false);
+      return;
     }
-  }, [id]);
+    
+    const fetchProperty = async() => {
+      setLoading(true);
+      try{
+        const data = await propertyService.getProperty(id);
+        setProperty(data?.property || data);
+        setIsFavorite(user?.favorites?.includes(id));
+
+        // Fetch similar properties
+        const similarRes = await propertyService.getSimilar(id);
+        setSimilarProperties(similarRes.properties || []);
+
+        // Fetch reviews
+        const reviewsRes = await reviewService.getPropertyReviews(id);
+        setReviews(reviewsRes.reviews || []);
+
+        // Check if user has already reviewed this property
+        if (isAuthenticated && user) {
+          const hasReviewed = reviewsRes.reviews?.some(r => r.user?._id === user._id);
+          setUserHasReviewed(hasReviewed);
+        }
+      }catch(err){
+        console.log("error fetching property:",err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProperty();
+  }, [id, user, isAuthenticated]);
 
   useEffect(() => {
     if (property?.location?.city) {
       fetchWeather();
-      fetchCurrencyRates();
     }
   }, [property]);
 
   const fetchWeather = async () => {
-    setLoadingWeather(true);
     try {
       const weatherData = await weatherService.getWeatherByCity(property.location.city);
       setWeather(weatherData);
     } catch (error) {
       console.error('Error fetching weather:', error);
-    } finally {
-      setLoadingWeather(false);
-    }
-  };
-
-  const fetchCurrencyRates = async () => {
-    try {
-      const rates = await currencyService.getMultipleRates(property.price);
-      setCurrencyRates(rates);
-    } catch (error) {
-      console.error('Error fetching currency rates:', error);
-    }
-  };
-
-  const fetchProperty = async () => {
-    if (!id) {
-      console.error("Property ID is required");
-      setLoading(false);
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const response = await propertyService.getProperty(id);
-      setProperty(response.property);
-      setIsFavorite(user?.favorites?.includes(id));
-
-      // Fetch similar properties
-      const similarRes = await propertyService.getSimilar(id);
-      setSimilarProperties(similarRes.properties || []);
-
-      // Fetch reviews
-      const reviewsRes = await reviewService.getPropertyReviews(id);
-      setReviews(reviewsRes.reviews || []);
-    } catch (error) {
-      console.error("Error fetching property:", error);
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   const handleFavoriteToggle = async () => {
@@ -204,6 +214,98 @@ const PropertyDetails = () => {
     setEmiResult(null);
   };
 
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!isAuthenticated) {
+      console.alert("Please login to submit a review");
+      return;
+    }
+
+    if (userHasReviewed) {
+      console.alert("You have already reviewed this property");
+      return;
+    }
+
+    setReviewSubmitting(true);
+    try {
+      await reviewService.createReview({
+        propertyId: id,
+        ...reviewData,
+      });
+      alert("Review submitted successfully! It will be visible after admin approval.");
+      setShowReviewForm(false);
+      setUserHasReviewed(true);
+      if(user?.role === "admin"){
+        // If admin, refresh reviews to show the new one immediately
+       window.location.href = "/admin/dashboard/reviews";
+      }else{
+         window.location.href = "/dashboard";
+      }
+      // Reset form
+      setReviewData({
+        rating: 5,
+        title: "",
+        comment: "",
+        ratings: {
+          location: 5,
+          valueForMoney: 5,
+          amenities: 5,
+          connectivity: 5,
+          safety: 5,
+        },
+        pros: [],
+        cons: [],
+      });
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert(error.response?.data?.message || "Error submitting review. Please try again.");
+    } finally {
+      setReviewSubmitting(false);
+    }
+  };
+
+  const handleReviewInputChange = (e) => {
+    const { name, value } = e.target;
+    setReviewData({ ...reviewData, [name]: value });
+  };
+
+  const handleRatingChange = (category, value) => {
+    if (category === "overall") {
+      setReviewData({ ...reviewData, rating: value });
+    } else {
+      setReviewData({
+        ...reviewData,
+        ratings: { ...reviewData.ratings, [category]: value },
+      });
+    }
+  };
+
+  const addProCon = (type) => {
+    const item = prompt(`Enter a ${type}:`);
+    if (item && item.trim() !== "") {
+      if (type === "pro") {
+        setReviewData({ ...reviewData, pros: [...reviewData.pros, item.trim()] });
+      } else {
+        setReviewData({ ...reviewData, cons: [...reviewData.cons, item.trim()] });
+      }
+    }
+  };
+
+  const removeProCon = (type, index) => {
+    if (type === "pro") {
+      setReviewData({
+        ...reviewData,
+        pros: reviewData.pros.filter((_, i) => i !== index),
+      });
+    } else {
+      setReviewData({
+        ...reviewData,
+        cons: reviewData.cons.filter((_, i) => i !== index),
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="loading-container">
@@ -238,7 +340,7 @@ const PropertyDetails = () => {
       <section className="image-gallery">
         <div className="gallery-main">
           <img
-            src={property.images?.[currentImageIndex]?.url || "https://via.placeholder.com/800x500"}
+            src={getImageUrl(property.images?.[currentImageIndex]?.url)}
             alt={property.title}
           />
           {property.images?.length > 1 && (
@@ -253,15 +355,7 @@ const PropertyDetails = () => {
                 {currentImageIndex + 1} / {property.images.length}
               </div>
             </>
-          )}
-          <div className="gallery-badges">
-            {property.isVerified && (
-              <span className="badge verified"><FiShield /> Verified</span>
-            )}
-            {property.isFeatured && (
-              <span className="badge featured"><FiStar /> Featured</span>
-            )}
-          </div>
+          )}  
         </div>
         {property.images?.length > 1 && (
           <div className="gallery-thumbnails">
@@ -271,7 +365,7 @@ const PropertyDetails = () => {
                 className={`thumbnail ${currentImageIndex === index ? "active" : ""}`}
                 onClick={() => setCurrentImageIndex(index)}
               >
-                <img src={img.url} alt="" />
+                <img src={getImageUrl(img.url)} alt="" />
                 {index === 4 && property.images.length > 5 && (
                   <span className="more-count">+{property.images.length - 5}</span>
                 )}
@@ -510,6 +604,186 @@ const PropertyDetails = () => {
 
             {activeTab === "reviews" && (
               <div className="reviews-tab">
+                {/* Review Submit Button */}
+                {isAuthenticated && !userHasReviewed && (
+                  <div className="review-submit-section">
+                    <button 
+                      className="btn-primary"
+                      onClick={() => setShowReviewForm(!showReviewForm)}
+                    >
+                      <FiStar /> Write a Review
+                    </button>
+                  </div>
+                )}
+
+                {userHasReviewed && (
+                  <div className="info-message">
+                    <FiCheck /> You have already reviewed this property
+                  </div>
+                )}
+
+                {!isAuthenticated && (
+                  <div className="info-message">
+                    Please <Link to="/login">login</Link> to write a review
+                  </div>
+                )}
+
+                {/* Review Form */}
+                {showReviewForm && isAuthenticated && !userHasReviewed && (
+                  <div className="review-form-container">
+                    <h3>Write Your Review</h3>
+                    <form onSubmit={handleReviewSubmit} className="review-form">
+                      {/* Overall Rating */}
+                      <div className="form-group">
+                        <label>Overall Rating *</label>
+                        <div className="star-rating">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <button
+                              key={star}
+                              type="button"
+                              className={`star-btn ${star <= reviewData.rating ? "active" : ""}`}
+                              onClick={() => handleRatingChange("overall", star)}
+                            >
+                              ★
+                            </button>
+                          ))}
+                          <span className="rating-text">{reviewData.rating} out of 5</span>
+                        </div>
+                      </div>
+
+                      {/* Review Title */}
+                      <div className="form-group">
+                        <label>Review Title</label>
+                        <input
+                          type="text"
+                          name="title"
+                          value={reviewData.title}
+                          onChange={handleReviewInputChange}
+                          placeholder="Summarize your experience"
+                          maxLength="100"
+                        />
+                      </div>
+
+                      {/* Review Comment */}
+                      <div className="form-group">
+                        <label>Your Review *</label>
+                        <textarea
+                          name="comment"
+                          value={reviewData.comment}
+                          onChange={handleReviewInputChange}
+                          placeholder="Share your experience with this property..."
+                          required
+                          rows="5"
+                          maxLength="1000"
+                        />
+                        <small>{reviewData.comment.length}/1000 characters</small>
+                      </div>
+
+                      {/* Detailed Ratings */}
+                      <div className="form-group">
+                        <label>Detailed Ratings</label>
+                        <div className="detailed-ratings">
+                          {[
+                            { key: "location", label: "Location" },
+                            { key: "valueForMoney", label: "Value for Money" },
+                            { key: "amenities", label: "Amenities" },
+                            { key: "connectivity", label: "Connectivity" },
+                            { key: "safety", label: "Safety" },
+                          ].map((category) => (
+                            <div key={category.key} className="rating-row">
+                              <span className="rating-label">{category.label}</span>
+                              <div className="star-rating small">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <button
+                                    key={star}
+                                    type="button"
+                                    className={`star-btn ${star <= reviewData.ratings[category.key] ? "active" : ""}`}
+                                    onClick={() => handleRatingChange(category.key, star)}
+                                  >
+                                    ★
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Pros */}
+                      <div className="form-group">
+                        <label>Pros</label>
+                        <div className="pros-cons-list">
+                          {reviewData.pros.map((pro, index) => (
+                            <div key={index} className="list-item">
+                              <span>✓ {pro}</span>
+                              <button
+                                type="button"
+                                onClick={() => removeProCon("pro", index)}
+                                className="remove-btn"
+                              >
+                                <FiX />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          className="btn-outline small"
+                          onClick={() => addProCon("pro")}
+                        >
+                          + Add Pro
+                        </button>
+                      </div>
+
+                      {/* Cons */}
+                      <div className="form-group">
+                        <label>Cons</label>
+                        <div className="pros-cons-list">
+                          {reviewData.cons.map((con, index) => (
+                            <div key={index} className="list-item">
+                              <span>✗ {con}</span>
+                              <button
+                                type="button"
+                                onClick={() => removeProCon("con", index)}
+                                className="remove-btn"
+                              >
+                                <FiX />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          className="btn-outline small"
+                          onClick={() => addProCon("con")}
+                        >
+                          + Add Con
+                        </button>
+                      </div>
+
+                      {/* Form Actions */}
+                      <div className="form-actions">
+                        <button
+                          type="button"
+                          className="btn-outline"
+                          onClick={() => setShowReviewForm(false)}
+                          disabled={reviewSubmitting}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type="submit"
+                          className="btn-primary"
+                          disabled={reviewSubmitting || !reviewData.comment.trim()}
+                        >
+                          {reviewSubmitting ? "Submitting..." : "Submit Review"}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+
+                {/* Reviews List */}
                 {reviews.length > 0 ? (
                   <div className="reviews-list">
                     {reviews.map((review) => (
@@ -530,13 +804,60 @@ const PropertyDetails = () => {
                             {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
                           </div>
                         </div>
-                        <h4>{review.title}</h4>
+                        {review.title && <h4>{review.title}</h4>}
                         <p>{review.comment}</p>
+                        
+                        {/* Detailed Ratings */}
+                        {review.ratings && (
+                          <div className="review-detailed-ratings">
+                            {Object.entries(review.ratings).map(([key, value]) => (
+                              <div key={key} className="rating-badge">
+                                <span className="badge-label">
+                                  {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                                </span>
+                                <span className="badge-value">{"★".repeat(value)}</span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Pros and Cons */}
+                        {(review.pros?.length > 0 || review.cons?.length > 0) && (
+                          <div className="review-pros-cons">
+                            {review.pros?.length > 0 && (
+                              <div className="pros">
+                                <strong>Pros:</strong>
+                                <ul>
+                                  {review.pros.map((pro, idx) => (
+                                    <li key={idx}>✓ {pro}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {review.cons?.length > 0 && (
+                              <div className="cons">
+                                <strong>Cons:</strong>
+                                <ul>
+                                  {review.cons.map((con, idx) => (
+                                    <li key={idx}>✗ {con}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Helpful Votes */}
+                        {review.helpfulVotes > 0 && (
+                          <div className="helpful-votes">
+                            <FiCheck /> {review.helpfulVotes} people found this helpful
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="no-data">No reviews yet. Be the first to review!</p>
+                  !showReviewForm && <p className="no-data">No reviews yet. Be the first to review!</p>
                 )}
               </div>
             )}
@@ -575,6 +896,9 @@ const PropertyDetails = () => {
             <div className="contact-buttons">
               <button className="btn-primary" onClick={() => setShowInquiryForm(true)}>
                 <FiMessageSquare /> Contact Owner
+              </button>
+              <button className="btn-primary" onClick={() => setShowBookingModal(true)}>
+                <FiCheck /> Book Property
               </button>
               {property.owner?.phone && (
                 <a href={`tel:${property.owner.phone}`} className="btn-outline">
@@ -764,6 +1088,19 @@ const PropertyDetails = () => {
             </div>
           )}
 
+          {/* Booking Modal */}
+          {showBookingModal && property && (
+            <BookingConfirmation 
+              property={property}
+              isOpen={showBookingModal}
+              onClose={() => setShowBookingModal(false)}
+              onSuccess={() => {
+                setShowBookingModal(false);
+                // Optional: show success message
+              }}
+            />
+          )}
+
           {/* Weather Widget */}
           {weather && (
             <div className="weather-card">
@@ -784,28 +1121,6 @@ const PropertyDetails = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-
-          {/* Currency Converter */}
-          {currencyRates && property.listingType === "buy" && (
-            <div className="currency-card">
-              <h4><FiGlobe /> Price in Other Currencies</h4>
-              <div className="currency-list">
-                {Object.entries(currencyRates).map(([currency, data]) => (
-                  <div key={currency} className="currency-item">
-                    <span className="currency-code">{currency}</span>
-                    <span className="currency-value">
-                      {currency === 'USD' && '$'}
-                      {currency === 'EUR' && '€'}
-                      {currency === 'GBP' && '£'}
-                      {currency === 'AED' && 'AED '}
-                      {parseFloat(data.amount).toLocaleString()}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <small className="currency-note">Rates updated daily</small>
             </div>
           )}
 
@@ -840,6 +1155,5 @@ const PropertyDetails = () => {
       )}
     </div>
   );
-};
-
+}
 export default PropertyDetails;

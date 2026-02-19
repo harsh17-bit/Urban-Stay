@@ -15,6 +15,7 @@ const CookieConsentBanner = () => {
         // Check if user has already consented
         const cookieConsent = localStorage.getItem("cookieConsent");
         if (!cookieConsent) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setShowBanner(true);
         } else {
             const stored = JSON.parse(cookieConsent);

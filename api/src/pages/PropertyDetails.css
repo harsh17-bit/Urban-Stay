@@ -26,7 +26,7 @@
 
 /* Image Gallery */
 .image-gallery {
-    background: #1e293b;
+    background: whitesmoke;
     padding: 1rem;
 }
 
@@ -309,7 +309,7 @@
 }
 
 .property-tabs button.active {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: green;
     color: white;
 }
 
@@ -523,7 +523,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: gray;
     color: white;
     display: flex;
     align-items: center;
@@ -560,6 +560,288 @@
     line-height: 1.6;
 }
 
+.review-detailed-ratings {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.rating-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: 0.8rem;
+}
+
+.badge-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.badge-value {
+    color: #f59e0b;
+    font-size: 0.9rem;
+}
+
+.review-pros-cons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.review-pros-cons .pros,
+.review-pros-cons .cons {
+    font-size: 0.875rem;
+}
+
+.review-pros-cons strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #1e293b;
+}
+
+.review-pros-cons ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.review-pros-cons li {
+    padding: 0.25rem 0;
+    color: #475569;
+}
+
+.review-pros-cons .pros li {
+    color: #059669;
+}
+
+.review-pros-cons .cons li {
+    color: #dc2626;
+}
+
+.helpful-votes {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e2e8f0;
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+.helpful-votes svg {
+    color: #059669;
+}
+
+/* Review Submit Section */
+.review-submit-section {
+    margin-bottom: 1.5rem;
+}
+
+.info-message {
+    padding: 1rem;
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    color: #0369a1;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-message a {
+    color: #0369a1;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* Review Form */
+.review-form-container {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.review-form-container h3 {
+    margin-bottom: 1.5rem;
+    color: #1e293b;
+    font-size: 1.25rem;
+}
+
+.review-form .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.review-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #334155;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.review-form input[type="text"],
+.review-form textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.review-form input[type="text"]:focus,
+.review-form textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.review-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.review-form small {
+    display: block;
+    margin-top: 0.25rem;
+    color: #64748b;
+    font-size: 0.8rem;
+}
+
+/* Star Rating */
+.star-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.star-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #e2e8f0;
+    transition: all 0.2s;
+    padding: 0.25rem;
+}
+
+.star-btn:hover,
+.star-btn.active {
+    color: #f59e0b;
+    transform: scale(1.1);
+}
+
+.star-rating.small .star-btn {
+    font-size: 1.25rem;
+}
+
+.rating-text {
+    margin-left: 0.75rem;
+    color: #475569;
+    font-weight: 600;
+}
+
+/* Detailed Ratings */
+.detailed-ratings {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 8px;
+}
+
+.rating-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.rating-label {
+    font-size: 0.9rem;
+    color: #475569;
+    font-weight: 500;
+    min-width: 140px;
+}
+
+/* Pros and Cons List */
+.pros-cons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.list-item span {
+    color: #334155;
+}
+
+.remove-btn {
+    background: none;
+    border: none;
+    color: #ef4444;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.remove-btn:hover {
+    background: #fee2e2;
+}
+
+.btn-outline.small {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Form Actions */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.form-actions button {
+    min-width: 120px;
+}
+
+.form-actions button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 .no-data {
     text-align: center;
     color: #9ca3af;
@@ -594,7 +876,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: grey;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -676,7 +958,7 @@
 
 .emi-estimate {
     text-align: center;
-    padding: 1rem;
+    
     background: linear-gradient(135deg, rgba(244, 63, 94, 0.1) 0%, rgba(251, 146, 60, 0.1) 100%);
     border-radius: 12px;
     margin-bottom: 1rem;
@@ -903,7 +1185,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    background: green;
     color: white;
     border: none;
     border-radius: 8px;
@@ -911,13 +1193,9 @@
     font-size: 0.875rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    
 }
 
-.emi-calc-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
-}
 
 .price-section {
     display: flex;
@@ -945,8 +1223,8 @@
 }
 
 .emi-inputs {
-    background: #f8fafc;
-    padding: 1.5rem;
+    
+    padding: 0.5rem;
     border-radius: 12px;
     margin-bottom: 1.5rem;
 }
@@ -1197,10 +1475,10 @@
 
 /* Weather Widget Styles */
 .weather-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: darkgray;
     color: white;
     border-radius: 12px;
-    padding: 1.5rem;
+    padding: 1rem;
     margin-bottom: 1.5rem;
 }
 

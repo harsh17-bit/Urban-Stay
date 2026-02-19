@@ -6,11 +6,7 @@ const PrivacyPolicy = () => {
     return (
         <div className="legal-page">
             <div className="legal-hero">
-                <div className="legal-hero-content">
-                    <FiLock className="legal-icon" />
-                    <h1>Privacy Policy</h1>
-                    <p className="legal-subtitle">Last Updated: February 4, 2026</p>
-                </div>
+                
             </div>
 
             <div className="legal-container">
@@ -323,30 +319,7 @@ const PrivacyPolicy = () => {
                 </div>
 
                 <aside className="legal-sidebar">
-                    <div className="sidebar-card">
-                        <h3><FiEye /> Quick Navigation</h3>
-                        <ul className="sidebar-links">
-                            <li><a href="#collection">Information We Collect</a></li>
-                            <li><a href="#usage">How We Use Data</a></li>
-                            <li><a href="#sharing">Data Sharing</a></li>
-                            <li><a href="#cookies">Cookies</a></li>
-                            <li><a href="#security">Data Security</a></li>
-                            <li><a href="#rights">Your Rights</a></li>
-                            <li><a href="#retention">Data Retention</a></li>
-                            <li><a href="#contact">Contact Us</a></li>
-                        </ul>
-                    </div>
-
-                    <div className="sidebar-card highlight">
-                        <h3><FiShield /> Your Data is Safe</h3>
-                        <p>We use bank-level encryption and security measures to protect your information.</p>
-                    </div>
-
-                    <div className="sidebar-card">
-                        <h3>Questions?</h3>
-                        <p>Need clarification on our privacy practices?</p>
-                        <Link to="/contact" className="btn-outline">Contact Us</Link>
-                    </div>
+                   
                 </aside>
             </div>
         </div>

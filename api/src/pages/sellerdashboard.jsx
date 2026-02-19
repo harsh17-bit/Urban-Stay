@@ -7,6 +7,7 @@ import {
 import { useAuth } from "../context/authcontext.jsx";
 import { propertyService } from "../services/propertyservice";
 import { inquiryService } from "../services/dataservice";
+import { getImageUrl } from "../utils/imageUtils";
 import "./Dashboard.css";
 
 const SellerDashboard = () => {
@@ -15,9 +16,8 @@ const SellerDashboard = () => {
     const [activeTab, setActiveTab] = useState("overview");
     const [properties, setProperties] = useState([]);
     const [inquiries, setInquiries] = useState([]);
-    const [stats, setStats] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [showAddProperty, setShowAddProperty] = useState(false);
+    const [, setStats] = useState(null);
+    const [, setLoading] = useState(true);
     const [respondingTo, setRespondingTo] = useState(null);
     const [replyMessage, setReplyMessage] = useState("");
     const [actionLoading, setActionLoading] = useState(false);
@@ -94,7 +94,6 @@ const SellerDashboard = () => {
         { id: "properties", label: "My Properties", icon: FiHome },
         { id: "inquiries", label: "Inquiries", icon: FiMessageSquare },
         { id: "analytics", label: "Analytics", icon: FiTrendingUp },
-        { id: "settings", label: "Settings", icon: FiSettings },
     ];
 
     return (
@@ -145,8 +144,8 @@ const SellerDashboard = () => {
 
                             <div className="stats-grid seller-stats">
                                 <div className="stat-card">
-                                    <div className="stat-icon" style={{ backgroundColor: "#dbeafe", color: "#2563eb" }}>
-                                        <FiHome />
+                                    <div className="stat-icon"style={{ backgroundColor: "#d1fae5", color: "#059669" }}>
+                                       <svg width="800" height="800" viewBox="144 144 512 512" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="a"><path d="m148.09 165H651.9v470H148.09z"/></clipPath></defs><g clipPath="url(#a)"><path d="m400.85 165.06L651.9 429.69h-79.727L551.818 562c-5.0898 39.016-25.445 72.941-59.371 72.941h-184.9c-32.23.0-54.281-33.926-59.371-72.941l-20.355-132.31h-79.727l252.75-264.63zm0 54.281-166.24 173.03h25.445l25.445 164.54c0 8.4805 8.4805 40.711 22.051 40.711h184.9c13.57.0 22.051-32.23 23.75-40.711l23.75-164.54h25.445l-164.54-173.03z" fillRule="evenodd"/></g><path d="m506.02 200.68h50.891v110.26l-50.891-50.891z" fillRule="evenodd"/></svg>
                                     </div>
                                     <div className="stat-info">
                                         <span className="stat-value">{properties.length}</span>
@@ -155,7 +154,7 @@ const SellerDashboard = () => {
                                 </div>
                                 <div className="stat-card">
                                     <div className="stat-icon" style={{ backgroundColor: "#d1fae5", color: "#059669" }}>
-                                        <FiCheck />
+                                        <svg width="800" height="800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.38 12l2.41 2.42 4.83-4.84004" stroke="#292D32" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/><path d="M10.75 2.44995c.69-.59 1.82-.59 2.52.0l1.58 1.36C15.15 4.06995 15.71 4.27995 16.11 4.27995h1.7c1.06.0 1.93.869999999999999 1.93 1.93v1.7C19.74 8.29995 19.95 8.86995 20.21 9.16995l1.36 1.57995c.59.69.59 1.82.0 2.52l-1.36 1.58C19.95 15.1499 19.74 15.7099 19.74 16.1099v1.7c0 1.06-.869999999999997 1.93-1.93 1.93h-1.7C15.72 19.7399 15.15 19.9499 14.85 20.2099l-1.58 1.36c-.69.59-1.82.59-2.52.0l-1.58-1.36C8.87 19.9499 8.31 19.7399 7.91 19.7399H6.18C5.12 19.7399 4.25 18.8699 4.25 17.8099v-1.71C4.25 15.7099 4.04 15.1499 3.79 14.8499l-1.35-1.59c-.58-.69-.58-1.81.0-2.5L3.79 9.16995C4.04 8.86995 4.25 8.30995 4.25 7.91995v-1.72c0-1.06.87-1.93 1.93-1.93H7.91C8.3 4.26995 8.87 4.05995 9.17 3.79995l1.58-1.35z" stroke="#292D32" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
                                     </div>
                                     <div className="stat-info">
                                         <span className="stat-value">{activeListings}</span>
@@ -163,17 +162,17 @@ const SellerDashboard = () => {
                                     </div>
                                 </div>
                                 <div className="stat-card">
-                                    <div className="stat-icon" style={{ backgroundColor: "#fef3c7", color: "#d97706" }}>
-                                        <FiEye />
+                                    <div className="stat-icon" style={{ backgroundColor: "#d1fae5", color: "#059669"}}>
+                                        <svg width="800" height="800" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.864 7.37071c.7698 1.47399 1.1598 3.11669 1.1349 4.77939C13.9739 13.8128 13.5347 15.4431 12.721 16.8933L4 12l8.864-4.62929z" fill="#2A4157" fillOpacity=".24"/><path d="M14.5 5.5c-2.7811 3.70812-9.85912 6.1272-10.87726 6.4605C3.57878 11.9748 3.57584 12.0335 3.61809 12.0523 4.61914 12.4983 11.7146 15.7146 14.5 18.5" stroke="#222" strokeLinecap="round"/><path fillRule="evenodd" clipRule="evenodd" d="M13.5498 9.03334C13.862 10.0385 14.0148 11.0902 13.9989 12.1501 13.9845 13.1091 13.8323 14.0572 13.5499 14.9663 12.1066 14.7491 11 13.5037 11 11.9998s1.1065-2.74926 2.5498-2.96646z" fill="#222"/><path d="M16.5 12h4" stroke="#2A4157" strokeOpacity=".24" strokeLinecap="round"/><path d="M16.5 9.5l4-1.5" stroke="#2A4157" strokeOpacity=".24" strokeLinecap="round"/><path d="M16.5 14.5l4 1.5" stroke="#2A4157" strokeOpacity=".24" strokeLinecap="round"/></svg>
                                     </div>
                                     <div className="stat-info">
                                         <span className="stat-value">{totalViews}</span>
-                                        <span className="stat-label">Total Views</span>
+                                        <span className="stat-label">Total Views</span>s
                                     </div>
                                 </div>
                                 <div className="stat-card">
-                                    <div className="stat-icon" style={{ backgroundColor: "var(--light-yellow)", color: "var(--secondary-color)" }}>
-                                        <FiMessageSquare />
+                                    <div className="stat-icon" style={{ backgroundColor: "#d1fae5", color: "#059669"}}  >
+                                        <svg fill="#000" width="800" height="800" viewBox="144 144 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m187.45 228.7c-5.1914.48828-9.1523 4.8594-9.1289 10.078v231.75c-.039063 2.6992 1.0039 5.2969 2.8984 7.2188 1.8945 1.9219 4.4805 3 7.1758 3 2.6992.0 5.2812-1.0781 7.1758-3s2.9375-4.5195 2.9023-7.2188v-221.68h413.12c2.6992.039062 5.2969-1.0078 7.2188-2.8984 1.9219-1.8945 3-4.4805 3-7.1758.0-2.6992-1.0781-5.2852-3-7.1758-1.9219-1.8945-4.5195-2.9414-7.2188-2.9023h-423.2c-.31641-.015625-.62891-.015625-.94531.0zm423.04 40.148c-5.1914.57031-9.0859 5.0117-8.9727 10.234v221.68h-292.21c-2.0898.007812-4.125.66797-5.8242 1.8867l-54.633 39.047v-30.859c0-5.5625-4.5117-10.074-10.074-10.074h-50.383c-2.6953-.039063-5.2969 1.0039-7.2188 2.8984-1.918 1.8945-3 4.4805-3 7.1758.0 2.6992 1.082 5.2812 3 7.1758 1.9219 1.8945 4.5234 2.9375 7.2188 2.9023h40.305v40.305c.015625 3.7578 2.1211 7.1992 5.4648 8.9219s7.3672 1.4375 10.438-.73438l67.855-48.492h299.14c5.5664.0 10.078-4.5117 10.078-10.078v-231.75c.042969-2.7305-1.0234-5.3555-2.9531-7.2852-1.9258-1.9297-4.5547-2.9922-7.2812-2.9492-.31641-.015624-.62891-.015624-.94531.0zm-336.45 60.613c-24.922.0-45.344 20.422-45.344 45.344s20.422 45.344 45.344 45.344 45.344-20.422 45.344-45.344-20.422-45.344-45.344-45.344zm125.95.0c-24.926.0-45.344 20.422-45.344 45.344s20.418 45.344 45.344 45.344c24.922.0 45.34-20.422 45.34-45.344s-20.418-45.344-45.34-45.344zm125.95.0c-24.922.0-45.34 20.422-45.34 45.344s20.418 45.344 45.34 45.344c24.926.0 45.344-20.422 45.344-45.344s-20.418-45.344-45.344-45.344zm-254.42 20.152c.85156-.085938 1.6406.0 2.5195.0 14.031.0 25.191 11.16 25.191 25.191s-11.16 25.191-25.191 25.191-25.191-11.16-25.191-25.191c0-13.156 9.8789-23.906 22.672-25.191zm125.95.0c.85156-.085938 1.6406.0 2.5195.0 14.031.0 25.188 11.16 25.188 25.191s-11.156 25.191-25.188 25.191-25.191-11.16-25.191-25.191c0-13.156 9.875-23.906 22.672-25.191zm125.95.0c.85156-.085938 1.6406.0 2.5156.0 14.035.0 25.191 11.16 25.191 25.191s-11.156 25.191-25.191 25.191c-14.031.0-25.188-11.16-25.188-25.191.0-13.156 9.875-23.906 22.672-25.191z"/></svg>
                                     </div>
                                     <div className="stat-info">
                                         <span className="stat-value">{totalInquiries}</span>
@@ -193,7 +192,7 @@ const SellerDashboard = () => {
                                         {inquiries.slice(0, 5).map((inquiry) => (
                                             <div key={inquiry._id} className="inquiry-card">
                                                 <div className="inquiry-property">
-                                                    <img src={inquiry.property?.images?.[0]?.url || "https://via.placeholder.com/60"} alt="" />
+                                                    <img src={getImageUrl(inquiry.property?.images?.[0]?.url)} alt="" />
                                                     <div>
                                                         <h4>{inquiry.property?.title}</h4>
                                                         <p>From: {inquiry.sender?.name}</p>
@@ -244,7 +243,7 @@ const SellerDashboard = () => {
                                                     <tr key={property._id}>
                                                         <td>
                                                             <div className="property-cell">
-                                                                <img src={property.images?.[0]?.url || "https://via.placeholder.com/50"} alt="" />
+                                                                <img src={getImageUrl(property.images?.[0]?.url)} alt="" />
                                                                 <span>{property.title}</span>
                                                             </div>
                                                         </td>
@@ -317,7 +316,7 @@ const SellerDashboard = () => {
                                                 <tr key={property._id}>
                                                     <td>
                                                         <div className="property-cell">
-                                                            <img src={property.images?.[0]?.url || "https://via.placeholder.com/50"} alt="" />
+                                                            <img src={getImageUrl(property.images?.[0]?.url)} alt="" />
                                                             <div>
                                                                 <span className="property-title">{property.title}</span>
                                                                 <small>{property.location?.city}</small>
@@ -374,7 +373,7 @@ const SellerDashboard = () => {
                                     {inquiries.map((inquiry) => (
                                         <div key={inquiry._id} className="inquiry-card detailed">
                                             <div className="inquiry-property">
-                                                <img src={inquiry.property?.images?.[0]?.url || "https://via.placeholder.com/80"} alt="" />
+                                                <img src={getImageUrl(inquiry.property?.images?.[0]?.url)} alt="" />
                                                 <div>
                                                     <h4>{inquiry.property?.title}</h4>
                                                     <p className="sender-info">
