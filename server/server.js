@@ -52,7 +52,12 @@ app.use("/api/alerts", alertRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/payments", paymentRoutes);
 
-// Health check
+// Health check — must be before error handler and 404 catch-all
+app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
+});
+
+// Root info
 app.get("/", (req, res) => {
     res.json({
         success: true,
@@ -67,8 +72,9 @@ app.get("/", (req, res) => {
             projects: "/api/projects",
             payments: "/api/payments",
         },
-        },);
+    });
 });
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error("Server Error:", err);
@@ -77,9 +83,7 @@ app.use((err, req, res, next) => {
         message: err.message || "Internal Server Error",
     });
 });
-app.get("/api/health", (req, res) => {
-    res.json({status:"ok"});
-});
+
 // 404 handler
 app.use((req, res) => {
     res.status(404).json({

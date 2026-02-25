@@ -1,12 +1,16 @@
 {
+  "name": "logic-wave-api",
+  "version": "1.0.0",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "seed": "node seeder.js",
     "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "20": "^3.1.9",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",

@@ -45,9 +45,9 @@ coverage/
 Thumbs.db
 Desktop.ini
 
-# Uploaded files
-server/uploads/propertyimages/*
-!server/uploads/propertyimages/.gitkeep
+# Uploaded files — keep directory structure but ignore actual uploads
+uploads/propertyimages/*
+!uploads/propertyimages/.gitkeep
 
 # Temporary files
 *.tmp
