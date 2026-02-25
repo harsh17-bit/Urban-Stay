@@ -5,7 +5,7 @@
  * @module services/projectService
  */
 
-import axios from "axios";
+import api from "./api";
 
 export const projectService = {
   /**
@@ -18,7 +18,7 @@ export const projectService = {
    * @returns {Promise<Object>} Project list
    */
   getProjects: async (params = {}) => {
-    const response = await axios.get("/projects", { params });
+    const response = await api.get("/projects", { params });
     return response.data;
   },
 
@@ -29,7 +29,7 @@ export const projectService = {
    * @returns {Promise<Object>} Project details
    */
   getProject: async (id) => {
-    const response = await axios.get(`/projects/${id}`);
+    const response = await api.get(`/projects/${id}`);
     return response.data;
   },
 };
