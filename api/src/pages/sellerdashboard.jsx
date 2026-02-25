@@ -3,14 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import {
     FiHome, FiPlus, FiMessageSquare, FiBarChart2, FiSettings,
     FiEdit2, FiTrash2, FiEye, FiTrendingUp, FiUsers, FiDollarSign, FiCheck, FiX, FiStar,
-    FiMail,
-    FiPhone,
-    FiUser
+    FiMail, FiPhone, FiUser, FiFileText, FiDownload
 } from "react-icons/fi";
 import FeaturedUpgradeModal from "../components/FeaturedUpgradeModal.jsx";
 import { useAuth } from "../context/authcontext.jsx";
 import { propertyService } from "../services/propertyservice";
-import { inquiryService } from "../services/dataservice";
+import { inquiryService, paymentService } from "../services/dataservice";
 import { getImageUrl } from "../utils/imageUtils";
 import "./Dashboard.css";
 
@@ -26,7 +24,10 @@ const SellerDashboard = () => {
     const [replyMessage, setReplyMessage] = useState("");
     const [actionLoading, setActionLoading] = useState(false);
     const [inquiryError, setInquiryError] = useState(null);
+    
     const [featuredProperty, setFeaturedProperty] = useState(null);
+    const [payments, setPayments] = useState([]);
+    const [invoiceItem, setInvoiceItem] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [profileData, setProfileData] = useState({
         name: user?.name || "",
@@ -79,6 +80,12 @@ const handleProfileUpdate = async (e) => {
         } catch (error) {
             console.error("Error fetching inquiries:", error?.response?.data || error.message);
             setInquiryError(error?.response?.data?.message || "Failed to load inquiries. Please try again.");
+        }
+        try {
+            const paymentsRes = await paymentService.getMy();
+            setPayments(paymentsRes.payments || []);
+        } catch (error) {
+            console.error("Error fetching payments:", error);
         }
         setLoading(false);
     };
@@ -139,11 +146,12 @@ const handleProfileUpdate = async (e) => {
     const activeListings = properties.filter(p => p.status === "available").length;
 
     const tabs = [
-        { id: "overview", label: "Overview", icon: FiBarChart2 },
-        { id: "properties", label: "My Properties", icon: FiHome },
-        { id: "inquiries", label: "Inquiries", icon: FiMessageSquare },
-        { id: "analytics", label: "Analytics", icon: FiTrendingUp },
-        { id: "profile",    label: "Profile",    icon: FiUser },
+        { id: "overview",   label: "Overview",      icon: FiBarChart2 },
+        { id: "properties", label: "My Properties",  icon: FiHome },
+        { id: "inquiries",  label: "Inquiries",      icon: FiMessageSquare },
+        { id: "analytics",  label: "Analytics",      icon: FiTrendingUp },
+        { id: "payments",   label: "Payments",       icon: FiDollarSign },
+        { id: "profile",    label: "Profile",        icon: FiUser },
     ];
 
     return (
@@ -177,11 +185,7 @@ const handleProfileUpdate = async (e) => {
                         ))}
                     </nav>
 
-                    <div className="sidebar-action">
-                        <button className="btn-primary full" onClick={() => navigate("/post-property")}>
-                            <FiPlus /> Add New Property
-                        </button>
-                    </div>
+                    
                 </aside>
 
                 {/* Main Content */}
@@ -234,12 +238,12 @@ const handleProfileUpdate = async (e) => {
                             {/* Recent Inquiries */}
                             <div className="dashboard-section">
                                 <div className="section-header">
-                                    <h2>Recent Inquiries</h2>
+                                    <h2>New Inquiries</h2>
                                     <button onClick={() => setActiveTab("inquiries")}>View All</button>
                                 </div>
-                                {inquiries.length > 0 ? (
+                                {inquiries.filter(i => i.status !== 'responded').length > 0 ? (
                                     <div className="inquiry-list">
-                                        {inquiries.slice(0, 5).map((inquiry) => (
+                                        {inquiries.filter(i => i.status !== 'responded').slice(0, 5).map((inquiry) => (
                                             <div key={inquiry._id} className="inquiry-card">
                                                 <div className="inquiry-property">
                                                     <img src={getImageUrl(inquiry.property?.images?.[0]?.url)} alt="" />
@@ -250,14 +254,12 @@ const handleProfileUpdate = async (e) => {
                                                 </div>
                                                 <div className="inquiry-meta">
                                                     <span className={`status-badge ${inquiry.status}`}>{inquiry.status}</span>
-                                                    {inquiry.status !== 'responded' && (
-                                                        <button
-                                                            className="btn-outline small"
-                                                            onClick={() => handleOpenReply(inquiry)}
-                                                        >
-                                                            Respond
-                                                        </button>
-                                                    )}
+                                                    <button
+                                                        className="btn-outline small"
+                                                        onClick={() => handleOpenReply(inquiry)}
+                                                    >
+                                                        Respond
+                                                    </button>
                                                 </div>
                                             </div>
                                         ))}
@@ -267,7 +269,7 @@ const handleProfileUpdate = async (e) => {
                                         <FiMessageSquare />
                                         {inquiryError
                                             ? <><p style={{color:'#dc2626'}}>{inquiryError}</p><button className="btn-outline small" onClick={fetchData}>Retry</button></>
-                                            : <p>No inquiries yet</p>
+                                            : <p>All caught up! No pending inquiries.</p>
                                         }
                                     </div>
                                 )}
@@ -504,6 +506,9 @@ const handleProfileUpdate = async (e) => {
                                                 ) : (
                                                     <span className="text-sm text-gray-500">Replied</span>
                                                 )}
+                                                <Link to={`/inquiry/${inquiry._id}`} className="btn-outline small">
+                                                    <FiEye /> View Details
+                                                </Link>
                                             </div>
                                         </div>
                                     ))}
@@ -548,6 +553,59 @@ const handleProfileUpdate = async (e) => {
                             </div>
                         </div>
                     )}
+                    {/* Payments Tab */}
+                    {activeTab === "payments" && (
+                        <div className="dashboard-content">
+                            <div className="section-header">
+                                <div>
+                                    <h1>Payments</h1>
+                                    <p className="subtitle">All payments made for featured listings</p>
+                                </div>
+                            </div>
+
+                            {payments.length > 0 ? (
+                                <div className="property-table-wrapper full">
+                                    <table className="property-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Invoice #</th>
+                                                <th>Property</th>
+                                                <th>Plan</th>
+                                                <th>Amount</th>
+                                                <th>Status</th>
+                                                <th>Date</th>
+                                                <th>Invoice</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {payments.map((p) => (
+                                                <tr key={p._id}>
+                                                    <td><small className="text-muted">{p.transactionId}</small></td>
+                                                    <td>{p.property?.title || "—"}</td>
+                                                    <td>{p.plan}</td>
+                                                    <td>₹{p.amount}</td>
+                                                    <td><span className={`status-badge ${p.status}`}>{p.status}</span></td>
+                                                    <td>{new Date(p.createdAt).toLocaleDateString("en-IN")}</td>
+                                                    <td>
+                                                        <button className="btn-outline small" onClick={() => setInvoiceItem(p)}>
+                                                            <FiFileText /> View
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            ) : (
+                                <div className="empty-state large">
+                                    <FiDollarSign />
+                                    <h3>No payments yet</h3>
+                                    <p>Feature a property to see your payment history here</p>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     {/* Profile Tab */}
                     {activeTab === "profile" && (
                         <div className="dashboard-content">
@@ -658,6 +716,54 @@ const handleProfileUpdate = async (e) => {
                     )}
                 </main>
             </div>
+
+            {/* Invoice Modal */}
+            {invoiceItem && (
+                <div className="modal-overlay" onClick={() => setInvoiceItem(null)}>
+                    <div className="modal-content invoice-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <h3><FiFileText /> Invoice</h3>
+                            <button className="btn-icon" onClick={() => setInvoiceItem(null)}><FiX /></button>
+                        </div>
+                        <div className="invoice-body">
+                            <div className="invoice-brand">
+                                <h2>UrbanStay</h2>
+                                <span className={`status-badge ${invoiceItem.status}`}>{invoiceItem.status}</span>
+                            </div>
+                            <hr />
+                            <div className="invoice-row">
+                                <span>Invoice No.</span>
+                                <strong>{invoiceItem.transactionId}</strong>
+                            </div>
+                            <div className="invoice-row">
+                                <span>Date</span>
+                                <strong>{new Date(invoiceItem.createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</strong>
+                            </div>
+                            <div className="invoice-row">
+                                <span>Billed To</span>
+                                <strong>{user?.name}</strong>
+                            </div>
+                            <div className="invoice-row">
+                                <span>Property</span>
+                                <strong>{invoiceItem.property?.title || "—"}</strong>
+                            </div>
+                            <div className="invoice-row">
+                                <span>Plan</span>
+                                <strong>{invoiceItem.plan}</strong>
+                            </div>
+                            <div className="invoice-row">
+                                <span>Featured Until</span>
+                                <strong>{new Date(invoiceItem.featuredUntil).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric" })}</strong>
+                            </div>
+                            <hr />
+                            <div className="invoice-row invoice-total">
+                                <span>Total Paid</span>
+                                <strong>₹{invoiceItem.amount} {invoiceItem.currency}</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Response Modal */}
             {respondingTo && (

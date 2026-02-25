@@ -1,6 +1,14 @@
 
 import api from "./api";
 
+// Payment Services
+export const paymentService = {
+    getMy: async () => {
+        const response = await api.get("/payments/my");
+        return response.data;
+    },
+};
+
 // Inquiry Services
 export const inquiryService = {
     create: async (data) => {

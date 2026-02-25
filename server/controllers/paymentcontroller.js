@@ -105,6 +105,20 @@ const featureProperty = async (req, res) => {
     }
 };
 
+// GET /api/payments/my — seller's own payments
+const getMyPayments = async (req, res) => {
+    try {
+        const payments = await Payment.find({ seller: req.user._id })
+            .populate("property", "title location")
+            .sort({ createdAt: -1 });
+
+        return res.json({ success: true, payments });
+    } catch (error) {
+        console.error("getMyPayments error:", error);
+        return res.status(500).json({ success: false, message: "Failed to fetch payments." });
+    }
+};
+
 // GET /api/payments — admin only
 const getAllPayments = async (req, res) => {
     try {
@@ -127,4 +141,4 @@ const getAllPayments = async (req, res) => {
     }
 };
 
-module.exports = { getPricing, featureProperty, getAllPayments };
+module.exports = { getPricing, featureProperty, getAllPayments, getMyPayments };

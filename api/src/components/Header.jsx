@@ -34,8 +34,8 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
             <h1 className="text-xl font-bold tracking-tight">
-              <span className="brand-gradient">Urban</span>
-              <span className="brand-accent">Stay</span>
+              <span className="brand-gradient"><strong>Urban</strong></span>
+              <span className="brand-accent"><strong>Stay</strong></span>
             </h1>
           </Link>
 

@@ -1,6 +1,6 @@
 import { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiMail, FiLock, FiEye, FiEyeOff, FiHome, FiUser, FiBriefcase, FiShield } from "react-icons/fi";
+import { FiMail, FiLock, FiEye, FiEyeOff, FiHome, FiUser, FiBriefcase, FiShield, FiUserCheck } from "react-icons/fi";
 import { useAuth } from "../context/authcontext.jsx";
 import "./Auth.css";
 import { loginSchema } from "../validators/loginschema.js";
@@ -15,7 +15,7 @@ const Login = () => {
 
     const roles = [
         { id: "buyer", label: "Buyer/Renter", icon: <FiUser />, color: "from-blue-500 to-indigo-600" },
-        { id: "seller", label: "Agent/Seller", icon: <FiBriefcase />, color: "from-[var(--emerald)] to-[var(--pacific-cyan)]" },
+        { id: "seller", label: "Agent/Seller", icon: <FiUser/>, color: "from-[var(--emerald)] to-[var(--pacific-cyan)]" },
         { id: "admin", label: "Admin", icon: <FiShield />, color: "from-purple-600 to-indigo-700" }
     ];
 
@@ -77,13 +77,9 @@ const Login = () => {
                     <div className="auth-welcome-content">
                         <h2>
                             {activeRole === "buyer" && "Find Your Dream Home"}
-                            {activeRole === "seller" && "Sell With Confidence"}
-                            {activeRole === "admin" && "Manage Platform"}
                         </h2>
                         <p>
                             {activeRole === "buyer" && "Discover thousands of premium properties. Buy, rent, and move in today."}
-                            {activeRole === "seller" && "Reach millions of buyers. List your property and close deals faster."}
-                            {activeRole === "admin" && "Oversee operations, manage users, and ensure platform quality."}
                         </p>
                     </div>
                 </div>
@@ -93,11 +89,8 @@ const Login = () => {
                     <div className="auth-form-container">
                         <div className="auth-header">
                             <h2>Welcome Back</h2>
-                            
+                            <p>Sign in to your account to continue</p>
                         </div>
-
-                        {error && <div className="auth-error">{error}</div>}
-
                         <form onSubmit={handleSubmit} className="auth-form">
                             <div className="form-group slide-in-1">
                                 <label htmlFor="email">Email Address</label>
@@ -113,7 +106,7 @@ const Login = () => {
                                     />
                                 </div>
                                 {formErrors.email && (
-                                    <p style={{color: "red", fontSize: "0.875rem", marginTop: "0.25rem"}}>
+                                    <p>
                                         {formErrors.email}
                                         </p>
                                     )}
@@ -155,6 +148,7 @@ const Login = () => {
                                     "Sign In"
                                 )}
                             </button>
+                             {error && <div className="auth-error">{error}</div>}
                         </form>
                         <p className="auth-switch">
                             Don't have an account?{" "}

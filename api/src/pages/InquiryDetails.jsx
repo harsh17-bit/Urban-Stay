@@ -23,7 +23,7 @@ const InquiryDetails = () => {
   const { user } = useAuth();
   const [inquiry, setInquiry] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, ] = useState(null);
   const [replyText, setReplyText] = useState("");
   const [sending, setSending] = useState(false);
   const [replySuccess, setReplySuccess] = useState(false);
@@ -34,7 +34,7 @@ const InquiryDetails = () => {
         const data = await inquiryService.getOne(id);
         setInquiry(data.inquiry);
       } catch (err) {
-        setError(err.response?.data?.message || "Failed to load inquiry.");
+        err.consolelog("Failed to load inquiry.");
       } finally {
         setLoading(false);
       }

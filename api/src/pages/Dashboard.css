@@ -140,6 +140,66 @@
     border-top: 1px solid #e5e7eb;
 }
 
+/* ── Add New Property Button ── */
+.sidebar-action {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.add-property-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 16px;
+    background: black;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    text-align: left;
+}
+
+.add-property-btn:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.add-property-btn:active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.add-property-btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+}
+
+.add-property-btn-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.3;
+}
+
+.add-property-btn-text strong {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.add-property-btn-text small {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+}
+
 /* Main Content */
 .dashboard-main {
     flex: 1;
@@ -804,3 +864,118 @@
 .status-select.rented    { background: #dbeafe; color: #1e40af; }
 .status-select.pending   { background: #fef3c7; color: #d97706; }
 .status-select.draft     { background: #f1f5f9; color: #64748b; }
+
+/* ── Modal ── */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: #fff;
+    width: 100%;
+    max-width: 540px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    overflow: hidden;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.inquiry-summary p {
+    font-size: 0.9rem;
+    color: #475569;
+    margin-bottom: 0.5rem;
+}
+
+/* ── Invoice Modal ── */
+.invoice-modal {
+    max-width: 460px;
+}
+
+.invoice-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.invoice-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.invoice-brand h2 {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.invoice-body hr {
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 0.75rem 0;
+}
+
+.invoice-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.45rem 0;
+    font-size: 0.9rem;
+}
+
+.invoice-row span {
+    color: #64748b;
+    flex-shrink: 0;
+    min-width: 130px;
+}
+
+.invoice-row strong {
+    color: #1e293b;
+    text-align: right;
+    word-break: break-word;
+}
+
+.invoice-total {
+    font-size: 1rem;
+    font-weight: 700;
+    padding-top: 0.6rem;
+}
+
+.invoice-total span { color: #1e293b; font-weight: 700; }
+.invoice-total strong { color: var(--primary-color); font-size: 1.1rem; }
