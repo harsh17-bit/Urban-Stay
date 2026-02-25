@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider, useAuth } from './context/authcontext.jsx'
 import { AnimatePresence } from 'framer-motion'
+import { API_URL } from './services/api'
+
 
 // Layout Components
 import Header from './components/Header'
@@ -91,119 +93,118 @@ const DashboardRouter = () => {
 
 function AppContent() {
   useEffect(() => {
-    const interval = setInterval(async()=>{
-      try{
-        const res=await fetch("/api/health");
-        if(!res.ok){
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`${API_URL}/health`);
+        if (!res.ok) {
           throw new Error("Server Down");
         }
       }
-      catch
-      {
+      catch {
         localStorage.removeItem("token");
-        window.location.href="/login";
+        window.location.href = "/login";
       }
-    },60000);
+    }, 60000);
     return () => clearInterval(interval);
-  },[]);
+  }, []);
 
   return (
-  <>
-  
-    <div className='app relative min-h-screen'>
+    <>
+
+      <div className='app relative min-h-screen'>
         <Header />
-      <main className="relative z-10">
-        <AnimatePresence mode="wait">
-          <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/properties" element={<SearchResults />} />
-          <Route path="/search" element={<SearchResults />} />
-          <Route path="/property/:id" element={<PropertyDetails />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/emi-calculator" element={<EMICalculator />} />
+        <main className="relative z-10">
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/properties" element={<SearchResults />} />
+              <Route path="/search" element={<SearchResults />} />
+              <Route path="/property/:id" element={<PropertyDetails />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/projects" element={<Projects />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/emi-calculator" element={<EMICalculator />} />
 
-          {/* Protected Routes */}
-          <Route
-            path="/edit-property/:id"
-            element={
-              <ProtectedRoute allowedRoles={['seller', 'admin']}>
-                <EditProperty />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/inquiry/:id"
-            element={
-              <ProtectedRoute>
-                <InquiryDetails />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardRouter />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/user/dashboard"
-            element={
-              <ProtectedRoute>
-                <UserDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/seller/dashboard"
-            element={
-              <ProtectedRoute allowedRoles={['seller', 'admin']}>
-                <SellerDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/admin/dashboard"
-            element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/post-property"
-            element={
-              <ProtectedRoute allowedRoles={['seller', 'admin']}>
-                <PostProperty />
-              </ProtectedRoute>
-            }
-          />
+              {/* Protected Routes */}
+              <Route
+                path="/edit-property/:id"
+                element={
+                  <ProtectedRoute allowedRoles={['seller', 'admin']}>
+                    <EditProperty />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/inquiry/:id"
+                element={
+                  <ProtectedRoute>
+                    <InquiryDetails />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <DashboardRouter />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/user/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/seller/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['seller', 'admin']}>
+                    <SellerDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/post-property"
+                element={
+                  <ProtectedRoute allowedRoles={['seller', 'admin']}>
+                    <PostProperty />
+                  </ProtectedRoute>
+                }
+              />
 
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </AnimatePresence>
-      </main>
-      <Footer />
+              {/* Fallback */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </AnimatePresence>
+        </main>
+        <Footer />
       </div>
-  </>
-)
+    </>
+  )
 }
 
 function App() {
   return (
 
     <BrowserRouter>
-      <AuthProvider>  
+      <AuthProvider>
         <AppContent />
       </AuthProvider>
     </BrowserRouter>
