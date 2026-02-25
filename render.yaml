@@ -2,7 +2,7 @@ services:
   - type: web
     name: urbanstay-api
     runtime: node
-    rootDir: .
+    rootDir: server
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/health
