@@ -7,15 +7,15 @@ require("dotenv").config();
 // Ensure uploads directory exists (needed on Render where the folder isn't in git)
 const uploadsDir = path.join(__dirname, "uploads", "propertyimages");
 if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
+    fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
 // Fail fast if required env vars are missing
 const REQUIRED_ENV = ["MONGODB_URI", "JWT_SECRET"];
 const missing = REQUIRED_ENV.filter((k) => !process.env[k]);
 if (missing.length) {
-  console.error(`Missing required environment variables: ${missing.join(", ")}`);
-  process.exit(1);
+    console.error(`Missing required environment variables: ${missing.join(", ")}`);
+    process.exit(1);
 }
 
 const connectDB = require("./config/db");
@@ -41,8 +41,19 @@ const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "ht
     .filter(Boolean);
 
 app.use(cors({
-    origin: allowedOrigins,
-    credentials: true,
+    origin: function (origin, callback) {
+        if (!origin) return callback(null, true);
+
+        if (
+            origin.includes("vercel.app") ||
+            origin === process.env.CLIENT_URL
+        ) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true
 }));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
