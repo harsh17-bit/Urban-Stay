@@ -6,7 +6,12 @@ const {
     updateUserRole, deleteUser, checkEmail
 } = require("../controllers/authcontroller");
 const { protect, authorize } = require("../middleware/auth");
-
+//for checking if auth route is healthy
+router.get("/health", (req, res) => {
+    res.json({ status: "ok" ,
+        message: "Auth route is healthy"
+    });
+});
 // Public routes
 router.get("/check-email", checkEmail);
 router.post("/register", register);

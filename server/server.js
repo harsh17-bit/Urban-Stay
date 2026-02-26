@@ -39,7 +39,6 @@ const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "ht
     .split(",")
     .map((origin) => origin.trim())
     .filter(Boolean);
-
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin) return callback(null, true);
