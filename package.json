@@ -7,7 +7,9 @@
     "node": "20.x"
   },
   "scripts": {
-    "start": "node server.js"
+    "dev": "nodemon server/server.js",
+    "build": "npm install && npm install --prefix api && npm run build --prefix api",
+    "start": "nodemon server/server.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
