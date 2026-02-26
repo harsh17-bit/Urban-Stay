@@ -36,23 +36,25 @@ const app = express();
 connectDB();
 
 // Middleware
-const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "http://localhost:5173,http://localhost:5174")
+const allowedOrigins = (process.env.NODE_ENV || "http://localhost:5173,http://localhost:5174")
     .split(",")
     .map((origin) => origin.trim())
     .filter(Boolean);
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (mobile apps, curl, Postman)
-        if (!origin) return callback(null, true);
+  origin: function(origin, callback) {
 
-        // Check if origin is in allowed list or matches vercel.app
-        if (allowedOrigins.includes(origin) || origin.includes("vercel.app")) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true
+    if (!origin) return callback(null, true);
+
+    if (
+      origin.includes("localhost") ||
+      origin.includes("vercel.app") ||
+      origin.includes("onrender.com")
+    ) {
+      return callback(null, true);
+    }
+    callback(new Error("Not allowed by CORS"));
+  },
+  credentials: true
 }));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
