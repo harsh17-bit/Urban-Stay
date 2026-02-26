@@ -53,6 +53,7 @@ const { sendWelcomeEmail, sendPasswordResetOtpEmail } = require("../utils/email"
 const crypto = require("crypto");
 const fs = require("fs");
 const path = require("path");
+const { deleteImage, getPublicIdFromUrl } = require("../config/cloudinary");
 
 /**
  * Generates a JWT token for authenticated users
@@ -624,13 +625,22 @@ exports.deleteUser = async (req, res) => {
         const userProperties = await Property.find({ owner: userId }).select("_id images");
         const propertyIds = userProperties.map((p) => p._id);
 
-        // 2. Delete uploaded image files for those properties
+        // 2. Delete uploaded image files for those properties (local and Cloudinary)
         for (const property of userProperties) {
             if (Array.isArray(property.images)) {
                 for (const img of property.images) {
-                    if (img.url && img.url.startsWith("/uploads/")) {
-                        const filePath = path.join(__dirname, "../", img.url);
-                        fs.unlink(filePath, () => {}); // silent — file may already be gone
+                    if (img.url) {
+                        if (img.url.startsWith("/uploads/")) {
+                            // Local file
+                            const filePath = path.join(__dirname, "../", img.url);
+                            fs.unlink(filePath, () => {}); // silent — file may already be gone
+                        } else if (img.url.includes("cloudinary")) {
+                            // Cloudinary image
+                            const publicId = getPublicIdFromUrl(img.url);
+                            if (publicId) {
+                                await deleteImage(publicId);
+                            }
+                        }
                     }
                 }
             }

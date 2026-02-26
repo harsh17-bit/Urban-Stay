@@ -245,17 +245,17 @@ exports.createProperty = async (req, res) => {
         const highlights = req.body.highlights ? JSON.parse(req.body.highlights) : [];
         const priceBreakdown = req.body.priceBreakdown ? JSON.parse(req.body.priceBreakdown) : {};
 
-        // Handle image uploads
+        // Handle image uploads (Cloudinary)
         let images = [];
         if (req.files && req.files.length > 0) {
-            // Convert uploaded files to image objects
+            // Cloudinary returns path (URL) for each uploaded file
             images = req.files.map((file, index) => ({
-                url: `/uploads/propertyimages/${file.filename}`,
+                url: file.path, // Cloudinary URL
                 caption: "",
                 isPrimary: parseInt(req.body.primaryImageIndex || 0) === index
             }));
             
-            console.log("Uploaded images:", images);
+            console.log("Uploaded images to Cloudinary:", images);
         } else if (req.body.images) {
             // Fallback for images in JSON format
             try {
@@ -356,11 +356,11 @@ exports.updateProperty = async (req, res) => {
                 try { existingImages = JSON.parse(req.body.existingImages); } catch (e) { existingImages = []; }
             }
 
-            // Newly uploaded files
+            // Newly uploaded files (Cloudinary)
             let newImages = [];
             if (req.files && req.files.length > 0) {
                 newImages = req.files.map((file, index) => ({
-                    url: `/uploads/propertyimages/${file.filename}`,
+                    url: file.path, // Cloudinary URL
                     caption: "",
                     isPrimary: false,
                 }));

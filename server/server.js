@@ -12,7 +12,7 @@ if (!fs.existsSync(uploadsDir)) {
 }
 
 // Fail fast if required env vars are missing
-const REQUIRED_ENV = ["MONGODB_URI", "JWT_SECRET"];
+const REQUIRED_ENV = ["MONGODB_URI", "JWT_SECRET", "CLOUDINARY_CLOUD_NAME", "CLOUDINARY_API_KEY", "CLOUDINARY_API_SECRET"];
 const missing = REQUIRED_ENV.filter((k) => !process.env[k]);
 if (missing.length) {
     console.error(`Missing required environment variables: ${missing.join(", ")}`);
