@@ -456,9 +456,6 @@ const handleProfileUpdate = async (e) => {
                                     <FiHome />
                                     <h3>No properties yet</h3>
                                     <p>Start by adding your first property listing</p>
-                                    <button className="btn-primary" onClick={() => navigate("/post-property")}>
-                                        <FiPlus /> Add Property
-                                    </button>
                                 </div>
                             )}
                         </div>

@@ -96,16 +96,7 @@ const EMICalculator = () => {
   }, [loanAmount, interestRate, tenure]);
 
 
-  const bankResults = useMemo(() =>
-    BANKS.map((b) => {
-      const r = b.rate / 12 / 100;
-      const n = tenure * 12;
-      const emi = Math.round((loanAmount * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1));
-      return { ...b, emi };
-    }).sort((a, b) => a.emi - b.emi),
-    [loanAmount, tenure]
-  );
-
+ 
   const handleLoan = useCallback((v) => setLoanAmount(Number(v)), []);
   const handleRate = useCallback((v) => {
     const val = Math.min(20, Math.max(1, Number(v)));
@@ -121,7 +112,6 @@ const EMICalculator = () => {
         <div className="emi-hero-bg c1" />
         <div className="emi-hero-bg c2" />
         <div className="emi-hero-inner">
-          
           <h1>Home Loan <span className="brand-gradient">EMI Calculator</span></h1>
           <p>Quickly estimate your monthly payments and total interest for any home loan scenario.</p>
         </div>
@@ -303,35 +293,7 @@ const EMICalculator = () => {
             )}
           </div>
         </div>
-      </section>
-
-      {/* ── BANK COMPARISON ── */}
-      <section className="emi-banks-section">
-        <div className="emi-section-header">
-          <h2>Compare Bank Rates</h2>
-          <p>See how your EMI changes across popular lenders (for ₹{fmtCr(loanAmount)}, {tenure}-year tenure)</p>
-        </div>
-        <div className="emi-banks-grid">
-          {bankResults.map((b, i) => (
-            <div key={b.name} className={`emi-bank-card ${i === 0 ? "best" : ""}`}>
-              {i === 0 && <span className="emi-best-badge">Lowest EMI</span>}
-              <div className="emi-bank-logo">{b.logo}</div>
-              <div className="emi-bank-info">
-                <p className="emi-bank-name">{b.name}</p>
-                <p className="emi-bank-rate">{b.rate}% p.a.</p>
-              </div>
-              <div className="emi-bank-emi">
-                <span className="emi-bank-emi-value">₹{fmt(b.emi)}</span>
-                <span className="emi-bank-emi-label">/month</span>
-              </div>
-            </div>
-          ))}
-        </div>
-        <p className="emi-bank-disclaimer">
-          * Rates are indicative and may vary. Always check with the lender for the latest offers.
-        </p>
-      </section>
-
+      </section>  
       {/* ── HOW IT WORKS ── */}
       <section className="emi-how-section">
         <div className="emi-section-header">

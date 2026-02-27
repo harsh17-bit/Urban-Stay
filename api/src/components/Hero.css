@@ -395,8 +395,8 @@
 }
 
 .hero-search-btn {
-  padding: 0 20px;
-  background: #f5c84c;
+  padding: 28px 20px;
+  background: #000000;
   border: none;
   color: white;
   cursor: pointer;
@@ -408,9 +408,6 @@
   font-weight: 600;
 }
 
-.hero-search-btn:hover {
-  background: #e5b83a;
-}
 
 .hero-search-btn:active {
   transform: scale(0.98);
