@@ -46,6 +46,15 @@ const Review = require('../models/review');
 const Alert = require('../models/alert');
 const Project = require('../models/project');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+const bcrypt = require('bcryptjs');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 const {
   sendWelcomeEmail,
   sendPasswordResetOtpEmail,
@@ -335,7 +344,6 @@ exports.forgotPassword = async (req, res) => {
 
     const user = await User.findOne({ email });
 
-    // Always send same response (security reason)
     if (!user) {
       return res.status(200).json({
         success: true,
@@ -343,164 +351,30 @@ exports.forgotPassword = async (req, res) => {
       });
     }
 
-    // Generate 6 digit OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     user.resetOtp = otp;
-    user.otpExpire = Date.now() + 10 * 60 * 1000; // 10 minutes
+    user.otpExpire = Date.now() + 10 * 60 * 1000;
+
     await user.save();
 
-    // ✅ Send response immediately (IMPORTANT)
-    res.status(200).json({
+    // send email BEFORE response (safe version)
+    await transporter.sendMail({
+      to: user.email,
+      subject: 'Password Reset OTP',
+      text: `Your OTP is ${otp}. It expires in 10 minutes.`,
+    });
+
+    return res.status(200).json({
       success: true,
       message: 'OTP sent successfully',
     });
-
-    // ✅ Send email in background (NO await)
-    transporter
-      .sendMail({
-        to: user.email,
-        subject: 'Password Reset OTP',
-        text: `Your OTP is ${otp}. It will expire in 10 minutes.`,
-      })
-      .then(() => {
-        console.log('OTP email sent');
-      })
-      .catch((err) => {
-        console.error('Mail error:', err);
-      });
   } catch (error) {
     console.error('Forgot Password Error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error sending password reset OTP',
-    });
-  }
-};
-// @desc    Check if email is already registered
-// @route   GET /api/auth/check-email
-// @access  Public
-exports.checkEmail = async (req, res) => {
-  try {
-    const email = (req.query.email || '').trim().toLowerCase();
-    if (!email) {
-      return res.status(400).json({
-        success: false,
-        message: 'Email is required',
-      });
-    }
 
-    const existingUser = await User.findOne({ email }).select('_id');
-    return res.status(200).json({
-      success: true,
-      exists: !!existingUser,
-    });
-  } catch (error) {
-    console.error('Check email error:', error);
     return res.status(500).json({
       success: false,
-      message: 'Error checking email',
-    });
-  }
-};
-
-// @desc    Reset password (verify OTP)
-// @route   POST /api/auth/resetpassword
-// @access  Public
-exports.resetPassword = async (req, res) => {
-  try {
-    console.log('Reset password request received:', {
-      email: req.body.email,
-      hasOtp: !!req.body.otp,
-      hasPassword: !!req.body.newPassword,
-    });
-    const email = (req.body.email || '').trim().toLowerCase();
-    const otp = (req.body.otp || '').trim();
-    const newPassword = req.body.newPassword || '';
-
-    if (!email || !otp || !newPassword) {
-      return res.status(400).json({
-        success: false,
-        message: 'Email, OTP, and new password are required',
-      });
-    }
-
-    const emailPattern = /^\S+@\S+\.\S+$/;
-    if (!emailPattern.test(email)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid email format',
-      });
-    }
-
-    if (!/^\d{6}$/.test(otp)) {
-      return res.status(400).json({
-        success: false,
-        message: 'OTP must be a 6-digit number',
-      });
-    }
-
-    if (newPassword.length < 6) {
-      return res.status(400).json({
-        success: false,
-        message: 'Password must be at least 6 characters',
-      });
-    }
-
-    const user = await User.findOne({ email }).select('+password');
-    console.log(
-      'User found:',
-      !!user,
-      'Has OTP hash:',
-      !!user?.otpHash,
-      'Has expiry:',
-      !!user?.otpExpiresAt
-    );
-    if (!user || !user.otpHash || !user.otpExpiresAt) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid or expired OTP',
-      });
-    }
-
-    const now = Date.now();
-    const expiresAt = new Date(user.otpExpiresAt).getTime();
-    console.log('OTP expiry check:', {
-      now,
-      expiresAt,
-      expired: expiresAt < now,
-    });
-    if (user.otpExpiresAt < Date.now()) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid or expired OTP',
-      });
-    }
-
-    const otpHash = crypto.createHash('sha256').update(otp).digest('hex');
-    console.log('OTP hash match:', otpHash === user.otpHash);
-    if (otpHash !== user.otpHash) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid or expired OTP',
-      });
-    }
-
-    user.password = newPassword;
-    user.otpHash = undefined;
-    user.otpExpiresAt = undefined;
-    await user.save();
-    console.log('Password reset successful for:', email);
-
-    res.status(200).json({
-      success: true,
-      message: 'Password reset successfully',
-    });
-  } catch (error) {
-    console.error('Reset password error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error resetting password',
+      message: 'Error sending password reset OTP',
     });
   }
 };
