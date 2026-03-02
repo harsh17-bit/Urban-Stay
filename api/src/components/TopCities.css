@@ -42,7 +42,9 @@
   text-decoration: none;
   color: #333;
   border: 1px solid #eee;
-  transition: background 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s;
 }
 
 .top-cities-card:hover {
@@ -64,6 +66,25 @@
 
 @media (max-width: 768px) {
   .top-cities-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .top-cities {
+    padding: 36px 16px 44px;
+  }
+
+  .top-cities-title {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .top-cities-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .top-cities-card {
+    padding: 16px 18px;
   }
 }

@@ -13,7 +13,6 @@
 
 .projects-hero {
   padding: 4.5rem 1.5rem 3rem;
-  
 }
 
 .projects-hero-content {
@@ -229,12 +228,74 @@
   color: #b94739;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .projects-hero {
-    padding: 3.5rem 1.25rem 2.5rem;
+    padding: 3rem 1rem 2rem;
+  }
+
+  .projects-hero-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .projects-controls {
+    padding: 0 1rem 1.5rem;
   }
 
   .projects-filters {
+    grid-template-columns: repeat(2, 1fr);
     padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .projects-grid {
+    padding: 1.5rem 1rem 3rem;
+  }
+
+  .projects-cards {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .project-body {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-hero {
+    padding: 2.5rem 1rem 1.5rem;
+  }
+
+  .projects-hero-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .projects-kicker {
+    font-size: 0.7rem;
+  }
+
+  .projects-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-field input,
+  .filter-field select {
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .project-header {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .project-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .project-details {
+    padding: 0.75rem;
+    gap: 0.75rem;
+    font-size: 0.8rem;
   }
 }

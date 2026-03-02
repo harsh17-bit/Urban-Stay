@@ -38,7 +38,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Back button ── */
@@ -446,7 +448,9 @@
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.2s, transform 0.15s;
+  transition:
+    background 0.2s,
+    transform 0.15s;
 }
 
 .id-reply-btn:hover:not(:disabled) {
@@ -471,6 +475,10 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
+  .inquiry-details-page {
+    padding: 24px 16px 48px;
+  }
+
   .inquiry-details-body {
     grid-template-columns: 1fr;
   }
@@ -482,5 +490,46 @@
   .id-property-img {
     width: 70px;
     height: 56px;
+  }
+
+  .id-card {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .btn-back {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .inquiry-details-page {
+    padding: 16px 12px 40px;
+  }
+
+  .inquiry-details-title {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .inquiry-details-title h1 {
+    font-size: 1.25rem;
+  }
+
+  .id-card {
+    padding: 14px;
+  }
+
+  .id-card-title {
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+  }
+
+  .inquiry-status-badge {
+    padding: 4px 12px;
+    font-size: 0.75rem;
   }
 }

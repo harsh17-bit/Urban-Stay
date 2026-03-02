@@ -1,0 +1,251 @@
+/* =====================================================
+   Global Responsive Styles — Urban-Stay
+   Minimal CSS for mobile responsiveness
+   ===================================================== */
+
+/* ─── Base Mobile Reset ─── */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ─── Container Responsive ─── */
+.container,
+[class*='-container'] {
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* ─── Typography Responsive ─── */
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 1.75rem !important;
+  }
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  h3 {
+    font-size: 1.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  h2 {
+    font-size: 1.3rem !important;
+  }
+  h3 {
+    font-size: 1.15rem !important;
+  }
+}
+
+/* ─── Grid Responsive Utilities ─── */
+@media (max-width: 768px) {
+  .grid,
+  [class*='-grid'] {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Allow 2-column grids on tablet */
+  .grid-2-mobile {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-2-mobile {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ─── Flex Responsive Utilities ─── */
+@media (max-width: 768px) {
+  .flex-wrap-mobile {
+    flex-wrap: wrap !important;
+  }
+
+  .flex-col-mobile {
+    flex-direction: column !important;
+  }
+
+  .flex-gap-mobile {
+    gap: 1rem !important;
+  }
+}
+
+/* ─── Spacing Responsive ─── */
+@media (max-width: 768px) {
+  .section,
+  [class*='-section'] {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  .p-mobile-sm {
+    padding: 1rem !important;
+  }
+  .px-mobile-sm {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  .py-mobile-sm {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .m-mobile-0 {
+    margin: 0 !important;
+  }
+  .mx-mobile-0 {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* ─── Button Responsive ─── */
+@media (max-width: 480px) {
+  button,
+  .btn,
+  [class*='-btn'] {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .btn-full-mobile {
+    width: 100% !important;
+  }
+}
+
+/* ─── Form Responsive ─── */
+@media (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important; /* Prevents zoom on iOS */
+    padding: 0.75rem !important;
+  }
+
+  .form-row,
+  [class*='-form-row'] {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  .form-group,
+  [class*='-form-group'] {
+    width: 100% !important;
+  }
+}
+
+/* ─── Table Responsive ─── */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* ─── Card Responsive ─── */
+@media (max-width: 768px) {
+  .card,
+  [class*='-card'] {
+    border-radius: 12px;
+  }
+}
+
+/* ─── Modal Responsive ─── */
+@media (max-width: 768px) {
+  .modal-content,
+  [class*='modal-content'] {
+    width: 95% !important;
+    max-width: 95vw !important;
+    margin: 1rem !important;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+}
+
+/* ─── Hide/Show Responsive ─── */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .show-mobile-only {
+    display: none !important;
+  }
+}
+
+/* ─── Text Alignment Responsive ─── */
+@media (max-width: 768px) {
+  .text-center-mobile {
+    text-align: center !important;
+  }
+  .text-left-mobile {
+    text-align: left !important;
+  }
+}
+
+/* ─── Fixed Elements Responsive ─── */
+@media (max-width: 768px) {
+  .sticky,
+  [class*='sticky'] {
+    position: relative !important;
+  }
+}
+
+/* ─── Overflow Handling ─── */
+.overflow-x-auto {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Touch-Friendly Targets ─── */
+@media (max-width: 768px) {
+  a,
+  button,
+  input[type='submit'],
+  input[type='button'] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* ─── Safe Area for Notched Devices ─── */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+  }
+}

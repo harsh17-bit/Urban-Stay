@@ -17,7 +17,7 @@
 
 .explore-grid {
   display: grid;
-  grid-template-columns: repeat(3,minmax(200px, 1fr));
+  grid-template-columns: repeat(3, minmax(200px, 1fr));
   gap: 10px;
 }
 
@@ -33,7 +33,9 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   text-decoration: none;
   color: #333;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
 }
 
 .explore-card:hover {
@@ -71,6 +73,31 @@
 
   .explore-title {
     font-size: 1.25rem;
+  }
+
+  .explore-card {
+    padding: 18px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .explore-options {
+    padding: 32px 16px 40px;
+  }
+
+  .explore-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .explore-card {
+    flex-direction: row;
+    padding: 16px;
+    gap: 14px;
+  }
+
+  .explore-label {
+    text-align: left;
   }
 }
 

@@ -33,4 +33,17 @@
   .featured-grid {
     grid-template-columns: 1fr;
   }
+
+  .featured-projects {
+    padding: 36px 16px 44px;
+  }
+
+  .featured-title {
+    font-size: 1.4rem;
+  }
+
+  .featured-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+  }
 }

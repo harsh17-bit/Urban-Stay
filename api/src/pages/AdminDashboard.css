@@ -845,15 +845,15 @@
   }
 
   .modal-header {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   .modal-body {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   .modal-footer {
-    padding: 1rem 1.5rem;
+    padding: 1rem 1.25rem;
   }
 
   .detail-section h3 {
@@ -863,5 +863,42 @@
   .detail-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+  }
+
+  .admin-stats .stat-card {
+    padding: 1rem;
+  }
+
+  .chart-placeholder {
+    gap: 0.5rem;
+  }
+
+  .bar-label {
+    width: 80px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-grid {
+    gap: 1rem;
+  }
+
+  .bar-label {
+    width: 60px;
+    font-size: 0.75rem;
+  }
+
+  .bar-container {
+    height: 20px;
+  }
+
+  .bar-value {
+    width: 35px;
+    font-size: 0.85rem;
+  }
+
+  .modal-header h3 {
+    font-size: 1rem;
   }
 }
