@@ -19,8 +19,12 @@ const { protect, authorize } = require('../middleware/auth');
 router.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Auth route is healthy' });
 });
-const { register, login, forgotPassword, resetPassword } =
-  require('../controllers/authcontroller').forgotPassword;
+const {
+  register,
+  login,
+  forgotPassword,
+  resetPassword,
+} = require('../controllers/authcontroller');
 // Public routes
 router.get('/check-email', checkEmail);
 router.post('/register', register);
