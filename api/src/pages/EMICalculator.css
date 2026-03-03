@@ -1,599 +1,802 @@
 /* =====================================================
-   EMI Calculator Page — UrbanStay
+   EMI Calculator Page — UrbanStay (MagicBricks Style)
    ===================================================== */
 
-.emi-page {
+.emi-calculator-page {
   min-height: 100vh;
-  background: var(--color-bg);
-}
-
-/* ── Pill ── */
-.emi-pill {
-  display: inline-block;
-  padding: 4px 14px;
-  border-radius: 100px;
-  background: rgba(255, 255, 255, 0.15);
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
+  background: #f5f5f5;
 }
 
 /* ═══════════════════════════
-   HERO
+   MAIN CALCULATOR SECTION
 ═══════════════════════════ */
-.emi-hero {
-  position: relative;
-  background: linear-gradient(135deg, #1A2332 100%, #2d3748 100%, #1a2d1a 100%);
-  padding: 80px 24px 64px;
-  text-align: center;
-  overflow: hidden;
+.emi-calc-section {
+  padding: 40px 24px;
+  background: linear-gradient(180deg, #e8f4f8 0%, #f5f5f5 100%);
 }
 
-.emi-hero-inner {
-  position: relative;
-  z-index: 1;
-  max-width: 700px;
+.emi-calc-container {
+  max-width: 1100px;
   margin: 0 auto;
-}
-
-.emi-hero h1 {
-  font-size: clamp(1.9rem, 4.5vw, 3rem);
-  font-weight: 800;
-  color: #fff;
-  margin: 8px 0 14px;
-  line-height: 1.15;
-}
-
-.emi-hero p {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 1.05rem;
-  line-height: 1.7;
-  margin: 0;
-}
-
-/* ═══════════════════════════
-   MAIN CALCULATOR LAYOUT
-═══════════════════════════ */
-.emi-main {
-  max-width: 1140px;
-  margin: 0 auto;
-  padding: 52px 24px;
-}
-
-.emi-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 36px;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
   align-items: start;
 }
 
-/* ── Inputs Panel ── */
-.emi-inputs-panel {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 36px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+/* ── Input Panel (Left) ── */
+.emi-input-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
-.emi-field {}
-
-.emi-field-header {
+.emi-brand {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
+  gap: 2px;
+  margin-bottom: 32px;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
-.emi-field-header label {
-  display: flex;
+.brand-urban {
+  color: #00a88e;
+}
+
+.brand-loans {
+  color: #d9534f;
+}
+
+.brand-loans::before {
+  content: 'L';
+  display: inline-flex;
   align-items: center;
-  gap: 7px;
-  font-weight: 600;
-  font-size: 0.92rem;
-  color: var(--color-text);
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: #ffc107;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 1rem;
+  margin-right: 1px;
 }
 
-.emi-input-box {
-  display: flex;
-  align-items: center;
-  border: 1.5px solid var(--color-border);
-  border-radius: 10px;
-  padding: 6px 12px;
-  gap: 4px;
-  background: var(--color-ink-50);
-  min-width: 130px;
+/* ── Input Groups ── */
+.emi-input-group {
+  margin-bottom: 24px;
 }
 
-.emi-input-box span {
+.emi-label {
+  display: block;
   font-size: 0.85rem;
-  color: var(--color-text-muted);
+  color: #00a88e;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.emi-input-field {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.emi-input-field:focus-within {
+  border-color: #00a88e;
+}
+
+.currency-symbol {
+  font-size: 1.25rem;
+  color: #333;
   font-weight: 500;
 }
 
-.emi-input-box input {
+.emi-text-input {
+  flex: 1;
   border: none;
-  background: transparent;
   outline: none;
-  font-size: 0.92rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: var(--color-text-strong);
-  width: 80px;
-  text-align: right;
+  color: #333;
+  background: transparent;
 }
 
-/* ── Range sliders ── */
-.emi-range {
+/* ── Input Row (Tenure + Rate) ── */
+.emi-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.emi-select-wrapper {
+  position: relative;
+}
+
+.emi-select {
   width: 100%;
-  height: 6px;
-  -webkit-appearance: none;
-  appearance: none;
-  border-radius: 10px;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  cursor: pointer;
   outline: none;
-  cursor: pointer;
-}
-
-.emi-range.primary {
-  background: linear-gradient(
-    to right,
-    var(--color-primary) 0%,
-    var(--color-primary) calc((var(--val,50) / 100) * 100%),
-    #e4e7eb calc((var(--val,50) / 100) * 100%),
-    #e4e7eb 100%
-  );
-  accent-color: var(--color-primary);
-}
-.emi-range.accent  { accent-color: var(--color-accent); }
-.emi-range.highlight{ accent-color: #F4A261; }
-
-.emi-range::-webkit-slider-thumb {
-  -webkit-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #fff;
-  border: 3px solid var(--color-primary);
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: transform 0.15s;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  padding-right: 20px;
 }
-.emi-range.accent::-webkit-slider-thumb  { border-color: var(--color-accent); }
-.emi-range.highlight::-webkit-slider-thumb { border-color: #F4A261; }
 
-.emi-range::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.emi-select:focus {
+  border-color: #00a88e;
+}
 
-.emi-range-labels {
+.emi-rate-input {
+  width: 100%;
+  padding: 8px 0;
+  border: none;
+  border-bottom: 2px solid #e0e0e0;
+  background: transparent;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  outline: none;
+}
+
+.emi-rate-input:focus {
+  border-color: #00a88e;
+}
+
+/* Remove number input spinners */
+.emi-rate-input::-webkit-outer-spin-button,
+.emi-rate-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.emi-rate-input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* ── Radio Group ── */
+.emi-radio-group {
+  margin-bottom: 28px;
+}
+
+.emi-radio-group .emi-label {
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.emi-radio-options {
+  display: flex;
+  gap: 32px;
+}
+
+.emi-radio {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-top: 8px;
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-}
-
-.emi-badge {
-  padding: 2px 10px;
-  background: rgba(139, 69, 19, 0.1);
-  color: var(--color-primary);
-  border-radius: 100px;
-  font-size: 0.76rem;
-  font-weight: 700;
-}
-.emi-badge.accent   { background: rgba(124, 179, 66, 0.12); color: var(--color-accent); }
-.emi-badge.highlight{ background: rgba(244, 162, 97, 0.15); color: #d4763a; }
-
-.emi-tip {
-  display: flex;
-  align-items: flex-start;
   gap: 8px;
-  background: var(--color-ink-50);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 12px 14px;
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  line-height: 1.55;
-}
-.emi-tip svg { flex-shrink: 0; margin-top: 1px; color: var(--color-info); }
-
-/* ── Result Panel ── */
-.emi-result-panel {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 36px 28px;
-  position: relative;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: #555;
 }
 
-/* Donut */
-.emi-donut-wrap {
-  position: relative;
-  width: 200px;
-  margin: 0 auto 28px;
+.emi-radio input[type='radio'] {
+  display: none;
 }
-.emi-donut { width: 100%; height: auto; display: block; }
-.emi-donut-center {
+
+.radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.emi-radio input[type='radio']:checked + .radio-circle {
+  border-color: #00a88e;
+}
+
+.emi-radio input[type='radio']:checked + .radio-circle::after {
+  content: '';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
-  pointer-events: none;
-}
-.emi-donut-label {
-  display: block;
-  font-size: 0.7rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-  white-space: nowrap;
-}
-.emi-donut-value {
-  display: block;
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: var(--color-text-strong);
-  white-space: nowrap;
-}
-.donut-label-sm {
-  font-size: 11px;
-  fill: var(--color-text-muted);
-  font-family: inherit;
-  opacity: 0;
-  hidden: true;
-  transition: 0ms;
-}
-
-/* Summary cards */
-.emi-summary-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.emi-summary-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  border-radius: 12px;
-  border: 1px solid var(--color-border);
-  background: var(--color-ink-50);
-}
-
-.emi-summary-card > div {
-  flex: 1;
-}
-
-.emi-summary-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 3px;
-  background: var(--color-primary);
-  flex-shrink: 0;
-}
-.emi-summary-dot.interest-dot { background: #F4A261; }
-
-.emi-summary-label  { font-size: 0.78rem; color: var(--color-text-muted); margin: 0 0 2px; }
-.emi-summary-value  { font-size: 1rem; font-weight: 700; color: var(--color-text-strong); margin: 0; }
-.emi-summary-pct    { font-size: 0.75rem; font-weight: 700; color: var(--color-primary); white-space: nowrap; }
-.emi-summary-pct.interest-pct { color: #d4763a; }
-.total-value        { color: var(--color-info); }
-
-/* bar */
-.emi-bar-wrap { margin-bottom: 22px; }
-.emi-bar {
+  width: 10px;
   height: 10px;
-  border-radius: 10px;
-  overflow: hidden;
-  display: flex;
-  background: #e4e7eb;
-  margin-bottom: 8px;
+  background: #00a88e;
+  border-radius: 50%;
 }
-.emi-bar-fill { height: 100%; transition: width 0.4s ease; }
-.principal-fill { background: var(--color-primary); border-radius: 10px 0 0 10px; }
-.interest-fill  { background: #F4A261; border-radius: 0 10px 10px 0; }
 
-.emi-bar-legend {
-  display: flex;
-  gap: 18px;
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-}
-.emi-bar-legend em { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; font-style: normal; vertical-align: middle; }
-.dot-p { background: var(--color-primary); }
-.dot-i { background: #F4A261; }
-
-.emi-cta-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+/* ── Calculate Button ── */
+.emi-calculate-btn {
   width: 100%;
-  padding: 12px;
-  background: linear-gradient(135deg, var(--color-primary), #a0522d);
+  padding: 16px 24px;
+  background: #d9534f;
   color: #fff;
-  border-radius: 12px;
-  font-size: 0.9rem;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
   font-weight: 600;
-  text-decoration: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-  
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
-.emi-cta-btn:hover {
+
+.emi-calculate-btn:hover {
+  background: #c9302c;
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(139, 69, 19, 0.38);
-  color: #fff;
-}
-
-.emi-empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--color-text-muted);
-}
-.emi-empty svg { margin-bottom: 14px; opacity: 0.3; }
-
-/* ═══════════════════════════
-   SECTION HEADER
-═══════════════════════════ */
-.emi-section-header {
-  text-align: center;
-  margin-bottom: 36px;
-}
-.emi-section-header h2 {
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: 700;
-  color: var(--color-text-strong);
-  margin: 0 0 8px;
-}
-.emi-section-header p {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
+  box-shadow: 0 6px 20px rgba(217, 83, 79, 0.35);
 }
 
 /* ═══════════════════════════
-   BANK COMPARISON
+   RESULT PANEL (Right)
 ═══════════════════════════ */
-.emi-banks-section {
-  background: var(--color-ink-50);
-  padding: 60px 24px;
-  border-top: 1px solid var(--color-border);
-}
-.emi-banks-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  max-width: 980px;
-  margin: 0 auto;
-}
-.emi-bank-card {
+.emi-result-panel {
+  background: linear-gradient(180deg, #e8f4f8 0%, #d4eef5 100%);
+  border-radius: 12px;
+  padding: 32px;
   position: relative;
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: 14px;
-  padding: 20px 18px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.emi-bank-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-}
-.emi-bank-card.best {
-  border-color: var(--color-accent);
-  background: linear-gradient(135deg, rgba(124,179,66,0.05), rgba(124,179,66,0.01));
-}
-.emi-best-badge {
-  position: absolute;
-  top: -11px;
-  right: 12px;
-  background: var(--color-accent);
-  color: #fff;
-  font-size: 0.66rem;
-  font-weight: 700;
-  padding: 2px 10px;
-  border-radius: 100px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-.emi-bank-logo {
-  width: 46px;
-  height: 46px;
-  background: linear-gradient(135deg, var(--color-primary), #a0522d);
-  color: #fff;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  flex-shrink: 0;
-}
-.emi-bank-info { flex: 1; }
-.emi-bank-name { font-size: 0.88rem; font-weight: 600; color: var(--color-text-strong); margin: 0 0 3px; }
-.emi-bank-rate { font-size: 0.78rem; color: var(--color-text-muted); margin: 0; }
-.emi-bank-emi  { text-align: right; }
-.emi-bank-emi-value { display: block; font-size: 1rem; font-weight: 800; color: var(--color-primary); }
-.emi-bank-emi-label { font-size: 0.72rem; color: var(--color-text-muted); }
-.emi-bank-disclaimer {
-  text-align: center;
-  font-size: 0.78rem;
-  color: var(--color-text-muted);
-  margin-top: 20px;
 }
 
-/* ═══════════════════════════
-   AMORTIZATION
-═══════════════════════════ */
-.emi-amort-section {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 40px 24px;
+/* Decorative arc at top */
+.emi-result-panel::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: 40px;
+  width: 60px;
+  height: 60px;
+  border: 6px solid #e0f0f5;
+  border-radius: 50%;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  transform: rotate(-45deg);
 }
-.emi-amort-toggle {
-  width: 100%;
+
+/* ── Result Header ── */
+.emi-result-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 22px;
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: 14px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-text);
-  cursor: pointer;
-  transition: background 0.2s;
-  margin-bottom: 0;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
-.emi-amort-toggle:hover { background: var(--color-ink-50); }
 
-.emi-table-wrap {
-  overflow-x: auto;
-  margin-top: 16px;
-  border: 1px solid var(--color-border);
-  border-radius: 14px;
+.emi-eligible-text {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 500;
 }
-.emi-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.85rem;
-}
-.emi-table th {
-  background: var(--color-ink-50);
-  color: var(--color-text-muted);
-  font-weight: 600;
-  padding: 12px 16px;
-  text-align: right;
-  white-space: nowrap;
-  border-bottom: 1px solid var(--color-border);
-}
-.emi-table th:first-child { text-align: left; }
-.emi-table td {
-  padding: 11px 16px;
-  text-align: right;
-  border-bottom: 1px solid var(--color-border);
-  color: var(--color-text);
-}
-.emi-table td:first-child { text-align: left; }
-.emi-table tr:last-child td { border-bottom: none; }
-.emi-table tr:hover td { background: var(--color-ink-50); }
-.emi-td-year   { font-weight: 700; color: var(--color-text-strong); }
-.emi-td-p      { color: var(--color-primary); font-weight: 600; }
-.emi-td-i      { color: #d4763a; font-weight: 600; }
-.emi-td-done   { color: var(--color-success); font-weight: 700; }
 
-/* ═══════════════════════════
-   FORMULA
-═══════════════════════════ */
-.emi-how-section {
-  background: var(--color-ink-50);
-  padding: 60px 24px;
-  border-top: 1px solid var(--color-border);
+.emi-amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00a88e;
 }
-.emi-formula-card {
-  max-width: 720px;
-  margin: 0 auto;
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-border);
-  border-radius: 18px;
-  padding: 36px 40px;
-  text-align: center;
-}
-.emi-formula {
-  background: linear-gradient(135deg, #1A2332, #2d3748);
-  border-radius: 12px;
-  padding: 22px 28px;
+
+/* ── Chart Section ── */
+.emi-chart-section {
+  display: flex;
+  align-items: center;
+  gap: 24px;
   margin-bottom: 28px;
 }
-.emi-formula-text {
-  font-size: clamp(0.95rem, 2vw, 1.2rem);
-  font-weight: 700;
-  color: #fff;
-  font-family: 'Courier New', monospace;
-  letter-spacing: 0.03em;
+
+.emi-donut-wrapper {
+  flex-shrink: 0;
 }
-.emi-formula-text sup { font-size: 0.65em; }
-.emi-formula-legend {
+
+.emi-donut-chart {
+  width: 160px;
+  height: 160px;
+}
+
+.emi-chart-legend {
+  flex: 1;
+}
+
+.legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.legend-item:last-child {
+  margin-bottom: 0;
+}
+
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.legend-dot.principal {
+  background: #00a88e;
+}
+
+.legend-dot.interest {
+  background: #ffc107;
+}
+
+.legend-info {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 0.88rem;
-  color: var(--color-text-muted);
-  text-align: left;
 }
-.emi-formula-legend strong { color: var(--color-primary); font-weight: 700; }
 
-/* ═══════════════════════════
-   BOTTOM CTA
-═══════════════════════════ */
-.emi-bottom-cta {
-  background: linear-gradient(135deg, #1A2332, #1a2d1a);
-  padding: 80px 24px;
-  text-align: center;
+.legend-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 2px;
 }
-.emi-bottom-inner { max-width: 700px; margin: 0 auto; }
-.emi-bottom-inner h2 {
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+
+.legend-value {
+  font-size: 1.1rem;
   font-weight: 700;
-  color: #fff;
-  margin: 0 0 14px;
+  color: #333;
 }
-.emi-bottom-inner > p {
-  color: rgba(255,255,255,0.72);
+
+/* ── Banks Section ── */
+.emi-banks-section {
+  margin-bottom: 24px;
+}
+
+.banks-title {
   font-size: 1rem;
-  margin-bottom: 32px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16px;
 }
-.emi-bottom-btns {
+
+.banks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.bank-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  padding: 14px 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.bank-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.bank-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.bank-name {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bank-details {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.bank-view-link {
+  font-size: 0.85rem;
+  color: #d9534f;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.bank-view-link:hover {
+  text-decoration: underline;
+}
+
+/* ── CTA Section ── */
+.emi-cta-section {
+  display: flex;
+  gap: 12px;
   flex-wrap: wrap;
 }
-.emi-btn-solid {
-  padding: 13px 30px;
-  background: linear-gradient(135deg, var(--color-primary), #a0522d);
+
+.emi-callback-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: #fff;
+  border: 2px solid #d9534f;
+  color: #d9534f;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 200px;
+}
+
+.emi-callback-btn:hover {
+  background: #fdf2f2;
+}
+
+.emi-check-offers-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: #d9534f;
   color: #fff;
-  border-radius: 50px;
-  font-size: 0.95rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 4px 16px rgba(139,69,19,0.3);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s ease;
+  min-width: 160px;
 }
-.emi-btn-solid:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139,69,19,0.4); color: #fff; }
-.emi-btn-outline {
-  padding: 13px 30px;
-  border: 2px solid rgba(255,255,255,0.35);
+
+.emi-check-offers-btn:hover {
+  background: #c9302c;
   color: #fff;
-  border-radius: 50px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.2s, border-color 0.2s;
 }
-.emi-btn-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); color: #fff; }
 
 /* ═══════════════════════════
-   RESPONSIVE
+   INFO SECTION
+═══════════════════════════ */
+.emi-info-section {
+  padding: 60px 24px;
+  background: #fff;
+}
+
+.emi-info-container {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.emi-info-container h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.emi-info-subtitle {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 32px;
+}
+
+.emi-formula-box {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 48px;
+}
+
+.formula-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  font-family: 'Courier New', monospace;
+}
+
+.formula-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #555;
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.formula-legend strong {
+  color: #00a88e;
+}
+
+/* ── All Banks Comparison ── */
+.all-banks-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.all-banks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.comparison-bank-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid #e8e8e8;
+  transition: all 0.3s ease;
+}
+
+.comparison-bank-card:hover {
+  border-color: #00a88e;
+  box-shadow: 0 4px 12px rgba(0, 168, 142, 0.1);
+}
+
+.comp-bank-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.comp-bank-details {
+  flex: 1;
+  text-align: left;
+}
+
+.comp-bank-name {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.comp-bank-rate {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.comp-bank-emi {
+  text-align: right;
+}
+
+.comp-emi-value {
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #00a88e;
+}
+
+.comp-emi-label {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+/* ═══════════════════════════
+   CALLBACK MODAL
+═══════════════════════════ */
+.callback-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.callback-modal {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: #f0f0f0;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #e0e0e0;
+}
+
+.callback-modal h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 24px;
+  padding-right: 32px;
+}
+
+.callback-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.callback-form input,
+.callback-form select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.callback-form input:focus,
+.callback-form select:focus {
+  outline: none;
+  border-color: #00a88e;
+}
+
+.callback-submit-btn {
+  padding: 14px 24px;
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.callback-submit-btn:hover {
+  background: #c9302c;
+}
+
+/* ═══════════════════════════
+   RESPONSIVE DESIGN
 ═══════════════════════════ */
 @media (max-width: 900px) {
-  .emi-grid { grid-template-columns: 1fr; }
-  .emi-banks-grid { grid-template-columns: repeat(2, 1fr); }
+  .emi-calc-container {
+    grid-template-columns: 1fr;
+  }
+
+  .all-banks-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
-@media (max-width: 600px) {
-  .emi-inputs-panel,
-  .emi-result-panel { padding: 24px 18px; }
-  .emi-banks-grid { grid-template-columns: 1fr; }
-  .emi-formula-card { padding: 24px 18px; }
+
+@media (max-width: 768px) {
+  .emi-calc-section {
+    padding: 24px 16px;
+  }
+
+  .emi-input-panel,
+  .emi-result-panel {
+    padding: 24px 20px;
+  }
+
+  .emi-input-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .emi-result-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .emi-chart-section {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .emi-chart-legend {
+    width: 100%;
+  }
+
+  .legend-item {
+    justify-content: center;
+  }
+
+  .banks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .emi-cta-section {
+    flex-direction: column;
+  }
+
+  .emi-callback-btn,
+  .emi-check-offers-btn {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .all-banks-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .emi-info-section {
+    padding: 40px 16px;
+  }
+
+  .formula-text {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .emi-brand {
+    font-size: 1.25rem;
+  }
+
+  .brand-loans::before {
+    width: 22px;
+    height: 22px;
+    font-size: 0.8rem;
+  }
+
+  .emi-amount {
+    font-size: 1.5rem;
+  }
+
+  .emi-donut-chart {
+    width: 140px;
+    height: 140px;
+  }
+
+  .emi-radio-options {
+    gap: 20px;
+  }
 }

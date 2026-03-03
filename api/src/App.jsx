@@ -1,44 +1,42 @@
-import React, { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { AuthProvider, useAuth } from './context/authcontext.jsx'
-import { AnimatePresence } from 'framer-motion'
-import { API_URL } from './services/api'
-
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/authcontext.jsx';
+import { AnimatePresence } from 'framer-motion';
+import { API_URL } from './services/api';
 
 // Layout Components
-import Header from './components/Header'
-import Footer from './components/footer'
-import CookieConsentBanner from './components/cookieconsentbanner'
+import Header from './components/Header';
+import Footer from './components/footer';
+import CookieConsentBanner from './components/cookieconsentbanner';
 
 // Home Page Sections
-import Hero from './components/hero.jsx'
-import ExploreOptions from './components/ExploreOptions'
-import TopCities from './components/TopCities'
-import FeaturedProjects from './components/FeaturedProjects'
-import PopularTools from './components/PopularTools'
-import TestimonialsSection from './components/TestimonialsSection'
+import Hero from './components/hero.jsx';
+import ExploreOptions from './components/ExploreOptions';
+import TopCities from './components/TopCities';
+import FeaturedProjects from './components/FeaturedProjects';
+import PopularTools from './components/PopularTools';
+import TestimonialsSection from './components/TestimonialsSection';
 
 // Pages
-import PropertyDetails from "./pages/propertydetails.jsx"
-import Login from "./pages/login.jsx"
-import Register from "./pages/register.jsx";
-import ForgotPassword from "./pages/forgotpassword.jsx";
-import ResetPassword from "./pages/resetpassword.jsx";
-import SearchResults from "./pages/searchresults.jsx"
-import UserDashboard from "./pages/userdashboard.jsx"
-import SellerDashboard from "./pages/sellerdashboard.jsx"
-import AdminDashboard from "./pages/admindashboard.jsx"
-import PostProperty from "./pages/postproperty.jsx"
-import EditProperty from "./pages/postproperty.jsx"
-import TermsOfService from "./pages/termsofservice.jsx"
-import PrivacyPolicy from "./pages/privacypolicy.jsx"
-import FAQ from "./pages/faq.jsx"
-import Projects from "./pages/projects.jsx"
-import InquiryDetails from "./pages/InquiryDetails.jsx"
-import AboutUs from "./pages/AboutUs.jsx"
-import EMICalculator from "./pages/EMICalculator.jsx"
-
-
+import PropertyDetails from './pages/propertydetails.jsx';
+import Login from './pages/login.jsx';
+import Register from './pages/register.jsx';
+import ForgotPassword from './pages/forgotpassword.jsx';
+import ResetPassword from './pages/resetpassword.jsx';
+import SearchResults from './pages/searchresults.jsx';
+import UserDashboard from './pages/userdashboard.jsx';
+import SellerDashboard from './pages/sellerdashboard.jsx';
+import AdminDashboard from './pages/admindashboard.jsx';
+import PostProperty from './pages/postproperty.jsx';
+import EditProperty from './pages/postproperty.jsx';
+import TermsOfService from './pages/termsofservice.jsx';
+import PrivacyPolicy from './pages/privacypolicy.jsx';
+import FAQ from './pages/faq.jsx';
+import Projects from './pages/projects.jsx';
+import InquiryDetails from './pages/InquiryDetails.jsx';
+import AboutUs from './pages/AboutUs.jsx';
+import EMICalculator from './pages/EMICalculator.jsx';
+import HomeInterior from './pages/HomeInterior.jsx';
 
 // Home Page Component with all sections
 const HomePage = () => {
@@ -51,8 +49,8 @@ const HomePage = () => {
       <FeaturedProjects />
       <TestimonialsSection />
     </>
-  )
-}
+  );
+};
 
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -98,12 +96,11 @@ function AppContent() {
       try {
         const res = await fetch(`${API_URL}/health`);
         if (!res.ok) {
-          throw new Error("Server Down");
+          throw new Error('Server Down');
         }
-      }
-      catch {
-        localStorage.removeItem("token");
-        window.location.href = "/login";
+      } catch {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
       }
     }, 60000);
     return () => clearInterval(interval);
@@ -111,8 +108,7 @@ function AppContent() {
 
   return (
     <>
-
-      <div className='app relative min-h-screen'>
+      <div className="app relative min-h-screen">
         <Header />
         <main className="relative z-10">
           <AnimatePresence mode="wait">
@@ -131,6 +127,7 @@ function AppContent() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/emi-calculator" element={<EMICalculator />} />
+              <Route path="/home-interior" element={<HomeInterior />} />
               {/* Protected Routes */}
               <Route
                 path="/edit-property/:id"
@@ -197,19 +194,17 @@ function AppContent() {
         <Footer />
       </div>
     </>
-  )
+  );
 }
 
 function App() {
   return (
-
     <BrowserRouter>
       <AuthProvider>
         <AppContent />
       </AuthProvider>
     </BrowserRouter>
-
   );
 }
 
-export default App
+export default App;

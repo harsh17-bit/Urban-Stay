@@ -1,318 +1,289 @@
-import { useState, useMemo, useCallback } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import {
-  FiPercent, FiCalendar, FiDollarSign, FiTrendingDown,
-  FiInfo, FiChevronDown, FiChevronUp, FiExternalLink,
-} from "react-icons/fi";
-import "./EMICalculator.css";
+import { useState, useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import { FiExternalLink, FiPhone } from 'react-icons/fi';
+import './EMICalculator.css';
 
 /* ── helpers ── */
 const fmt = (n) =>
-  new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(n);
+  new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
 
-const fmtCr = (n) => {
-  if (n >= 1e7) return `₹${(n / 1e7).toFixed(2)} Cr`;
-  if (n >= 1e5) return `₹${(n / 1e5).toFixed(1)} L`;
-  return `₹${fmt(n)}`;
-};
-
-/* ── bank comparison data ── */
-const BANKS = [
-  { name: "SBI",           rate: 8.40, logo: "SBI" },
-  { name: "HDFC Bank",     rate: 8.55, logo: "HDFC" },
-  { name: "ICICI Bank",    rate: 8.60, logo: "ICICI" },
-  { name: "Axis Bank",     rate: 8.75, logo: "AXIS" },
-  { name: "Kotak Mahindra",rate: 8.70, logo: "KMB" },
-  { name: "LIC HFL",       rate: 8.50, logo: "LIC" },
-];
-
-
-/* ── donut chart ── */
-const Donut = ({ principal, interest }) => {
+/* ── Donut Chart Component ── */
+const DonutChart = ({ principal, interest }) => {
   const total = principal + interest;
-  const pPct = (principal / total) * 100;
+  if (total === 0) return null;
 
-  const R = 80;
-  const cx = 100;
-  const cy = 100;
+  const principalPct = (principal / total) * 100;
+  const interestPct = (interest / total) * 100;
+
+  const R = 70;
+  const cx = 90;
+  const cy = 90;
   const circ = 2 * Math.PI * R;
-  const pDash = (pPct / 100) * circ;
-  const iDash = circ - pDash;
+  const principalDash = (principalPct / 100) * circ;
+  const interestDash = (interestPct / 100) * circ;
 
   return (
-    <svg viewBox="0 0 200 200" className="emi-donut">
-      {/* background ring */}
-      <circle cx={cx} cy={cy} r={R} fill="none" stroke="#f1f5f9" strokeWidth="28" />
-      {/* interest arc */}
+    <svg viewBox="0 0 180 180" className="emi-donut-chart">
+      {/* Background circle */}
       <circle
-        cx={cx} cy={cy} r={R} fill="none"
-        stroke="#F4A261"
-        strokeWidth="28"
-        strokeDasharray={`${iDash} ${pDash}`}
+        cx={cx}
+        cy={cy}
+        r={R}
+        fill="none"
+        stroke="#e8f4f8"
+        strokeWidth="24"
+      />
+      {/* Principal Arc (Green) */}
+      <circle
+        cx={cx}
+        cy={cy}
+        r={R}
+        fill="none"
+        stroke="#00a88e"
+        strokeWidth="24"
+        strokeDasharray={`${principalDash} ${circ}`}
         strokeDashoffset={0}
         strokeLinecap="butt"
-        style={{ transform: "rotate(-90deg)", transformOrigin: "100px 100px" }}
+        style={{
+          transform: 'rotate(-90deg)',
+          transformOrigin: `${cx}px ${cy}px`,
+        }}
       />
-      {/* principal arc */}
+      {/* Interest Arc (Yellow/Gold) */}
       <circle
-        cx={cx} cy={cy} r={R} fill="none"
-        stroke="#8B4513"
-        strokeWidth="28"
-        strokeDasharray={`${pDash} ${iDash}`}
-        strokeDashoffset={0}
+        cx={cx}
+        cy={cy}
+        r={R}
+        fill="none"
+        stroke="#ffc107"
+        strokeWidth="24"
+        strokeDasharray={`${interestDash} ${circ}`}
+        strokeDashoffset={-principalDash}
         strokeLinecap="butt"
-        style={{ transform: "rotate(-90deg)", transformOrigin: "100px 100px" }}
+        style={{
+          transform: 'rotate(-90deg)',
+          transformOrigin: `${cx}px ${cy}px`,
+        }}
       />
-      
-      
     </svg>
   );
 };
+
 const EMICalculator = () => {
-  const [searchParams] = useSearchParams();
+  const [loanAmount, setLoanAmount] = useState(800000);
+  const [tenure, setTenure] = useState(10);
+  const [interestRate, setInterestRate] = useState(4.1);
 
-  const defaultLoan = searchParams.get("amount")
-    ? Math.round(parseFloat(searchParams.get("amount")) * 0.8)
-    : 5000000;
+  const [showCallbackModal, setShowCallbackModal] = useState(false);
 
-  const [loanAmount, setLoanAmount]   = useState(defaultLoan);
-  const [interestRate, setInterestRate] = useState(8.5);
-  const [tenure, setTenure]           = useState(20);
-  
   const result = useMemo(() => {
     const r = interestRate / 12 / 100;
     const n = tenure * 12;
     if (r === 0 || n === 0 || loanAmount === 0) return null;
-    const emi = (loanAmount * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    const emi =
+      (loanAmount * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
     const totalAmount = emi * n;
     const totalInterest = totalAmount - loanAmount;
     return {
       emi: Math.round(emi),
       totalAmount: Math.round(totalAmount),
       totalInterest: Math.round(totalInterest),
-      principalPct: Math.round((loanAmount / totalAmount) * 100),
-      interestPct:  Math.round((totalInterest / totalAmount) * 100),
     };
   }, [loanAmount, interestRate, tenure]);
 
+  const handleLoanAmountChange = (e) => {
+    const value = e.target.value.replace(/,/g, '');
+    const numValue = parseInt(value) || 0;
+    setLoanAmount(numValue);
+  };
 
- 
-  const handleLoan = useCallback((v) => setLoanAmount(Number(v)), []);
-  const handleRate = useCallback((v) => {
-    const val = Math.min(20, Math.max(1, Number(v)));
-    setInterestRate(val);
-  }, []);
-  const handleTenure = useCallback((v) => setTenure(Number(v)), []);
+  const handleRecalculate = () => {
+    // Trigger recalculation (already done via useMemo)
+    console.log('Recalculating EMI...');
+  };
 
   return (
-    <div className="emi-page">
+    <div className="emi-calculator-page">
+      {/* Main Calculator Section */}
+      <section className="emi-calc-section">
+        <div className="emi-calc-container">
+          {/* Left Panel - Inputs */}
+          <div className="emi-input-panel">
+            <div className="emi-brand">
+              <span className="brand-urban">Urban</span>
+              <span className="brand-loans">Loans</span>
+            </div>
 
-      {/* ── HERO ── */}
-      <section className="emi-hero">
-        <div className="emi-hero-bg c1" />
-        <div className="emi-hero-bg c2" />
-        <div className="emi-hero-inner">
-          <h1>Home Loan <span className="brand-gradient">EMI Calculator</span></h1>
-          <p>Quickly estimate your monthly payments and total interest for any home loan scenario.</p>
-        </div>
-      </section>
-
-      {/* ── MAIN CALCULATOR ── */}
-      <section className="emi-main">
-        <div className="emi-grid">
-
-          {/* ── INPUTS ── */}
-          <div className="emi-inputs-panel">
             {/* Loan Amount */}
-            <div className="emi-field">
-              <div className="emi-field-header">
-                <label><FiDollarSign size={15} /> Loan Amount</label>
-                <div className="emi-input-box">
-                  <span>₹</span>
-                  <input
-                    type="number"
-                    value={loanAmount}
-                    min={100000}
-                    max={100000000}
-                    step={100000}
-                    onChange={(e) => handleLoan(e.target.value)}
-                  />
-                </div>
-              </div>
-              <input
-                type="range"
-                className="emi-range primary"
-                min={100000}
-                max={100000000}
-                step={100000}
-                value={loanAmount}
-                onChange={(e) => handleLoan(e.target.value)}
-              />
-              <div className="emi-range-labels">
-                <span>₹1 Lakh</span>
-                <span className="emi-badge">{fmtCr(loanAmount)}</span>
-                <span>₹10 Cr</span>
+            <div className="emi-input-group">
+              <label className="emi-label">Loan Amount</label>
+              <div className="emi-input-field">
+                <span className="currency-symbol">₹</span>
+                <input
+                  type="text"
+                  value={fmt(loanAmount)}
+                  onChange={handleLoanAmountChange}
+                  className="emi-text-input"
+                />
               </div>
             </div>
 
-            {/* Interest Rate */}
-            <div className="emi-field">
-              <div className="emi-field-header">
-                <label><FiPercent size={15} /> Annual Interest Rate</label>
-                <div className="emi-input-box">
-                  <input
-                    type="number"
-                    value={interestRate}
-                    min={1}
-                    max={20}
-                    step={0.05}
-                    onChange={(e) => handleRate(e.target.value)}
-                  />
-                  <span>%</span>
-                </div>
-              </div>
-              <input
-                type="range"
-                className="emi-range accent"
-                min={1}
-                max={20}
-                step={0.05}
-                value={interestRate}
-                onChange={(e) => handleRate(e.target.value)}
-              />
-              <div className="emi-range-labels">
-                <span>1%</span>
-                <span className="emi-badge accent">{interestRate}% p.a.</span>
-                <span>20%</span>
-              </div>
-            </div>
-
-            {/* Tenure */}
-            <div className="emi-field">
-              <div className="emi-field-header">
-                <label><FiCalendar size={15} /> Loan Tenure</label>
-                <div className="emi-input-box">
-                  <input
-                    type="number"
+            {/* Loan Tenure & Interest Rate Row */}
+            <div className="emi-input-row">
+              <div className="emi-input-group">
+                <label className="emi-label">Loan Tenure</label>
+                <div className="emi-select-wrapper">
+                  <select
                     value={tenure}
-                    min={1}
-                    max={30}
-                    step={1}
-                    onChange={(e) => handleTenure(Math.min(30, Math.max(1, Number(e.target.value))))}
-                  />
-                  <span>yrs</span>
+                    onChange={(e) => setTenure(Number(e.target.value))}
+                    className="emi-select"
+                  >
+                    {[5, 7, 9, 10, 12, 15, 17, 20, 23, 25, 27, 30, 35].map(
+                      (yr) => (
+                        <option key={yr} value={yr}>
+                          {yr} yrs
+                        </option>
+                      )
+                    )}
+                  </select>
                 </div>
               </div>
-              <input
-                type="range"
-                className="emi-range highlight"
-                min={1}
-                max={30}
-                step={1}
-                value={tenure}
-                onChange={(e) => handleTenure(e.target.value)}
-              />
-              <div className="emi-range-labels">
-                <span>1 yr</span>
-                <span className="emi-badge highlight">{tenure} years</span>
-                <span>30 yrs</span>
+
+              <div className="emi-input-group">
+                <label className="emi-label">Interest Rate % (p.a.)</label>
+                <input
+                  type="number"
+                  value={interestRate}
+                  onChange={(e) => setInterestRate(Number(e.target.value))}
+                  step="0.1"
+                  min="1"
+                  max="20"
+                  className="emi-rate-input"
+                />
               </div>
             </div>
-
-            {/* Tip */}
-            <div className="emi-tip">
-              <FiInfo size={14} />
-              <span>
-                These calculations are indicative. Final loan terms depend on your credit profile and lender policies.
-              </span>
-            </div>
+            {/* Recalculate Button */}
+            <button className="emi-calculate-btn" onClick={handleRecalculate}>
+              Recalculate Your EMI
+            </button>
           </div>
 
-          {/* ── RESULT ── */}
+          {/* Right Panel - Results */}
           <div className="emi-result-panel">
-            {result ? (
+            {result && (
               <>
-                {/* Donut + EMI */}
-                <div className="emi-donut-wrap">
-                  <Donut principal={loanAmount} interest={result.totalInterest} />
-                  <div className="emi-donut-center">
-                    <span className="emi-donut-label">Monthly EMI</span>
-                    <span className="emi-donut-value">₹{fmt(result.emi)}</span>
-                  </div>
+                {/* EMI Amount Header */}
+                <div className="emi-result-header">
+                  <span className="emi-eligible-text">
+                    You are Eligible for EMI Amount
+                  </span>
+                  <span className="emi-amount">₹{fmt(result.emi)}</span>
                 </div>
 
-                {/* Summary cards */}
-                <div className="emi-summary-grid">
-                  <div className="emi-summary-card principal">
-                    <span className="emi-summary-dot" />
-                    <div>
-                      <p className="emi-summary-label">Principal Amount</p>
-                      <p className="emi-summary-value">{fmtCr(loanAmount)}</p>
-                    </div>
-                    <span className="emi-summary-pct">{result.principalPct}%</span>
+                {/* Donut Chart with Legend */}
+                <div className="emi-chart-section">
+                  <div className="emi-donut-wrapper">
+                    <DonutChart
+                      principal={loanAmount}
+                      interest={result.totalInterest}
+                    />
                   </div>
-                  <div className="emi-summary-card interest">
-                    <span className="emi-summary-dot interest-dot" />
-                    <div>
-                      <p className="emi-summary-label">Total Interest</p>
-                      <p className="emi-summary-value">{fmtCr(result.totalInterest)}</p>
+                  <div className="emi-chart-legend">
+                    <div className="legend-item">
+                      <span className="legend-dot principal"></span>
+                      <div className="legend-info">
+                        <span className="legend-label">Principal Amount</span>
+                        <span className="legend-value">₹{fmt(loanAmount)}</span>
+                      </div>
                     </div>
-                    <span className="emi-summary-pct interest-pct">{result.interestPct}%</span>
-                  </div>
-                  <div className="emi-summary-card total">
-                    <FiTrendingDown size={18} style={{ color: "#1976D2" }} />
-                    <div>
-                      <p className="emi-summary-label">Total Payable</p>
-                      <p className="emi-summary-value total-value">{fmtCr(result.totalAmount)}</p>
+                    <div className="legend-item">
+                      <span className="legend-dot interest"></span>
+                      <div className="legend-info">
+                        <span className="legend-label">Interest Amount</span>
+                        <span className="legend-value">
+                          ₹{fmt(result.totalInterest)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                {/* Visual bar */}
-                <div className="emi-bar-wrap">
-                  <div className="emi-bar">
-                    <div className="emi-bar-fill principal-fill" style={{ width: `${result.principalPct}%` }} />
-                    <div className="emi-bar-fill interest-fill" style={{ width: `${result.interestPct}%` }} />
-                  </div>
-                  <div className="emi-bar-legend">
-                    <span><em className="dot-p" />Principal</span>
-                    <span><em className="dot-i" />Interest</span>
-                  </div>
-                </div>
-
-                {/* CTA */}
-                <Link to="/properties?listingType=buy" className="emi-cta-btn">
-                  Find Properties Within Budget <FiExternalLink size={14} />
-                </Link>
               </>
-            ) : (
-              <div className="emi-empty">
-                <FiDollarSign size={40} />
-                <p>Adjust the sliders to calculate your EMI</p>
-              </div>
             )}
           </div>
         </div>
-      </section>  
-      {/* ── HOW IT WORKS ── */}
-      <section className="emi-how-section">
-        <div className="emi-section-header">
+      </section>
+
+      {/* How It Works Section */}
+      <section className="emi-info-section">
+        <div className="emi-info-container">
           <h2>How Is EMI Calculated?</h2>
-          <p>The standard formula used by all banks in India</p>
-        </div>
-        <div className="emi-formula-card">
-          <div className="emi-formula">
-            <span className="emi-formula-text">
+          <p className="emi-info-subtitle">
+            The standard formula used by all banks in India
+          </p>
+
+          <div className="emi-formula-box">
+            <div className="formula-text">
               EMI = [P × R × (1+R)<sup>N</sup>] ÷ [(1+R)<sup>N</sup> − 1]
-            </span>
-          </div>
-          <div className="emi-formula-legend">
-            <div><strong>P</strong> = Principal loan amount</div>
-            <div><strong>R</strong> = Monthly interest rate (Annual rate ÷ 12 ÷ 100)</div>
-            <div><strong>N</strong> = Total number of monthly instalments (Years × 12)</div>
+            </div>
+            <div className="formula-legend">
+              <div>
+                <strong>P</strong> = Principal loan amount
+              </div>
+              <div>
+                <strong>R</strong> = Monthly interest rate (Annual rate ÷ 12 ÷
+                100)
+              </div>
+              <div>
+                <strong>N</strong> = Total number of monthly instalments (Years
+                × 12)
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Callback Modal */}
+      {showCallbackModal && (
+        <div
+          className="callback-modal-overlay"
+          onClick={() => setShowCallbackModal(false)}
+        >
+          <div className="callback-modal" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close"
+              onClick={() => setShowCallbackModal(false)}
+            >
+              ×
+            </button>
+            <h3>Get Callback for Best Home Loan Offers</h3>
+            <form
+              className="callback-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setShowCallbackModal(false);
+              }}
+            >
+              <input type="text" placeholder="Your Name" required />
+              <input type="tel" placeholder="Phone Number" required />
+              <input type="email" placeholder="Email Address" required />
+              <select defaultValue="">
+                <option value="" disabled>
+                  Select City
+                </option>
+                <option value="mumbai">Mumbai</option>
+                <option value="delhi">Delhi</option>
+                <option value="bangalore">Bangalore</option>
+                <option value="chennai">Chennai</option>
+                <option value="hyderabad">Hyderabad</option>
+                <option value="pune">Pune</option>
+              </select>
+              <button type="submit" className="callback-submit-btn">
+                Request Callback
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

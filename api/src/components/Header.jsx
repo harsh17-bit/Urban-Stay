@@ -1,8 +1,8 @@
-﻿import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { HiOutlineMenuAlt3, HiX } from "react-icons/hi";
-import { FiUser, FiLogOut, FiGrid } from "react-icons/fi";
-import { useAuth } from "../context/authcontext.jsx";
+﻿import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { HiOutlineMenuAlt3, HiX } from 'react-icons/hi';
+import { FiUser, FiLogOut, FiGrid } from 'react-icons/fi';
+import { useAuth } from '../context/authcontext.jsx';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,31 +11,34 @@ const Header = () => {
   const navigate = useNavigate();
 
   const navLinks = [
-    { label: "Buy", href: "/properties?listingType=buy" },
-    { label: "Rent", href: "/properties?listingType=rent" },
-    { label: "Sell", href: "/post-property" },
-    { label: "About Us", href: "/about-us" },
-    { label: "FAQs", href: "/faq" },
-    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: 'Buy', href: '/properties?listingType=buy' },
+    { label: 'Rent', href: '/properties?listingType=rent' },
+    { label: 'Sell', href: '/post-property' },
+    { label: 'Home Interior', href: '/home-interior' },
+    { label: 'About Us', href: '/about-us' },
+    { label: 'FAQs', href: '/faq' },
   ];
 
   const handleLogout = () => {
     logout();
     setIsProfileOpen(false);
     setIsMenuOpen(false);
-    navigate("/");
+    navigate('/');
   };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-
           {/* Logo */}
           <Link to="/" className="flex-shrink-0">
             <h1 className="text-xl font-bold tracking-tight">
-              <span className="brand-gradient"><strong>Urban</strong></span>
-              <span className="brand-accent"><strong>Stay</strong></span>
+              <span className="brand-gradient">
+                <strong>Urban</strong>
+              </span>
+              <span className="brand-accent">
+                <strong>Stay</strong>
+              </span>
             </h1>
           </Link>
 
@@ -61,10 +64,10 @@ const Header = () => {
                   className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors focus:outline-none"
                 >
                   <div className="w-7 h-7 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white font-semibold text-xs flex-shrink-0">
-                    {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                   </div>
                   <span className="text-sm font-medium text-gray-700 max-w-[100px] truncate">
-                    {user?.name || "User"}
+                    {user?.name || 'User'}
                   </span>
                 </button>
 
@@ -72,8 +75,12 @@ const Header = () => {
                 {isProfileOpen && (
                   <div className="absolute right-0 mt-1 w-52 bg-white rounded-lg shadow-lg border border-gray-200 py-1">
                     <div className="px-3 py-2 border-b border-gray-100 mb-1">
-                      <p className="text-sm font-semibold text-gray-800">{user?.name}</p>
-                      <p className="text-xs text-gray-400 truncate">{user?.email}</p>
+                      <p className="text-sm font-semibold text-gray-800">
+                        {user?.name}
+                      </p>
+                      <p className="text-xs text-gray-400 truncate">
+                        {user?.email}
+                      </p>
                     </div>
                     <Link
                       to="/dashboard"
@@ -110,14 +117,18 @@ const Header = () => {
             className="md:hidden p-2 text-gray-500 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors"
             aria-label="Toggle menu"
           >
-            {isMenuOpen ? <HiX className="w-5 h-5" /> : <HiOutlineMenuAlt3 className="w-5 h-5" />}
+            {isMenuOpen ? (
+              <HiX className="w-5 h-5" />
+            ) : (
+              <HiOutlineMenuAlt3 className="w-5 h-5" />
+            )}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         <div
           className={`md:hidden overflow-hidden transition-all duration-200 ease-in-out ${
-            isMenuOpen ? "max-h-[500px] pb-4" : "max-h-0"
+            isMenuOpen ? 'max-h-[500px] pb-4' : 'max-h-0'
           }`}
         >
           <nav className="flex flex-col border-t border-gray-100 pt-1">
@@ -138,11 +149,15 @@ const Header = () => {
               <>
                 <div className="flex items-center gap-3 px-1 mb-1">
                   <div className="w-9 h-9 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-                    {user?.name ? user.name.charAt(0).toUpperCase() : "U"}
+                    {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold text-gray-800">{user?.name}</p>
-                    <p className="text-xs text-gray-400 truncate">{user?.email}</p>
+                    <p className="text-sm font-semibold text-gray-800">
+                      {user?.name}
+                    </p>
+                    <p className="text-xs text-gray-400 truncate">
+                      {user?.email}
+                    </p>
                   </div>
                 </div>
                 <Link
