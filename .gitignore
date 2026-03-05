@@ -8,4 +8,5 @@ node_modules
 # OS
 .DS_Store
 Thumbs.db
-.Weekly_Report_Simple
+
+Weekly_Report_Simple.html
