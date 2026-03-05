@@ -1,21 +1,19 @@
-import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const companyLinks = [
-    { label: "About Us", href: "/about-us" },
-    { label: "Contact", href: "/about-us" },
+    { label: 'About Us', href: '/about-us' },
+    { label: 'Contact', href: '/about-us' },
   ];
 
   const serviceLinks = [
-    { label: "Buy Property", href: "/properties?listingType=buy" },
-    { label: "Rent Property", href: "/properties?listingType=rent" },
-    { label: "Post Property", href: "/post-property" },
+    { label: 'Buy Property', href: '/properties?listingType=buy' },
+    { label: 'Rent Property', href: '/properties?listingType=rent' },
+    { label: 'Post Property', href: '/post-property' },
   ];
-
-
 
   return (
     <footer className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-gray-300 mt-20 overflow-hidden">
@@ -31,16 +29,15 @@ const Footer = () => {
           {/* Brand Column */}
           <div className="lg:col-span-1">
             <Link to="/" className="flex-shrink-0 group">
-            <h1 className="text-2xl font-bold">
-              <span className="brand-gradient">Urban</span>
-              <span className="brand-accent">Stay</span>
-            </h1>
-          </Link>
+              <h1 className="text-2xl font-bold">
+                <span className="brand-gradient">Urban</span>
+                <span className="brand-accent">Stay</span>
+              </h1>
+            </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Your trusted platform to buy, rent, and sell properties across India.
-              We make finding your dream home simple and seamless.
+              Your trusted platform to buy, rent, and sell properties across
+              India. We make finding your dream home simple and seamless.
             </p>
-
           </div>
 
           {/* Company Links */}
@@ -52,7 +49,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
-                  {link.href.startsWith("/") ? (
+                  {link.href.startsWith('/') ? (
                     <Link
                       to={link.href}
                       className="text-gray-400 hover:text-[var(--color-accent)] transition-colors duration-300 text-sm flex items-center gap-2 group"
@@ -110,7 +107,7 @@ const Footer = () => {
                   <span className="w-9 h-9 flex items-center justify-center rounded-lg bg-white/5 border border-white/10 group-hover:bg-[var(--color-primary)]/15 group-hover:border-[var(--color-primary)]/25 transition-all duration-300">
                     <FiMail className="w-4 h-4" />
                   </span>
-                  support@logicwaveproperty.com
+                  support@urbanstay.com
                 </a>
               </li>
               <li>
@@ -132,9 +129,10 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-gray-500 text-sm text-center sm:text-left">
-              © {currentYear} <span className="text-gray-400">UrbanStay.com</span>. All rights reserved.
+              © {currentYear}{' '}
+              <span className="text-gray-400">UrbanStay.com</span>. All rights
+              reserved.
             </p>
-            
           </div>
         </div>
       </div>
