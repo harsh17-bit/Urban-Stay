@@ -8,6 +8,7 @@ import {
   FiTrendingUp,
   FiCheck,
   FiX,
+  FiXCircle,
   FiEye,
   FiEdit2,
   FiTrash2,
@@ -109,6 +110,15 @@ const AdminDashboard = () => {
       await fetchData();
     } catch (error) {
       console.error('Error featuring property:', error);
+    }
+  };
+
+  const handleUnfeatureProperty = async (id) => {
+    try {
+      await propertyService.unfeatureProperty(id);
+      await fetchData();
+    } catch (error) {
+      console.error('Error cancelling featured status:', error);
     }
   };
 
@@ -394,6 +404,17 @@ const AdminDashboard = () => {
                                   }
                                 >
                                   <FiAward />
+                                </button>
+                              )}
+                              {property.isFeatured && (
+                                <button
+                                  className="btn-icon danger"
+                                  title="Cancel Featured"
+                                  onClick={() =>
+                                    handleUnfeatureProperty(property._id)
+                                  }
+                                >
+                                  <FiXCircle />
                                 </button>
                               )}
                             </div>

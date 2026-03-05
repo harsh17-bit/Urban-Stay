@@ -6,7 +6,11 @@
 
 /* ── Base card: white padded frame ── */
 .property-card {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family:
+    'Inter',
+    system-ui,
+    -apple-system,
+    sans-serif;
   display: flex;
   flex-direction: column;
   border-radius: 28px;
@@ -14,7 +18,9 @@
   text-decoration: none;
   color: inherit;
   position: relative;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .property-card:hover {
@@ -28,8 +34,7 @@
 
 .property-card--unavailable:hover {
   transform: none;
-  box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
 }
 
 /* ── Image area: tall with inner rounding ── */
@@ -53,14 +58,16 @@
 
 /* Heavy gradient at bottom for text readability */
 .property-image-wrap::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom,
-      transparent 25%,
-      rgba(0, 0, 0, 0.15) 45%,
-      rgba(0, 0, 0, 0.55) 65%,
-      rgba(0, 0, 0, 0.88) 100%);
+  background: linear-gradient(
+    to bottom,
+    transparent 25%,
+    rgba(0, 0, 0, 0.15) 45%,
+    rgba(0, 0, 0, 0.55) 65%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
   pointer-events: none;
   z-index: 1;
 }
@@ -116,7 +123,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.30);
+  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -124,7 +131,10 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
   color: #ffffff;
   box-shadow: none;
   font-size: 1.15rem;
@@ -153,18 +163,17 @@
   flex: unset;
   color: #ffffff;
   backdrop-filter: blur(12px) saturate(140%);
-  -webkit-backdrop-filter: blur(12px);  
-    background: linear-gradient(
+  -webkit-backdrop-filter: blur(12px);
+  background: linear-gradient(
     to top,
-    rgba(0,0,0,0.65),
-    rgba(0,0,0,0.35),
-    rgba(0,0,0,0.1),
+    rgba(0, 0, 0, 0.65),
+    rgba(0, 0, 0, 0.35),
+    rgba(0, 0, 0, 0.1),
     transparent
   );
 
- border-bottom-left-radius: 22px;
+  border-bottom-left-radius: 22px;
   border-bottom-right-radius: 22px;
-
 }
 
 /* Hide the property type tag for cleaner look */
@@ -175,15 +184,11 @@
 .property-title {
   font-size: 1.15rem;
   font-weight: 700;
-  color: #ffffff;
   margin: 0;
   line-height: 1.35;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
   line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 .property-location {
@@ -240,7 +245,9 @@
   padding: 14px 16px;
   border-top: none;
   border-radius: 18px;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.15s ease;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
