@@ -13,14 +13,8 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiStar,
-  FiShield,
-  FiPrinter,
-  FiX,
   FiFileText,
-  FiTrendingUp,
   FiCloud,
-  FiGlobe,
-  FiExternalLink,
   FiDownload,
   FiCopy,
   FiMail,
@@ -1026,35 +1020,6 @@ const PropertyDetails = () => {
                 </div>
               ) : (
                 <>
-                  {property.listingType === 'rent' && (
-                    <button
-                      onClick={() => {
-                        if (!isAuthenticated) {
-                          alert('Please login to view the rental agreement');
-                          Navigate('/login');
-                          return;
-                        }
-                        setShowRentalAgreement(true);
-                      }}
-                    >
-                      <FiFileText /> Rental Agreement
-                    </button>
-                  )}
-                  {property.listingType === 'buy' && (
-                    <button
-                      className="btn-primary"
-                      onClick={() => {
-                        if (!isAuthenticated) {
-                          alert('Please login to view the buyer agreement');
-                          Navigate('/login');
-                          return;
-                        }
-                        setShowBuyerAgreement(true);
-                      }}
-                    >
-                      <FiFileText /> Buyer Agreement
-                    </button>
-                  )}
                   <button
                     className="btn-primary"
                     onClick={() => {
@@ -1069,20 +1034,26 @@ const PropertyDetails = () => {
                     <FiMessageSquare /> Contact Owner
                   </button>
                   {property.owner?.phone && (
-                    <a
+                    <button
                       href={`tel:${property.owner.phone}`}
-                      className="btn-outline"
+                      className="btn-primary"
+                      onClick={() => {
+                        if (!isAuthenticated) {
+                          alert('Please Login to Contact owner');
+                          Navigate('/login');
+                        } else {
+                          window.location.href = `tel:${property.owner.phone}`;
+                        }
+                      }}
                     >
                       <FiPhone /> Call Now
-                    </a>
+                    </button>
                   )}
                 </>
               )}
             </div>
           </div>
-
           {/* Inquiry Form Modal */}
-
           {showInquiryForm && (
             <div className="inquiry-modal">
               <div className="modal-content">

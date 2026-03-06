@@ -1,10 +1,10 @@
-import { useNavigate, Link } from "react-router-dom";
-import { FiHeart, FiMapPin, FiMaximize, FiHome, FiStar, FiShield } from "react-icons/fi";
-import { getImageUrl } from "../utils/imageUtils";
-import { useAuth } from "../context/authcontext.jsx";
-import "./PropertyCard.css";
+import { useNavigate, Link } from 'react-router-dom';
+import { FiHeart, FiMapPin, FiMaximize, FiHome } from 'react-icons/fi';
+import { getImageUrl } from '../utils/imageUtils';
+import { useAuth } from '../context/authcontext.jsx';
+import './PropertyCard.css';
 
-const PropertyCard = ({ property, viewMode = "grid" }) => {
+const PropertyCard = ({ property, viewMode = 'grid' }) => {
   const { user, isAuthenticated, toggleFavorite } = useAuth();
   const navigate = useNavigate();
 
@@ -12,84 +12,91 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
 
   const {
     _id,
-    title = "Property",
+    title = 'Property',
     location = {},
     price = 0,
     specifications = {},
-    propertyType = "Apartment",
-    listingType = "buy",
+    propertyType = 'Apartment',
+    listingType = 'buy',
     images = [],
-    status = "available",
+    status = 'available',
   } = property;
 
-  const isSold = status === "sold";
-  const isRented = status === "rented";
+  const isSold = status === 'sold';
+  const isRented = status === 'rented';
   const isUnavailable = isSold || isRented;
 
   // Check if this property is in the user's favorites
   const isFavorited = user?.favorites?.some(
-    (fav) => (typeof fav === "object" ? fav._id : fav)?.toString() === _id?.toString()
+    (fav) =>
+      (typeof fav === 'object' ? fav._id : fav)?.toString() === _id?.toString()
   );
 
   const handleFavoriteClick = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (!isAuthenticated) {
-      alert("Please Register or Login to manage Favourites.");
-      navigate("/register");
+      alert('Please Register or Login to manage Favourites.');
+      navigate('/register');
       return;
     }
     try {
       await toggleFavorite(_id);
     } catch (err) {
-      console.error("Failed to toggle favorite:", err);
+      console.error('Failed to toggle favorite:', err);
     }
   };
 
   const image = getImageUrl(images?.[0]?.url || images?.[0]);
 
   const formatPrice = (price, type) => {
-    if (type === "rent") {
-      return `₹${price?.toLocaleString("en-IN")}/mo`;
+    if (type === 'rent') {
+      return `₹${price?.toLocaleString('en-IN')}/mo`;
     }
     if (price >= 10000000) {
       return `₹${(price / 10000000).toFixed(2)} Cr`;
     } else if (price >= 100000) {
       return `₹${(price / 100000).toFixed(2)} Lac`;
     }
-    return `₹${price?.toLocaleString("en-IN")}`;
+    return `₹${price?.toLocaleString('en-IN')}`;
   };
 
-  const cityName = location?.city || location || "Location";
+  const cityName = location?.city || location || 'Location';
   const bhk = specifications?.bedrooms || property.bhk || 0;
   const area = specifications?.carpetArea || property.area || 0;
 
-  const Wrapper = _id ? Link : "div";
+  const Wrapper = _id ? Link : 'div';
   const wrapperProps = _id
-    ? { to: `/property/${_id}`, className: isUnavailable ? "property-card--unavailable" : "" }
-    : { role: "article", "aria-disabled": true };
+    ? {
+        to: `/property/${_id}`,
+        className: isUnavailable ? 'property-card--unavailable' : '',
+      }
+    : { role: 'article', 'aria-disabled': true };
 
-  if (viewMode === "list") {
+  if (viewMode === 'list') {
     return (
       <Wrapper {...wrapperProps} className="property-card list-view">
-      <div className="property-image-wrap">
-        <img 
-          src={image} 
-          alt={title} 
-          className="property-image"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400";
-          }}
-          loading="lazy"
-        />
-       
-          <span className="listing-type-badge">{listingType === "rent" ? "For Rent" : "For Sale"}</span>
-        {isUnavailable && (
-          <div className="sold-overlay">
-            <span>{isSold ? "SOLD" : "RENTED"}</span>
-          </div>
-        )}
+        <div className="property-image-wrap">
+          <img
+            src={image}
+            alt={title}
+            className="property-image"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src =
+                'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400';
+            }}
+            loading="lazy"
+          />
+
+          <span className="listing-type-badge">
+            {listingType === 'rent' ? 'For Rent' : 'For Sale'}
+          </span>
+          {isUnavailable && (
+            <div className="sold-overlay">
+              <span>{isSold ? 'SOLD' : 'RENTED'}</span>
+            </div>
+          )}
         </div>
 
         <div className="property-body">
@@ -120,9 +127,9 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
           <div className="property-footer">
             <p className="property-price">{formatPrice(price, listingType)}</p>
             <button
-              className={`favorite-btn${isFavorited ? " active" : ""}`}
+              className={`favorite-btn${isFavorited ? ' active' : ''}`}
               onClick={handleFavoriteClick}
-              title={isFavorited ? "Remove from favorites" : "Add to favorites"}
+              title={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
             >
               <FiHeart />
             </button>
@@ -142,23 +149,24 @@ const PropertyCard = ({ property, viewMode = "grid" }) => {
           className="property-image"
           onError={(e) => {
             e.target.onerror = null;
-            e.target.src = "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400";
+            e.target.src =
+              'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400';
           }}
           loading="lazy"
         />
         <span className="listing-type-badge">
-          {listingType === "rent" ? "For Rent" : "For Sale"}
+          {listingType === 'rent' ? 'For Rent' : 'For Sale'}
         </span>
         {isUnavailable && (
           <div className="sold-overlay">
-            <span>{isSold ? "SOLD" : "RENTED"}</span>
+            <span>{isSold ? 'SOLD' : 'RENTED'}</span>
           </div>
         )}
         {!isUnavailable && (
           <button
-            className={`favorite-btn${isFavorited ? " active" : ""}`}
+            className={`favorite-btn${isFavorited ? ' active' : ''}`}
             onClick={handleFavoriteClick}
-            title={isFavorited ? "Remove from favorites" : "Add to favorites"}
+            title={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
           >
             <FiHeart />
           </button>
