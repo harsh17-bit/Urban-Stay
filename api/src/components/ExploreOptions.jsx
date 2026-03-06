@@ -9,7 +9,6 @@ const OPTIONS = [
     label: 'Home Interior',
     icon: FaPaintRoller,
     href: 'home-interior',
-    badge: 'NEW',
   },
 ];
 
