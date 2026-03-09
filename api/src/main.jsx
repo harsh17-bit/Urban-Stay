@@ -1,7 +1,7 @@
-import React, { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App.jsx";
+import React, { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App.jsx';
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +15,7 @@ class ErrorBoundary extends React.Component {
       return (
         <div className="error-boundary">
           <h1>Something went wrong</h1>
-          <pre>{this.state.error?.message ?? "Unknown error"}</pre>
+          <pre>{this.state.error?.message ?? 'Unknown error'}</pre>
         </div>
       );
     }
@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component {
   }
 }
 
-const root = document.getElementById("root");
+const root = document.getElementById('root');
 if (!root) {
   document.body.innerHTML =
     '<p style="padding:2rem">No #root element found. Check index.html.</p>';
@@ -33,6 +33,6 @@ if (!root) {
       <ErrorBoundary>
         <App />
       </ErrorBoundary>
-    </React.StrictMode>,
+    </React.StrictMode>
   );
 }

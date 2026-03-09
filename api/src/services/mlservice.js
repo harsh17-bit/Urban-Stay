@@ -70,7 +70,41 @@ class MLService {
       };
     }
   }
+  /**
+   * Analyze property as investment opportunity
+   * @param {Object} propertyData - Property details
+   * @returns {Promise<Object>} Investment analysis result
+   */
+  async analyzeInvestment(propertyData) {
+    try {
+      const response = await axios.post(
+        `${ML_SERVICE_URL}/analyze-investment`,
+        {
+          area: Number(propertyData.area) || 1000,
+          bedrooms: Number(propertyData.bedrooms) || 2,
+          bathrooms: Number(propertyData.bathrooms) || 1,
+          city: propertyData.city || 'Bangalore',
+          amenities: propertyData.amenities || [],
+          price: Number(propertyData.price) || 5000000,
+        },
+        { timeout: 10000 }
+      );
 
+      return {
+        success: true,
+        data: response.data.analysis,
+      };
+    } catch (error) {
+      console.error('Investment analysis error:', error);
+      return {
+        success: false,
+        error:
+          error.response?.data?.error ||
+          error.message ||
+          'Failed to analyze investment',
+      };
+    }
+  }
   /**
    * Get list of supported cities
    * @returns {Promise<Array<string>>} List of supported cities

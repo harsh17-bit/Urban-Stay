@@ -1,0 +1,308 @@
+.featured-investment-section {
+  padding: 80px 20px;
+  background: linear-gradient(to bottom, #ffffff, #f9fafb);
+}
+
+.featured-investment-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.featured-investment-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.featured-investment-header h2 {
+  font-size: 36px;
+  font-weight: 800;
+  color: #111827;
+  margin: 0 0 16px 0;
+}
+
+.featured-investment-header p {
+  font-size: 18px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.featured-loading {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.featured-loading p {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Cards Grid */
+.featured-investment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
+}
+
+.featured-investment-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.featured-investment-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Image Section */
+.fic-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.fic-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.featured-investment-card:hover .fic-image {
+  transform: scale(1.05);
+}
+
+/* ROI Badge */
+.fic-roi-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.fic-roi-score {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.fic-roi-label {
+  font-size: 11px;
+  opacity: 0.9;
+  margin-top: 4px;
+}
+
+/* Content Section */
+.fic-content {
+  padding: 24px;
+}
+
+.fic-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.fic-location {
+  margin: 0 0 12px 0;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.fic-specs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+  font-size: 13px;
+}
+
+.fic-spec {
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.fic-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 10px;
+}
+
+.fic-price-label {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fic-price-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Metrics */
+.fic-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.fic-metric-item {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  background: #f3f4f6;
+  border-radius: 10px;
+  align-items: flex-start;
+}
+
+.fic-metric-icon {
+  color: #3b82f6;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.fic-metric-text label {
+  display: block;
+  font-size: 11px;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.fic-metric-text value {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111827;
+}
+
+/* Category */
+.fic-category {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+.fic-category-badge {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-weight: 700;
+  color: white;
+}
+
+.fic-category-badge.excellent {
+  background: #10b981;
+}
+
+.fic-category-badge.very-good {
+  background: #3b82f6;
+}
+
+.fic-category-badge.good {
+  background: #f59e0b;
+}
+
+.fic-category-badge.average {
+  background: #ef4444;
+}
+
+.fic-confidence {
+  color: #10b981;
+  font-weight: 600;
+}
+
+/* Recommendation */
+.fic-recommendation {
+  padding: 12px;
+  background: #eff6ff;
+  border-left: 3px solid #3b82f6;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.fic-recommendation p {
+  margin: 0;
+  font-size: 13px;
+  color: #1e40af;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* Button */
+.fic-view-btn {
+  width: 100%;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.fic-view-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .featured-investment-section {
+    padding: 40px 20px;
+  }
+
+  .featured-investment-header h2 {
+    font-size: 28px;
+  }
+
+  .featured-investment-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .fic-metrics {
+    grid-template-columns: 1fr;
+  }
+}
