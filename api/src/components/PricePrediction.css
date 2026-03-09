@@ -1,0 +1,124 @@
+.price-prediction-card {
+  background: black;
+  border-radius: 12px;
+  padding: 24px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.prediction-header h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prediction-header p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 14px;
+}
+
+.predict-btn {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px 24px;
+  background: white;
+  color: #000000;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.predict-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.predict-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.prediction-error {
+  margin-top: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  border-left: 4px solid #ff6b6b;
+}
+
+.prediction-error p {
+  margin: 0 0 4px 0;
+  font-weight: 600;
+}
+
+.prediction-error small {
+  opacity: 0.8;
+}
+
+.prediction-result {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.predicted-price {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.predicted-price label {
+  display: block;
+  font-size: 14px;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+
+.predicted-price h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.price-range {
+  margin: 8px 0 4px 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.price-sqft {
+  margin: 0;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+.use-price-btn {
+  width: 100%;
+  padding: 10px 20px;
+  background: #000000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 12px;
+}
+
+.prediction-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0.9;
+}
+
+.prediction-info small {
+  font-size: 12px;
+}

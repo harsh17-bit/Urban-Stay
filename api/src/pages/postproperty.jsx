@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   FiHome,
   FiMapPin,
@@ -9,11 +9,11 @@ import {
   FiPlus,
   FiX,
   FiUpload,
-} from "react-icons/fi";
-import { propertyService } from "../services/propertyservice";
-import { useAuth } from "../context/authcontext.jsx";
-import "./PostProperty.css";
-
+} from 'react-icons/fi';
+import { propertyService } from '../services/propertyservice';
+import { useAuth } from '../context/authcontext.jsx';
+import './PostProperty.css';
+import PricePrediction from '../components/PricePrediction.jsx';
 const PostProperty = () => {
   const navigate = useNavigate();
   const { id: propertyId } = useParams();
@@ -26,39 +26,39 @@ const PostProperty = () => {
 
   const [formData, setFormData] = useState({
     // Basic Info
-    title: "",
-    description: "",
-    listingType: "buy",
-    propertyType: "apartment",
+    title: '',
+    description: '',
+    listingType: 'buy',
+    propertyType: 'apartment',
 
     // Location
     location: {
-      address: "",
-      city: "",
-      state: "",
-      pincode: "",
-      landmark: "",
+      address: '',
+      city: '',
+      state: '',
+      pincode: '',
+      landmark: '',
     },
 
     // Specifications
     specifications: {
-      bedrooms: "",
-      bathrooms: "",
-      carpetArea: "",
-      builtUpArea: "",
-      floorNumber: "",
-      totalFloors: "",
-      balconies: "",
-      furnishing: "",
-      facing: "",
-      ageOfProperty: "",
-      possessionStatus: "ready-to-move",
+      bedrooms: '',
+      bathrooms: '',
+      carpetArea: '',
+      builtUpArea: '',
+      floorNumber: '',
+      totalFloors: '',
+      balconies: '',
+      furnishing: '',
+      facing: '',
+      ageOfProperty: '',
+      possessionStatus: 'ready-to-move',
     },
 
     // Pricing
-    price: "",
+    price: '',
     priceBreakdown: {
-      maintenanceCharges: "",
+      maintenanceCharges: '',
       negotiable: false,
     },
 
@@ -80,34 +80,34 @@ const PostProperty = () => {
         const data = await propertyService.getProperty(propertyId);
         const p = data.property || data;
         setFormData({
-          title: p.title || "",
-          description: p.description || "",
-          listingType: p.listingType || "buy",
-          propertyType: p.propertyType || "apartment",
+          title: p.title || '',
+          description: p.description || '',
+          listingType: p.listingType || 'buy',
+          propertyType: p.propertyType || 'apartment',
           location: {
-            address: p.location?.address || "",
-            city: p.location?.city || "",
-            state: p.location?.state || "",
-            pincode: p.location?.pincode || "",
-            landmark: p.location?.landmark || "",
+            address: p.location?.address || '',
+            city: p.location?.city || '',
+            state: p.location?.state || '',
+            pincode: p.location?.pincode || '',
+            landmark: p.location?.landmark || '',
           },
           specifications: {
-            bedrooms: p.specifications?.bedrooms ?? "",
-            bathrooms: p.specifications?.bathrooms ?? "",
-            carpetArea: p.specifications?.carpetArea ?? "",
-            builtUpArea: p.specifications?.builtUpArea ?? "",
-            floorNumber: p.specifications?.floorNumber ?? "",
-            totalFloors: p.specifications?.totalFloors ?? "",
-            balconies: p.specifications?.balconies ?? "",
-            furnishing: p.specifications?.furnishing || "",
-            facing: p.specifications?.facing || "",
-            ageOfProperty: p.specifications?.ageOfProperty ?? "",
+            bedrooms: p.specifications?.bedrooms ?? '',
+            bathrooms: p.specifications?.bathrooms ?? '',
+            carpetArea: p.specifications?.carpetArea ?? '',
+            builtUpArea: p.specifications?.builtUpArea ?? '',
+            floorNumber: p.specifications?.floorNumber ?? '',
+            totalFloors: p.specifications?.totalFloors ?? '',
+            balconies: p.specifications?.balconies ?? '',
+            furnishing: p.specifications?.furnishing || '',
+            facing: p.specifications?.facing || '',
+            ageOfProperty: p.specifications?.ageOfProperty ?? '',
             possessionStatus:
-              p.specifications?.possessionStatus || "ready-to-move",
+              p.specifications?.possessionStatus || 'ready-to-move',
           },
-          price: p.price || "",
+          price: p.price || '',
           priceBreakdown: {
-            maintenanceCharges: p.priceBreakdown?.maintenanceCharges || "",
+            maintenanceCharges: p.priceBreakdown?.maintenanceCharges || '',
             negotiable: p.priceBreakdown?.negotiable || false,
           },
           amenities: p.amenities || [],
@@ -121,7 +121,7 @@ const PostProperty = () => {
         });
       } catch {
         setErrors({
-          submit: "Failed to load property data. Please try again.",
+          submit: 'Failed to load property data. Please try again.',
         });
       } finally {
         setLoadingProperty(false);
@@ -130,86 +130,91 @@ const PostProperty = () => {
   }, [isEditMode, propertyId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const propertyTypes = [
-    { value: "apartment", label: "Apartment" },
-    { value: "house", label: "Independent House" },
-    { value: "villa", label: "Villa" },
-    { value: "plot", label: "Plot/Land" },
-    { value: "commercial", label: "Commercial" },
-    { value: "office", label: "Office Space" },
-    { value: "shop", label: "Shop/Showroom" },
+    { value: 'apartment', label: 'Apartment' },
+    { value: 'house', label: 'Independent House' },
+    { value: 'villa', label: 'Villa' },
+    { value: 'plot', label: 'Plot/Land' },
+    { value: 'commercial', label: 'Commercial' },
+    { value: 'office', label: 'Office Space' },
+    { value: 'shop', label: 'Shop/Showroom' },
   ];
 
   const amenitiesList = [
-    "parking",
-    "lift",
-    "power-backup",
-    "gated-security",
-    "swimming-pool",
-    "gym",
-    "clubhouse",
-    "garden",
-    "playground",
-    "intercom",
-    "fire-safety",
-    "water-supply",
-    "gas-pipeline",
-    "air-conditioning",
-    "internet",
-    "cctv",
-    "pet-friendly",
-    "visitor-parking",
-    "rainwater-harvesting",
-    "solar-panels",
-    "waste-disposal",
-    "maintenance-staff",
-    "shopping-center",
-    "hospital-nearby",
+    'parking',
+    'lift',
+    'power-backup',
+    'gated-security',
+    'swimming-pool',
+    'gym',
+    'clubhouse',
+    'garden',
+    'playground',
+    'intercom',
+    'fire-safety',
+    'water-supply',
+    'gas-pipeline',
+    'air-conditioning',
+    'internet',
+    'cctv',
+    'pet-friendly',
+    'visitor-parking',
+    'rainwater-harvesting',
+    'solar-panels',
+    'waste-disposal',
+    'maintenance-staff',
+    'shopping-center',
+    'hospital-nearby',
   ];
 
   const cities = [
-    "Mumbai",
-    "Delhi",
-    "Bangalore",
-    "Hyderabad",
-    "Chennai",
-    "Kolkata",
-    "Pune",
-    "Ahmedabad",
-    "Jaipur",
-    "Lucknow",
-    "Noida",
-    "Gurgaon",
+    'Mumbai',
+    'Delhi',
+    'Bangalore',
+    'Hyderabad',
+    'Chennai',
+    'Kolkata',
+    'Pune',
+    'Ahmedabad',
+    'Jaipur',
+    'Lucknow',
+    'Noida',
+    'Gurgaon',
   ];
 
   const states = [
-    "Maharashtra",
-    "Delhi",
-    "Karnataka",
-    "Telangana",
-    "Tamil Nadu",
-    "West Bengal",
-    "Uttar Pradesh",
-    "Gujarat",
-    "Rajasthan",
-    "Haryana",
+    'Maharashtra',
+    'Delhi',
+    'Karnataka',
+    'Telangana',
+    'Tamil Nadu',
+    'West Bengal',
+    'Uttar Pradesh',
+    'Gujarat',
+    'Rajasthan',
+    'Haryana',
   ];
-
+  const handlePredictedPrice = (price) => {
+    setFormData({
+      ...formData,
+      price: Math.round(price),
+    });
+  };
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    if (name.includes(".")) {
-      const [parent, child] = name.split(".");
+    if (name.includes('.')) {
+      const [parent, child] = name.split('.');
       setFormData({
         ...formData,
         [parent]: {
           ...formData[parent],
-          [child]: type === "checkbox" ? checked : value,
+          [child]: type === 'checkbox' ? checked : value,
         },
       });
     } else {
       setFormData({
         ...formData,
-        [name]: type === "checkbox" ? checked : value,
+        [name]: type === 'checkbox' ? checked : value,
       });
     }
 
@@ -232,13 +237,13 @@ const PostProperty = () => {
   };
 
   const handleHighlightAdd = () => {
-    const highlight = document.getElementById("highlight-input").value.trim();
+    const highlight = document.getElementById('highlight-input').value.trim();
     if (highlight && formData.highlights.length < 6) {
       setFormData({
         ...formData,
         highlights: [...formData.highlights, highlight],
       });
-      document.getElementById("highlight-input").value = "";
+      document.getElementById('highlight-input').value = '';
     }
   };
 
@@ -253,7 +258,7 @@ const PostProperty = () => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
     const maxSize = 2 * 1024 * 1024;
     const maxImages = 6 - formData.images.length;
 
@@ -270,14 +275,14 @@ const PostProperty = () => {
       if (!allowedTypes.includes(file.type)) {
         setErrors({
           ...errors,
-          imageFile: "Only JPG,PNG,WebP files are allowed",
+          imageFile: 'Only JPG,PNG,WebP files are allowed',
         });
         return;
       }
 
       // Validate file size
       if (file.size > maxSize) {
-        setErrors({ ...errors, imageFile: "Each image must be less than 2MB" });
+        setErrors({ ...errors, imageFile: 'Each image must be less than 2MB' });
         return;
       }
 
@@ -300,7 +305,7 @@ const PostProperty = () => {
             {
               file,
               url: event.target.result, // Data URL for preview
-              caption: "",
+              caption: '',
               isPrimary: formData.images.length === 0,
             },
           ],
@@ -310,8 +315,8 @@ const PostProperty = () => {
     });
 
     // Reset input
-    e.target.value = "";
-    setErrors({ ...errors, imageFile: "" });
+    e.target.value = '';
+    setErrors({ ...errors, imageFile: '' });
   };
 
   const handleImageRemove = (index) => {
@@ -325,36 +330,36 @@ const PostProperty = () => {
     const newErrors = {};
 
     if (step === 1) {
-      if (!formData.title.trim()) newErrors.title = "Title is required";
+      if (!formData.title.trim()) newErrors.title = 'Title is required';
       if (!formData.description.trim())
-        newErrors.description = "Description is required";
+        newErrors.description = 'Description is required';
     }
 
     if (step === 2) {
       if (!formData.location.address.trim())
-        newErrors["location.address"] = "Address is required";
+        newErrors['location.address'] = 'Address is required';
       if (!formData.location.city)
-        newErrors["location.city"] = "City is required";
+        newErrors['location.city'] = 'City is required';
       if (!formData.location.state)
-        newErrors["location.state"] = "State is required";
+        newErrors['location.state'] = 'State is required';
       if (!formData.location.pincode.trim())
-        newErrors["location.pincode"] = "Pincode is required";
+        newErrors['location.pincode'] = 'Pincode is required';
     }
 
     if (step === 3) {
       if (
-        formData.propertyType !== "plot" &&
+        formData.propertyType !== 'plot' &&
         !formData.specifications.bedrooms
       ) {
-        newErrors["specifications.bedrooms"] = "Bedrooms required";
+        newErrors['specifications.bedrooms'] = 'Bedrooms required';
       }
       if (!formData.specifications.carpetArea) {
-        newErrors["specifications.carpetArea"] = "Area is required";
+        newErrors['specifications.carpetArea'] = 'Area is required';
       }
     }
 
     if (step === 4) {
-      if (!formData.price) newErrors.price = "Price is required";
+      if (!formData.price) newErrors.price = 'Price is required';
     }
 
     setErrors(newErrors);
@@ -388,17 +393,17 @@ const PostProperty = () => {
       // Only add these if they have values
       if (formData.specifications.builtUpArea) {
         cleanedSpecifications.builtUpArea = Number(
-          formData.specifications.builtUpArea,
+          formData.specifications.builtUpArea
         );
       }
       if (formData.specifications.floorNumber) {
         cleanedSpecifications.floorNumber = Number(
-          formData.specifications.floorNumber,
+          formData.specifications.floorNumber
         );
       }
       if (formData.specifications.totalFloors) {
         cleanedSpecifications.totalFloors = Number(
-          formData.specifications.totalFloors,
+          formData.specifications.totalFloors
         );
       }
       if (formData.specifications.furnishing) {
@@ -414,7 +419,7 @@ const PostProperty = () => {
 
       // Check if any images have new file objects
       const hasNewFiles = formData.images.some(
-        (img) => img.file instanceof File,
+        (img) => img.file instanceof File
       );
 
       // Existing images (loaded from server, no File object)
@@ -426,52 +431,52 @@ const PostProperty = () => {
         // Use FormData so we can send new files + preserve existing images
         const formDataObj = new FormData();
 
-        formDataObj.append("title", formData.title);
-        formDataObj.append("description", formData.description);
-        formDataObj.append("listingType", formData.listingType);
-        formDataObj.append("propertyType", formData.propertyType);
-        formDataObj.append("price", Number(formData.price));
-        if (!isEditMode) formDataObj.append("owner", user._id);
+        formDataObj.append('title', formData.title);
+        formDataObj.append('description', formData.description);
+        formDataObj.append('listingType', formData.listingType);
+        formDataObj.append('propertyType', formData.propertyType);
+        formDataObj.append('price', Number(formData.price));
+        if (!isEditMode) formDataObj.append('owner', user._id);
 
-        formDataObj.append("location", JSON.stringify(formData.location));
+        formDataObj.append('location', JSON.stringify(formData.location));
         formDataObj.append(
-          "specifications",
-          JSON.stringify(cleanedSpecifications),
+          'specifications',
+          JSON.stringify(cleanedSpecifications)
         );
-        formDataObj.append("amenities", JSON.stringify(formData.amenities));
-        formDataObj.append("highlights", JSON.stringify(formData.highlights));
+        formDataObj.append('amenities', JSON.stringify(formData.amenities));
+        formDataObj.append('highlights', JSON.stringify(formData.highlights));
         formDataObj.append(
-          "priceBreakdown",
+          'priceBreakdown',
           JSON.stringify({
             maintenanceCharges:
               Number(formData.priceBreakdown.maintenanceCharges) || 0,
-          }),
+          })
         );
 
         // Send existing image URLs so server can preserve them
-        formDataObj.append("existingImages", JSON.stringify(existingImages));
+        formDataObj.append('existingImages', JSON.stringify(existingImages));
 
         // Append any new file uploads
         formData.images.forEach((img) => {
           if (img.file instanceof File) {
-            formDataObj.append("images", img.file);
+            formDataObj.append('images', img.file);
           }
         });
 
         const primaryIndex = formData.images.findIndex((img) => img.isPrimary);
         formDataObj.append(
-          "primaryImageIndex",
-          primaryIndex >= 0 ? primaryIndex : 0,
+          'primaryImageIndex',
+          primaryIndex >= 0 ? primaryIndex : 0
         );
 
-        const api = (await import("../services/api")).default;
+        const api = (await import('../services/api')).default;
         if (isEditMode) {
           await api.put(`/properties/${propertyId}`, formDataObj, {
-            headers: { "Content-Type": "multipart/form-data" },
+            headers: { 'Content-Type': 'multipart/form-data' },
           });
         } else {
-          await api.post("/properties", formDataObj, {
-            headers: { "Content-Type": "multipart/form-data" },
+          await api.post('/properties', formDataObj, {
+            headers: { 'Content-Type': 'multipart/form-data' },
           });
         }
       } else {
@@ -511,20 +516,20 @@ const PostProperty = () => {
         }
       }
 
-      navigate("/seller/dashboard");
+      navigate('/seller/dashboard');
     } catch (error) {
       console.error(
-        isEditMode ? "Error updating property:" : "Error creating property:",
-        error,
+        isEditMode ? 'Error updating property:' : 'Error creating property:',
+        error
       );
-      console.error("Error response:", error.response?.data);
+      console.error('Error response:', error.response?.data);
 
       const errorMessage =
         error.response?.data?.details ||
         error.response?.data?.message ||
         (isEditMode
-          ? "Failed to update property."
-          : "Failed to create property. Please check all required fields.");
+          ? 'Failed to update property.'
+          : 'Failed to create property. Please check all required fields.');
 
       setErrors({ submit: errorMessage });
     } finally {
@@ -533,11 +538,11 @@ const PostProperty = () => {
   };
 
   const steps = [
-    { number: 1, label: "Basic Info", sub: "Type & description", icon: FiHome },
-    { number: 2, label: "Location", sub: "Address & city", icon: FiMapPin },
-    { number: 3, label: "Details", sub: "Size & specs", icon: FiHome },
-    { number: 4, label: "Pricing", sub: "Price & payment", icon: FiDollarSign },
-    { number: 5, label: "Media", sub: "Photos & amenities", icon: FiImage },
+    { number: 1, label: 'Basic Info', sub: 'Type & description', icon: FiHome },
+    { number: 2, label: 'Location', sub: 'Address & city', icon: FiMapPin },
+    { number: 3, label: 'Details', sub: 'Size & specs', icon: FiHome },
+    { number: 4, label: 'Pricing', sub: 'Price & payment', icon: FiDollarSign },
+    { number: 5, label: 'Media', sub: 'Photos & amenities', icon: FiImage },
   ];
 
   const stepSpec = (field, min, max) => ({
@@ -558,13 +563,13 @@ const PostProperty = () => {
         },
       })),
     val:
-      formData.specifications[field] === ""
+      formData.specifications[field] === ''
         ? min
         : Number(formData.specifications[field]),
   });
-  const beds = stepSpec("bedrooms", 1, 10);
-  const baths = stepSpec("bathrooms", 1, 6);
-  const balcs = stepSpec("balconies", 0, 5);
+  const beds = stepSpec('bedrooms', 1, 10);
+  const baths = stepSpec('bathrooms', 1, 6);
+  const balcs = stepSpec('balconies', 0, 5);
 
   if (loadingProperty) {
     return (
@@ -584,14 +589,14 @@ const PostProperty = () => {
           <span className="pp-brand-name">UrbanStay</span>
         </div>
         <p className="pp-brand-sub">
-          {isEditMode ? "Edit your property" : "List your property"}
+          {isEditMode ? 'Edit your property' : 'List your property'}
         </p>
 
         <nav className="pp-step-rail">
           {steps.map((s) => (
             <div
               key={s.number}
-              className={`pp-step-item${currentStep === s.number ? " s-active" : ""}${currentStep > s.number ? " s-completed" : ""}`}
+              className={`pp-step-item${currentStep === s.number ? ' s-active' : ''}${currentStep > s.number ? ' s-completed' : ''}`}
             >
               <div className="pp-step-circle">
                 {currentStep > s.number ? <FiCheck size={14} /> : s.number}
@@ -637,9 +642,9 @@ const PostProperty = () => {
                 <div className="pp-type-tiles">
                   <button
                     type="button"
-                    className={`pp-type-tile${formData.listingType === "buy" ? " pp-tile-active" : ""}`}
+                    className={`pp-type-tile${formData.listingType === 'buy' ? ' pp-tile-active' : ''}`}
                     onClick={() =>
-                      setFormData({ ...formData, listingType: "buy" })
+                      setFormData({ ...formData, listingType: 'buy' })
                     }
                   >
                     <FiHome size={22} />
@@ -648,9 +653,9 @@ const PostProperty = () => {
                   </button>
                   <button
                     type="button"
-                    className={`pp-type-tile${formData.listingType === "rent" ? " pp-tile-active" : ""}`}
+                    className={`pp-type-tile${formData.listingType === 'rent' ? ' pp-tile-active' : ''}`}
                     onClick={() =>
-                      setFormData({ ...formData, listingType: "rent" })
+                      setFormData({ ...formData, listingType: 'rent' })
                     }
                   >
                     <FiMapPin size={22} />
@@ -670,7 +675,7 @@ const PostProperty = () => {
                     <button
                       key={t.value}
                       type="button"
-                      className={`pp-proptype-pill${formData.propertyType === t.value ? " pp-pill-active" : ""}`}
+                      className={`pp-proptype-pill${formData.propertyType === t.value ? ' pp-pill-active' : ''}`}
                       onClick={() =>
                         setFormData({ ...formData, propertyType: t.value })
                       }
@@ -686,7 +691,7 @@ const PostProperty = () => {
               {/* Title + Description */}
               <div className="pp-grid">
                 <div
-                  className={`pp-field pp-full${errors.title ? " pp-field-err" : ""}`}
+                  className={`pp-field pp-full${errors.title ? ' pp-field-err' : ''}`}
                 >
                   <label className="pp-label" htmlFor="pp-title">
                     Property Title <span>*</span>
@@ -705,7 +710,7 @@ const PostProperty = () => {
                 </div>
 
                 <div
-                  className={`pp-field pp-full${errors.description ? " pp-field-err" : ""}`}
+                  className={`pp-field pp-full${errors.description ? ' pp-field-err' : ''}`}
                 >
                   <label className="pp-label" htmlFor="pp-desc">
                     Description <span>*</span>
@@ -740,7 +745,7 @@ const PostProperty = () => {
 
               <div className="pp-grid">
                 <div
-                  className={`pp-field pp-full${errors["location.address"] ? " pp-field-err" : ""}`}
+                  className={`pp-field pp-full${errors['location.address'] ? ' pp-field-err' : ''}`}
                 >
                   <label className="pp-label">
                     Street Address <span>*</span>
@@ -752,15 +757,15 @@ const PostProperty = () => {
                     onChange={handleChange}
                     placeholder="Building name, street, area"
                   />
-                  {errors["location.address"] && (
+                  {errors['location.address'] && (
                     <span className="pp-err-msg">
-                      {errors["location.address"]}
+                      {errors['location.address']}
                     </span>
                   )}
                 </div>
 
                 <div
-                  className={`pp-field${errors["location.city"] ? " pp-field-err" : ""}`}
+                  className={`pp-field${errors['location.city'] ? ' pp-field-err' : ''}`}
                 >
                   <label className="pp-label">
                     City <span>*</span>
@@ -777,15 +782,15 @@ const PostProperty = () => {
                       </option>
                     ))}
                   </select>
-                  {errors["location.city"] && (
+                  {errors['location.city'] && (
                     <span className="pp-err-msg">
-                      {errors["location.city"]}
+                      {errors['location.city']}
                     </span>
                   )}
                 </div>
 
                 <div
-                  className={`pp-field${errors["location.state"] ? " pp-field-err" : ""}`}
+                  className={`pp-field${errors['location.state'] ? ' pp-field-err' : ''}`}
                 >
                   <label className="pp-label">
                     State <span>*</span>
@@ -802,15 +807,15 @@ const PostProperty = () => {
                       </option>
                     ))}
                   </select>
-                  {errors["location.state"] && (
+                  {errors['location.state'] && (
                     <span className="pp-err-msg">
-                      {errors["location.state"]}
+                      {errors['location.state']}
                     </span>
                   )}
                 </div>
 
                 <div
-                  className={`pp-field${errors["location.pincode"] ? " pp-field-err" : ""}`}
+                  className={`pp-field${errors['location.pincode'] ? ' pp-field-err' : ''}`}
                 >
                   <label className="pp-label">
                     Pincode <span>*</span>
@@ -823,9 +828,9 @@ const PostProperty = () => {
                     placeholder="6-digit pincode"
                     maxLength={6}
                   />
-                  {errors["location.pincode"] && (
+                  {errors['location.pincode'] && (
                     <span className="pp-err-msg">
-                      {errors["location.pincode"]}
+                      {errors['location.pincode']}
                     </span>
                   )}
                 </div>
@@ -857,10 +862,10 @@ const PostProperty = () => {
               </div>
 
               <div className="pp-grid">
-                {formData.propertyType !== "plot" && (
+                {formData.propertyType !== 'plot' && (
                   <>
                     <div
-                      className={`pp-field${errors["specifications.bedrooms"] ? " pp-field-err" : ""}`}
+                      className={`pp-field${errors['specifications.bedrooms'] ? ' pp-field-err' : ''}`}
                     >
                       <span className="pp-label">
                         Bedrooms <span>*</span>
@@ -882,9 +887,9 @@ const PostProperty = () => {
                           +
                         </button>
                       </div>
-                      {errors["specifications.bedrooms"] && (
+                      {errors['specifications.bedrooms'] && (
                         <span className="pp-err-msg">
-                          {errors["specifications.bedrooms"]}
+                          {errors['specifications.bedrooms']}
                         </span>
                       )}
                     </div>
@@ -934,7 +939,7 @@ const PostProperty = () => {
                 )}
 
                 <div
-                  className={`pp-field${errors["specifications.carpetArea"] ? " pp-field-err" : ""}`}
+                  className={`pp-field${errors['specifications.carpetArea'] ? ' pp-field-err' : ''}`}
                 >
                   <label className="pp-label">
                     Carpet Area (sq.ft) <span>*</span>
@@ -946,9 +951,9 @@ const PostProperty = () => {
                     onChange={handleChange}
                     placeholder="e.g. 1200"
                   />
-                  {errors["specifications.carpetArea"] && (
+                  {errors['specifications.carpetArea'] && (
                     <span className="pp-err-msg">
-                      {errors["specifications.carpetArea"]}
+                      {errors['specifications.carpetArea']}
                     </span>
                   )}
                 </div>
@@ -964,7 +969,7 @@ const PostProperty = () => {
                   />
                 </div>
 
-                {formData.propertyType !== "plot" && (
+                {formData.propertyType !== 'plot' && (
                   <>
                     <div className="pp-field">
                       <label className="pp-label">Floor Number</label>
@@ -1011,18 +1016,18 @@ const PostProperty = () => {
                       >
                         <option value="">Select</option>
                         {[
-                          "north",
-                          "south",
-                          "east",
-                          "west",
-                          "north-east",
-                          "north-west",
-                          "south-east",
-                          "south-west",
+                          'north',
+                          'south',
+                          'east',
+                          'west',
+                          'north-east',
+                          'north-west',
+                          'south-east',
+                          'south-west',
                         ].map((d) => (
                           <option key={d} value={d}>
                             {d
-                              .replace(/-/g, "-")
+                              .replace(/-/g, '-')
                               .replace(/\b\w/g, (l) => l.toUpperCase())}
                           </option>
                         ))}
@@ -1082,15 +1087,26 @@ const PostProperty = () => {
                   your dashboard.
                 </p>
               </div>
-
+              <PricePrediction
+                propertyData={{
+                  city: formData.location.city,
+                  area:
+                    formData.specifications.carpetArea ||
+                    formData.specifications.builtUpArea,
+                  bedrooms: formData.specifications.bedrooms,
+                  bathrooms: formData.specifications.bathrooms,
+                  amenities: formData.amenities,
+                }}
+                onPriceSelect={handlePredictedPrice}
+              />
               <div className="pp-grid">
                 <div
-                  className={`pp-field pp-full${errors.price ? " pp-field-err" : ""}`}
+                  className={`pp-field pp-full${errors.price ? ' pp-field-err' : ''}`}
                 >
                   <label className="pp-label">
-                    {formData.listingType === "rent"
-                      ? "Monthly Rent (₹)"
-                      : "Asking Price (₹)"}{" "}
+                    {formData.listingType === 'rent'
+                      ? 'Monthly Rent (₹)'
+                      : 'Asking Price (₹)'}{' '}
                     <span>*</span>
                   </label>
                   <div className="pp-price-row">
@@ -1101,7 +1117,7 @@ const PostProperty = () => {
                       value={formData.price}
                       onChange={handleChange}
                       placeholder={
-                        formData.listingType === "rent" ? "25000" : "8500000"
+                        formData.listingType === 'rent' ? '25000' : '8500000'
                       }
                     />
                   </div>
@@ -1109,10 +1125,10 @@ const PostProperty = () => {
                     <span className="pp-price-hint">
                       ≈ ₹
                       {Number(formData.price) >= 10000000
-                        ? (Number(formData.price) / 10000000).toFixed(2) + " Cr"
+                        ? (Number(formData.price) / 10000000).toFixed(2) + ' Cr'
                         : Number(formData.price) >= 100000
-                          ? (Number(formData.price) / 100000).toFixed(2) + " L"
-                          : Number(formData.price).toLocaleString("en-IN")}
+                          ? (Number(formData.price) / 100000).toFixed(2) + ' L'
+                          : Number(formData.price).toLocaleString('en-IN')}
                     </span>
                   )}
                   {errors.price && (
@@ -1133,7 +1149,7 @@ const PostProperty = () => {
 
                 <div className="pp-field pp-full">
                   <div
-                    className={`pp-toggle-row${formData.priceBreakdown.negotiable ? " pp-toggle-on" : ""}`}
+                    className={`pp-toggle-row${formData.priceBreakdown.negotiable ? ' pp-toggle-on' : ''}`}
                     onClick={() =>
                       setFormData({
                         ...formData,
@@ -1151,7 +1167,7 @@ const PostProperty = () => {
                       </p>
                     </div>
                     <div
-                      className={`pp-toggle-switch${formData.priceBreakdown.negotiable ? " pp-toggle-on" : ""}`}
+                      className={`pp-toggle-switch${formData.priceBreakdown.negotiable ? ' pp-toggle-on' : ''}`}
                     />
                   </div>
                 </div>
@@ -1175,7 +1191,7 @@ const PostProperty = () => {
               <div className="pp-field pp-full">
                 <span className="pp-label">Property Photos</span>
                 <label
-                  className={`pp-upload-zone${formData.images.length >= 10 ? " pp-upload-disabled" : ""}`}
+                  className={`pp-upload-zone${formData.images.length >= 10 ? ' pp-upload-disabled' : ''}`}
                   htmlFor="pp-img-input"
                 >
                   <strong>Click to upload</strong>
@@ -1187,7 +1203,7 @@ const PostProperty = () => {
                     accept="image/jpeg,image/png,image/webp,image/gif"
                     onChange={handleImageAdd}
                     disabled={formData.images.length >= 10}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   />
                 </label>
                 {errors.imageFile && (
@@ -1225,11 +1241,11 @@ const PostProperty = () => {
                     <button
                       key={a}
                       type="button"
-                      className={`pp-chip${formData.amenities.includes(a) ? " pp-chip-on" : ""}`}
+                      className={`pp-chip${formData.amenities.includes(a) ? ' pp-chip-on' : ''}`}
                       onClick={() => handleAmenityToggle(a)}
                     >
                       {formData.amenities.includes(a) && <FiCheck size={12} />}
-                      {a.replace(/-/g, " ")}
+                      {a.replace(/-/g, ' ')}
                     </button>
                   ))}
                 </div>
@@ -1311,11 +1327,11 @@ const PostProperty = () => {
               >
                 {loading
                   ? isEditMode
-                    ? "Saving…"
-                    : "Publishing…"
+                    ? 'Saving…'
+                    : 'Publishing…'
                   : isEditMode
-                    ? "Save Changes"
-                    : "Publish Property"}
+                    ? 'Save Changes'
+                    : 'Publish Property'}
               </button>
             )}
           </div>
