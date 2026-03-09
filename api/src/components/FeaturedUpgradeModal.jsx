@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { FiX, FiStar, FiCheck, FiCreditCard, FiShield } from 'react-icons/fi';
-import api from '../services/api';
-import './FeaturedUpgradeModal.css';
+import { useState } from "react";
+import { FiX, FiStar, FiCheck, FiCreditCard, FiShield } from "react-icons/fi";
+import api from "../services/api";
+import "./FeaturedUpgradeModal.css";
 
 const FEATURE_PRICE = 499;
 
@@ -13,34 +13,34 @@ const FEATURE_PRICE = 499;
  *   onSuccess — called with the updated property when payment succeeds
  */
 const FeaturedUpgradeModal = ({ property, onClose, onSuccess }) => {
-  const [step, setStep] = useState('idle'); // "idle" | "processing" | "success"
+  const [step, setStep] = useState("idle"); // "idle" | "processing" | "success"
   const [transaction, setTransaction] = useState(null);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   // Fake card form state (display-only)
-  const [cardNumber, setCardNumber] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvv, setCvv] = useState('');
+  const [cardNumber, setCardNumber] = useState("");
+  const [cardName, setCardName] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
 
   const formatCardNumber = (value) => {
-    const digits = value.replace(/\D/g, '').slice(0, 16);
-    return digits.replace(/(.{4})/g, '$1 ').trim();
+    const digits = value.replace(/\D/g, "").slice(0, 16);
+    return digits.replace(/(.{4})/g, "$1 ").trim();
   };
 
   const formatExpiry = (value) => {
-    const digits = value.replace(/\D/g, '').slice(0, 4);
+    const digits = value.replace(/\D/g, "").slice(0, 4);
     if (digits.length > 2) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
     return digits;
   };
 
   const handlePay = async () => {
     if (!cardNumber || !cardName || !expiry || !cvv) {
-      setError('Please fill in all card details.');
+      setError("Please fill in all card details.");
       return;
     }
-    setError('');
-    setStep('processing');
+    setError("");
+    setStep("processing");
 
     // Simulate network / processing delay
     await new Promise((resolve) => setTimeout(resolve, 2200));
@@ -49,13 +49,13 @@ const FeaturedUpgradeModal = ({ property, onClose, onSuccess }) => {
       const response = await api.post(`/payments/feature/${property._id}`);
       const data = response.data;
       setTransaction(data.transaction);
-      setStep('success');
+      setStep("success");
       onSuccess(data.property, data.transaction?.id);
     } catch (err) {
       const msg =
-        err?.response?.data?.message || 'Payment failed. Please try again.';
+        err?.response?.data?.message || "Payment failed. Please try again.";
       setError(msg);
-      setStep('idle');
+      setStep("idle");
     }
   };
 
@@ -63,7 +63,7 @@ const FeaturedUpgradeModal = ({ property, onClose, onSuccess }) => {
     <div
       className="fum-overlay"
       onClick={(e) =>
-        e.target === e.currentTarget && step !== 'processing' && onClose()
+        e.target === e.currentTarget && step !== "processing" && onClose()
       }
     >
       <div className="fum-modal">
@@ -73,7 +73,7 @@ const FeaturedUpgradeModal = ({ property, onClose, onSuccess }) => {
             <FiStar className="fum-star-icon" />
             <span>Feature Your Listing</span>
           </div>
-          {step !== 'processing' && (
+          {step !== "processing" && (
             <button className="fum-close" onClick={onClose} aria-label="Close">
               <FiX />
             </button>
@@ -81,7 +81,7 @@ const FeaturedUpgradeModal = ({ property, onClose, onSuccess }) => {
         </div>
 
         {/* ── IDLE STEP ── */}
-        {step === 'idle' && (
+        {step === "idle" && (
           <>
             <div className="fum-property-preview">
               <p className="fum-label">Featuring</p>
@@ -136,7 +136,7 @@ const FeaturedUpgradeModal = ({ property, onClose, onSuccess }) => {
                   value={cvv}
                   maxLength={4}
                   onChange={(e) =>
-                    setCvv(e.target.value.replace(/\D/g, '').slice(0, 4))
+                    setCvv(e.target.value.replace(/\D/g, "").slice(0, 4))
                   }
                 />
               </div>
@@ -160,7 +160,7 @@ const FeaturedUpgradeModal = ({ property, onClose, onSuccess }) => {
         )}
 
         {/* ── PROCESSING STEP ── */}
-        {step === 'processing' && (
+        {step === "processing" && (
           <div className="fum-processing">
             <div className="fum-spinner" />
             <p className="fum-processing-title">Processing Payment…</p>
@@ -171,14 +171,14 @@ const FeaturedUpgradeModal = ({ property, onClose, onSuccess }) => {
         )}
 
         {/* ── SUCCESS STEP ── */}
-        {step === 'success' && (
+        {step === "success" && (
           <div className="fum-success">
             <div className="fum-success-icon">
               <FiCheck />
             </div>
             <h3>Payment Successful!</h3>
             <p>
-              <strong>{property.title}</strong> is now featured for{' '}
+              <strong>{property.title}</strong> is now featured for{" "}
               <strong>30 days</strong>.
             </p>
             {transaction && <p className="fum-txn-id">Ref: {transaction.id}</p>}

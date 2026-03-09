@@ -1,368 +1,364 @@
 /* Legal Pages Common Styles */
 .legal-page {
-    background: #f8fafc;
-    min-height: 100vh;
+  background: #f8fafc;
+  min-height: 100vh;
 }
 
 /* Hero Section */
 .legal-hero {
-    background: #e2e8f0;
-    color: white;
-    padding: 2rem 1rem;
-    text-align: center;
+  background: #e2e8f0;
+  color: white;
+  padding: 2rem 1rem;
+  text-align: center;
 }
 
 .legal-hero-content {
-    max-width: 800px;
-    margin: 0 auto;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .legal-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-    opacity: 0.9;
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.9;
 }
 
 .legal-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .legal-subtitle {
-    font-size: 1rem;
-    opacity: 0.9;
+  font-size: 1rem;
+  opacity: 0.9;
 }
 
 /* Container */
 .legal-container {
-    max-width: 1400px;
-    margin: -3rem auto 0;
-    padding: 0 2rem 4rem;
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 2rem;
-    position: relative;
-    z-index: 1;
+  max-width: 1400px;
+  margin: -3rem auto 0;
+  padding: 0 2rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 /* Content */
 .legal-content {
-    background: white;
-    border-radius: 16px;
-    padding: 3rem;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  background: white;
+  border-radius: 16px;
+  padding: 3rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
 }
 
 .legal-section {
-    margin-bottom: 3rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .legal-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
+  border-bottom: none;
+  margin-bottom: 0;
 }
 
 .legal-section h2 {
-    font-size: 1.75rem;
-    color: #1e293b;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+  font-size: 1.75rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 .legal-section h2 svg {
-    color: darkcyan;
-    font-size: 1.5rem;
+  color: darkcyan;
+  font-size: 1.5rem;
 }
 
 .legal-section h3 {
-    font-size: 1.25rem;
-    color: #334155;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+  color: #334155;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .legal-section p {
-    color: #475569;
-    line-height: 1.8;
-    margin-bottom: 1rem;
+  color: #475569;
+  line-height: 1.8;
+  margin-bottom: 1rem;
 }
 
 .legal-section ul {
-    margin: 1rem 0;
-    padding-left: 1.5rem;
+  margin: 1rem 0;
+  padding-left: 1.5rem;
 }
 
 .legal-section li {
-    color: #475569;
-    line-height: 1.8;
-    margin-bottom: 0.5rem;
+  color: #475569;
+  line-height: 1.8;
+  margin-bottom: 0.5rem;
 }
 
 .legal-section li strong {
-    color: #1e293b;
+  color: #1e293b;
 }
 
 /* Contact Info */
 .contact-info {
-    background: #f1f5f9;
-    padding: 1.5rem;
-    border-radius: 12px;
-    margin-top: 1rem;
+  background: #f1f5f9;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-top: 1rem;
 }
 
 .contact-info p {
-    margin-bottom: 0.5rem;
-    color: #334155;
+  margin-bottom: 0.5rem;
+  color: #334155;
 }
 
 .contact-info strong {
-    color: #1e293b;
+  color: #1e293b;
 }
 
 /* Legal Footer */
 .legal-footer {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 2px solid #e2e8f0;
-    text-align: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #e2e8f0;
+  text-align: center;
 }
 
 .legal-footer .check-icon {
-    font-size: 3rem;
-    color: #10b981;
-    margin-bottom: 1rem;
+  font-size: 3rem;
+  color: #10b981;
+  margin-bottom: 1rem;
 }
 
 .legal-footer p {
-    font-size: 1.125rem;
-    color: #64748b;
-    margin-bottom: 1.5rem;
+  font-size: 1.125rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
 }
 
 /* Sidebar */
 .legal-sidebar {
-    position: sticky;
-    top: 2rem;
-    align-self: start;
+  position: sticky;
+  top: 2rem;
+  align-self: start;
 }
 
 .sidebar-card {
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
 }
 
 .sidebar-card h3 {
-    font-size: 1.125rem;
-    color: #1e293b;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+  font-size: 1.125rem;
+  color: #1e293b;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .sidebar-card h3 svg {
-    color: #3b82f6;
+  color: #3b82f6;
 }
 
 .sidebar-card p {
-    color: #64748b;
-    font-size: 0.875rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
 }
 
 .sidebar-card.highlight {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-    color: white;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
 }
 
 .sidebar-card.highlight h3,
 .sidebar-card.highlight p {
-    color: white;
+  color: white;
 }
 
 .sidebar-card.highlight h3 svg {
-    color: white;
+  color: white;
 }
 
 /* Sidebar Links */
 .sidebar-links {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .sidebar-links li {
-    margin-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .sidebar-links a {
-    color: #3b82f6;
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: all 0.2s;
-    display: block;
-    padding: 0.5rem;
-    border-radius: 6px;
+  color: #3b82f6;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  display: block;
+  padding: 0.5rem;
+  border-radius: 6px;
 }
 
 .sidebar-links a:hover {
-    background: #eff6ff;
-    padding-left: 1rem;
+  background: #eff6ff;
+  padding-left: 1rem;
 }
 
 /* Buttons */
 .btn-primary {
-    display: inline-block;
-    padding: 0.875rem 2rem;
-    background: black;
-    color: white;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  display: inline-block;
+  padding: 0.875rem 2rem;
+  background: black;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
 }
-
-
 
 .btn-outline {
-    display: block;
-    padding: 0.75rem 1.5rem;
-    
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    text-align: center;
-    transition: all 0.3s;
+  display: block;
+  padding: 0.75rem 1.5rem;
+
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s;
 }
-
-
 
 /* Version History Styles */
 .version-history {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .version-item {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    position: relative;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  position: relative;
 }
 
 .version-item:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .version-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    background: #94a3b8;
-    color: white;
-    margin-bottom: 0.75rem;
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #94a3b8;
+  color: white;
+  margin-bottom: 0.75rem;
 }
 
 .version-badge.current {
-    background: #10b981;
+  background: #10b981;
 }
 
 .version-details strong {
-    color: #1e293b;
-    display: block;
-    margin-bottom: 0.75rem;
-    font-size: 1rem;
+  color: #1e293b;
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
 }
 
 .version-details ul {
-    margin: 0;
-    padding-left: 1.25rem;
+  margin: 0;
+  padding-left: 1.25rem;
 }
 
 .version-details li {
-    color: #64748b;
-    margin-bottom: 0.5rem;
-    line-height: 1.6;
+  color: #64748b;
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
 }
 
 .version-details li:last-child {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 /* Responsive */
 @media (max-width: 1024px) {
-    .legal-container {
-        grid-template-columns: 1fr;
-    }
+  .legal-container {
+    grid-template-columns: 1fr;
+  }
 
-    .legal-sidebar {
-        position: relative;
-        top: 0;
-    }
+  .legal-sidebar {
+    position: relative;
+    top: 0;
+  }
 }
 
 @media (max-width: 768px) {
-    .legal-hero {
-        padding: 3rem 1.5rem;
-    }
+  .legal-hero {
+    padding: 3rem 1.5rem;
+  }
 
-    .legal-hero h1 {
-        font-size: 2rem;
-    }
+  .legal-hero h1 {
+    font-size: 2rem;
+  }
 
-    .legal-icon {
-        font-size: 3rem;
-    }
+  .legal-icon {
+    font-size: 3rem;
+  }
 
-    .legal-container {
-        padding: 0 1rem 2rem;
-        margin-top: -2rem;
-    }
+  .legal-container {
+    padding: 0 1rem 2rem;
+    margin-top: -2rem;
+  }
 
-    .legal-content {
-        padding: 2rem 1.5rem;
-    }
+  .legal-content {
+    padding: 2rem 1.5rem;
+  }
 
-    .legal-section h2 {
-        font-size: 1.5rem;
-    }
+  .legal-section h2 {
+    font-size: 1.5rem;
+  }
 
-    .legal-section h3 {
-        font-size: 1.125rem;
-    }
+  .legal-section h3 {
+    font-size: 1.125rem;
+  }
 
-    .sidebar-card {
-        padding: 1.25rem;
-    }
+  .sidebar-card {
+    padding: 1.25rem;
+  }
 }
 
 @media (max-width: 480px) {
-    .legal-hero h1 {
-        font-size: 1.75rem;
-    }
+  .legal-hero h1 {
+    font-size: 1.75rem;
+  }
 
-    .legal-content {
-        padding: 1.5rem 1rem;
-    }
+  .legal-content {
+    padding: 1.5rem 1rem;
+  }
 
-    .legal-section h2 {
-        font-size: 1.25rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
+  .legal-section h2 {
+    font-size: 1.25rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
 }

@@ -1,8 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const {
-    createAlert, getMyAlerts, getAlert, updateAlert, deleteAlert,
-    toggleAlertStatus, getMatchingProperties
+  createAlert,
+  getMyAlerts,
+  getAlert,
+  updateAlert,
+  deleteAlert,
+  toggleAlertStatus,
+  getMatchingProperties,
 } = require("../controllers/alertcontroller");
 const { protect } = require("../middleware/auth");
 

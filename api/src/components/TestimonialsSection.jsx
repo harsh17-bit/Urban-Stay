@@ -1,54 +1,54 @@
-import { FiStar } from 'react-icons/fi';
-import './TestimonialsSection.css';
+import { FiStar } from "react-icons/fi";
+import "./TestimonialsSection.css";
 
 const TESTIMONIALS = [
   {
     quote:
-      'You get an exclusive RM from our team who tracks your property closely. The verification process is thorough and trustworthy.',
-    name: 'Srikanth Malleboina',
-    role: 'Property Owner, Hyderabad',
+      "You get an exclusive RM from our team who tracks your property closely. The verification process is thorough and trustworthy.",
+    name: "Srikanth Malleboina",
+    role: "Property Owner, Hyderabad",
     rating: 5,
-    image: 'SM',
+    image: "SM",
   },
   {
     quote:
-      'Better response rate compared to any of their competitors. Found my dream home within 2 weeks!',
-    name: 'Prateek Sengar',
-    role: 'Home Buyer, Delhi',
+      "Better response rate compared to any of their competitors. Found my dream home within 2 weeks!",
+    name: "Prateek Sengar",
+    role: "Home Buyer, Delhi",
     rating: 4,
-    image: 'PS',
+    image: "PS",
   },
   {
     quote:
-      'Platform to meet customers & generate revenues with lowest cost of acquisition. Highly professional team.',
-    name: 'SOBHA Developers',
-    role: 'Real Estate Builder',
+      "Platform to meet customers & generate revenues with lowest cost of acquisition. Highly professional team.",
+    name: "SOBHA Developers",
+    role: "Real Estate Builder",
     rating: 4,
-    image: 'SD',
+    image: "SD",
   },
   {
     quote:
-      'Transparent process, verified listings, and excellent customer support. Sold my property in record time!',
-    name: 'Anjali Sharma',
-    role: 'Property Seller, Mumbai',
+      "Transparent process, verified listings, and excellent customer support. Sold my property in record time!",
+    name: "Anjali Sharma",
+    role: "Property Seller, Mumbai",
     rating: 5,
-    image: 'AS',
+    image: "AS",
   },
   {
     quote:
-      'Transparent process, verified listings, and excellent customer support. Sold my property in record time!',
-    name: 'Anjali Sharma',
-    role: 'Property Seller, Mumbai',
+      "Transparent process, verified listings, and excellent customer support. Sold my property in record time!",
+    name: "Anjali Sharma",
+    role: "Property Seller, Mumbai",
     rating: 5,
-    image: 'AS',
+    image: "AS",
   },
   {
     quote:
-      'Transparent process, verified listings, and excellent customer support. Sold my property in record time!',
-    name: 'Anjali Sharma',
-    role: 'Property Seller, Mumbai',
+      "Transparent process, verified listings, and excellent customer support. Sold my property in record time!",
+    name: "Anjali Sharma",
+    role: "Property Seller, Mumbai",
     rating: 5,
-    image: 'AS',
+    image: "AS",
   },
 ];
 

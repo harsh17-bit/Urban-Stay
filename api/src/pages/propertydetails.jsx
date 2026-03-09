@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   FiHeart,
   FiShare2,
@@ -18,28 +18,28 @@ import {
   FiDownload,
   FiCopy,
   FiMail,
-} from 'react-icons/fi';
-import { FaWhatsapp } from 'react-icons/fa';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
-import { useAuth } from '../context/authcontext.jsx';
-import { propertyService } from '../services/propertyservice';
-import { inquiryService, reviewService } from '../services/dataservice';
-import { weatherService } from '../services/weatherservice';
-import { getImageUrl } from '../utils/imageUtils';
-import PropertyCard from '../components/propertycard';
-import RentalAgreement from '../components/RentalAgreement';
-import BuyerAgreement from '../components/BuyerAgreement';
-import './PropertyDetails.css';
+} from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import { useAuth } from "../context/authcontext.jsx";
+import { propertyService } from "../services/propertyservice";
+import { inquiryService, reviewService } from "../services/dataservice";
+import { weatherService } from "../services/weatherservice";
+import { getImageUrl } from "../utils/imageUtils";
+import PropertyCard from "../components/propertycard";
+import RentalAgreement from "../components/RentalAgreement";
+import BuyerAgreement from "../components/BuyerAgreement";
+import "./PropertyDetails.css";
 
 // Fix Leaflet default icon issue with Vite
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
-    'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
 const PropertyDetails = () => {
@@ -47,18 +47,18 @@ const PropertyDetails = () => {
   const Navigate = useNavigate();
   const { user, isAuthenticated, toggleFavorite } = useAuth();
   const [property, setProperty] = useState(null);
-  const [similarProperties, setSimilarProperties] = useState([]);
+  const [setSimilarProperties] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showInquiryForm, setShowInquiryForm] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [inquiryData, setInquiryData] = useState({
-    message: '',
-    phone: '',
-    inquiryType: 'general',
+    message: "",
+    phone: "",
+    inquiryType: "general",
   });
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [weather, setWeather] = useState(null);
 
   const [showRentalAgreement, setShowRentalAgreement] = useState(false);
@@ -67,8 +67,8 @@ const PropertyDetails = () => {
   const [userHasReviewed, setUserHasReviewed] = useState(false);
   const [reviewData, setReviewData] = useState({
     rating: 5,
-    title: '',
-    comment: '',
+    title: "",
+    comment: "",
     ratings: {
       location: 5,
       valueForMoney: 5,
@@ -84,7 +84,7 @@ const PropertyDetails = () => {
   const [copySuccess, setCopySuccess] = useState(false);
 
   useEffect(() => {
-    const isValidId = id && id !== 'undefined' && /^[a-f\d]{24}$/i.test(id);
+    const isValidId = id && id !== "undefined" && /^[a-f\d]{24}$/i.test(id);
 
     if (!isValidId) {
       setLoading(false);
@@ -109,29 +109,29 @@ const PropertyDetails = () => {
         // Check if user has already reviewed this property
         if (isAuthenticated && user) {
           const hasReviewed = reviewsRes.reviews?.some(
-            (r) => r.user?._id === user._id
+            (r) => r.user?._id === user._id,
           );
           setUserHasReviewed(hasReviewed);
         }
       } catch (err) {
-        console.log('error fetching property:', err);
+        console.log("error fetching property:", err);
       } finally {
         setLoading(false);
       }
     }
     fetchProperty();
-  }, [id, user, isAuthenticated]);
+  }, [id, user, isAuthenticated, setSimilarProperties]);
 
   useEffect(() => {
     if (!property?.location?.city) return;
     const fetchWeather = async () => {
       try {
         const weatherData = await weatherService.getWeatherByCity(
-          property.location.city
+          property.location.city,
         );
         setWeather(weatherData);
       } catch (error) {
-        console.error('Error fetching weather:', error);
+        console.error("Error fetching weather:", error);
       }
     };
     fetchWeather();
@@ -140,14 +140,14 @@ const PropertyDetails = () => {
   const handleFavoriteToggle = async () => {
     if (!isAuthenticated) {
       // Redirect to login
-      alert('Please login to manage your favorites.');
+      alert("Please login to manage your favorites.");
       return;
     }
     try {
       await toggleFavorite(id);
       setIsFavorite(!isFavorite);
     } catch (error) {
-      console.error('Error toggling favorite:', error);
+      console.error("Error toggling favorite:", error);
     }
   };
 
@@ -159,11 +159,11 @@ const PropertyDetails = () => {
         ...inquiryData,
       });
       setShowInquiryForm(false);
-      setInquiryData({ message: '', phone: '', inquiryType: 'general' });
-      alert('Inquiry sent successfully!');
+      setInquiryData({ message: "", phone: "", inquiryType: "general" });
+      alert("Inquiry sent successfully!");
     } catch (error) {
-      console.error('Error sending inquiry:', error);
-      alert('Error sending inquiry. Please try again.');
+      console.error("Error sending inquiry:", error);
+      alert("Error sending inquiry. Please try again.");
     }
   };
 
@@ -176,13 +176,13 @@ const PropertyDetails = () => {
   const prevImage = () => {
     if (property?.images?.length > 0) {
       setCurrentImageIndex(
-        (prev) => (prev - 1 + property.images.length) % property.images.length
+        (prev) => (prev - 1 + property.images.length) % property.images.length,
       );
     }
   };
 
   const formatPrice = (price, type) => {
-    if (type === 'rent') {
+    if (type === "rent") {
       return `₹${price?.toLocaleString()}/month`;
     }
     if (price >= 10000000) {
@@ -199,16 +199,16 @@ const PropertyDetails = () => {
 
   const handleShareWhatsApp = () => {
     window.open(
-      `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`,
-      '_blank'
+      `https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`,
+      "_blank",
     );
     setShowShareMenu(false);
   };
 
   const handleShareEmail = () => {
     window.open(
-      `mailto:?subject=${encodeURIComponent(property?.title)}&body=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`,
-      '_blank'
+      `mailto:?subject=${encodeURIComponent(property?.title)}&body=${encodeURIComponent(shareText + "\n\n" + shareUrl)}`,
+      "_blank",
     );
     setShowShareMenu(false);
   };
@@ -256,11 +256,11 @@ const PropertyDetails = () => {
           <div class="section-title">Details</div>
           <div class="row">
             <div class="item"><div class="label">Type</div><div class="value">${property?.propertyType} for ${property?.listingType}</div></div>
-            ${property?.specifications?.bedrooms ? `<div class="item"><div class="label">Bedrooms</div><div class="value">${property?.specifications?.bedrooms}</div></div>` : ''}
-            ${property?.specifications?.bathrooms ? `<div class="item"><div class="label">Bathrooms</div><div class="value">${property?.specifications?.bathrooms}</div></div>` : ''}
-            ${property?.specifications?.carpetArea ? `<div class="item"><div class="label">Area</div><div class="value">${property?.specifications?.carpetArea} sq.ft</div></div>` : ''}
-            ${property?.specifications?.furnishing ? `<div class="item"><div class="label">Furnishing</div><div class="value">${property?.specifications?.furnishing}</div></div>` : ''}
-            ${property?.specifications?.floorNumber ? `<div class="item"><div class="label">Floor</div><div class="value">${property?.specifications?.floorNumber} of ${property?.specifications?.totalFloors}</div></div>` : ''}
+            ${property?.specifications?.bedrooms ? `<div class="item"><div class="label">Bedrooms</div><div class="value">${property?.specifications?.bedrooms}</div></div>` : ""}
+            ${property?.specifications?.bathrooms ? `<div class="item"><div class="label">Bathrooms</div><div class="value">${property?.specifications?.bathrooms}</div></div>` : ""}
+            ${property?.specifications?.carpetArea ? `<div class="item"><div class="label">Area</div><div class="value">${property?.specifications?.carpetArea} sq.ft</div></div>` : ""}
+            ${property?.specifications?.furnishing ? `<div class="item"><div class="label">Furnishing</div><div class="value">${property?.specifications?.furnishing}</div></div>` : ""}
+            ${property?.specifications?.floorNumber ? `<div class="item"><div class="label">Floor</div><div class="value">${property?.specifications?.floorNumber} of ${property?.specifications?.totalFloors}</div></div>` : ""}
           </div>
         </div>
         
@@ -269,9 +269,9 @@ const PropertyDetails = () => {
             ? `
         <div class="section">
           <div class="section-title">Amenities</div>
-          <p>${property?.amenities?.join(', ')}</p>
+          <p>${property?.amenities?.join(", ")}</p>
         </div>`
-            : ''
+            : ""
         }
         
         ${
@@ -283,10 +283,10 @@ const PropertyDetails = () => {
             ${property?.images
               ?.slice(0, 4)
               .map((img) => `<img src="${getImageUrl(img.url)}" alt="" />`)
-              .join('')}
+              .join("")}
           </div>
         </div>`
-            : ''
+            : ""
         }
         
         <div class="footer">
@@ -297,7 +297,7 @@ const PropertyDetails = () => {
       </html>
     `;
 
-    const printWindow = window.open('', '_blank');
+    const printWindow = window.open("", "_blank");
     printWindow.document.write(printContent);
     printWindow.document.close();
     printWindow.print();
@@ -307,12 +307,12 @@ const PropertyDetails = () => {
     e.preventDefault();
 
     if (!isAuthenticated) {
-      console.alert('Please login to submit a review');
+      console.alert("Please login to submit a review");
       return;
     }
 
     if (userHasReviewed) {
-      console.alert('You have already reviewed this property');
+      console.alert("You have already reviewed this property");
       return;
     }
 
@@ -323,21 +323,21 @@ const PropertyDetails = () => {
         ...reviewData,
       });
       alert(
-        'Review submitted successfully! It will be visible after admin approval.'
+        "Review submitted successfully! It will be visible after admin approval.",
       );
       setShowReviewForm(false);
       setUserHasReviewed(true);
-      if (user?.role === 'admin') {
+      if (user?.role === "admin") {
         // If admin, refresh reviews to show the new one immediately
-        window.location.href = '/admin/dashboard/reviews';
+        window.location.href = "/admin/dashboard/reviews";
       } else {
-        window.location.href = '/dashboard';
+        window.location.href = "/dashboard";
       }
       // Reset form
       setReviewData({
         rating: 5,
-        title: '',
-        comment: '',
+        title: "",
+        comment: "",
         ratings: {
           location: 5,
           valueForMoney: 5,
@@ -349,10 +349,10 @@ const PropertyDetails = () => {
         cons: [],
       });
     } catch (error) {
-      console.error('Error submitting review:', error);
+      console.error("Error submitting review:", error);
       alert(
         error.response?.data?.message ||
-          'Error submitting review. Please try again.'
+          "Error submitting review. Please try again.",
       );
     } finally {
       setReviewSubmitting(false);
@@ -365,7 +365,7 @@ const PropertyDetails = () => {
   };
 
   const handleRatingChange = (category, value) => {
-    if (category === 'overall') {
+    if (category === "overall") {
       setReviewData({ ...reviewData, rating: value });
     } else {
       setReviewData({
@@ -439,7 +439,7 @@ const PropertyDetails = () => {
             {property.images.slice(0, 5).map((img, index) => (
               <button
                 key={index}
-                className={`thumbnail ${currentImageIndex === index ? 'active' : ''}`}
+                className={`thumbnail ${currentImageIndex === index ? "active" : ""}`}
                 onClick={() => setCurrentImageIndex(index)}
               >
                 <img
@@ -473,13 +473,13 @@ const PropertyDetails = () => {
               <h1>{property.title}</h1>
               <p className="location">
                 <FiMapPin />
-                {property.location?.address}, {property.location?.city},{' '}
+                {property.location?.address}, {property.location?.city},{" "}
                 {property.location?.state}
               </p>
             </div>
             <div className="header-actions">
               <button
-                className={`action-btn ${isFavorite ? 'active' : ''}`}
+                className={`action-btn ${isFavorite ? "active" : ""}`}
                 onClick={handleFavoriteToggle}
                 title="Save"
               >
@@ -502,7 +502,7 @@ const PropertyDetails = () => {
                       <FiMail /> Email
                     </button>
                     <button onClick={handleCopyLink}>
-                      <FiCopy /> {copySuccess ? 'Copied!' : 'Copy Link'}
+                      <FiCopy /> {copySuccess ? "Copied!" : "Copy Link"}
                     </button>
                   </div>
                 )}
@@ -554,7 +554,7 @@ const PropertyDetails = () => {
                 <div className="spec-item">
                   <FiLayers />
                   <span>
-                    Floor {property.specifications.floorNumber} of{' '}
+                    Floor {property.specifications.floorNumber} of{" "}
                     {property.specifications.totalFloors}
                   </span>
                 </div>
@@ -565,26 +565,26 @@ const PropertyDetails = () => {
           {/* Tabs */}
           <div className="property-tabs">
             <button
-              className={activeTab === 'overview' ? 'active' : ''}
-              onClick={() => setActiveTab('overview')}
+              className={activeTab === "overview" ? "active" : ""}
+              onClick={() => setActiveTab("overview")}
             >
               Overview
             </button>
             <button
-              className={activeTab === 'amenities' ? 'active' : ''}
-              onClick={() => setActiveTab('amenities')}
+              className={activeTab === "amenities" ? "active" : ""}
+              onClick={() => setActiveTab("amenities")}
             >
               Amenities
             </button>
             <button
-              className={activeTab === 'location' ? 'active' : ''}
-              onClick={() => setActiveTab('location')}
+              className={activeTab === "location" ? "active" : ""}
+              onClick={() => setActiveTab("location")}
             >
               Location
             </button>
             <button
-              className={activeTab === 'reviews' ? 'active' : ''}
-              onClick={() => setActiveTab('reviews')}
+              className={activeTab === "reviews" ? "active" : ""}
+              onClick={() => setActiveTab("reviews")}
             >
               Reviews ({reviews.length})
             </button>
@@ -592,7 +592,7 @@ const PropertyDetails = () => {
 
           {/* Tab Content */}
           <div className="tab-content">
-            {activeTab === 'overview' && (
+            {activeTab === "overview" && (
               <div className="overview-tab">
                 <div className="section">
                   <h3>Description</h3>
@@ -609,43 +609,43 @@ const PropertyDetails = () => {
                     <div className="detail-item">
                       <span className="label">Furnishing</span>
                       <span className="value">
-                        {property.specifications?.furnishing || 'N/A'}
+                        {property.specifications?.furnishing || "N/A"}
                       </span>
                     </div>
                     <div className="detail-item">
                       <span className="label">Facing</span>
                       <span className="value">
-                        {property.specifications?.facing || 'N/A'}
+                        {property.specifications?.facing || "N/A"}
                       </span>
                     </div>
                     <div className="detail-item">
                       <span className="label">Age of Property</span>
                       <span className="value">
-                        {property.specifications?.ageOfProperty || 'N/A'} years
+                        {property.specifications?.ageOfProperty || "N/A"} years
                       </span>
                     </div>
                     <div className="detail-item">
                       <span className="label">Possession Status</span>
                       <span className="value">
-                        {property.specifications?.possessionStatus || 'N/A'}
+                        {property.specifications?.possessionStatus || "N/A"}
                       </span>
                     </div>
                     <div className="detail-item">
                       <span className="label">Carpet Area</span>
                       <span className="value">
-                        {property.specifications?.carpetArea || 'N/A'} sq.ft
+                        {property.specifications?.carpetArea || "N/A"} sq.ft
                       </span>
                     </div>
                     <div className="detail-item">
                       <span className="label">Built-up Area</span>
                       <span className="value">
-                        {property.specifications?.builtUpArea || 'N/A'} sq.ft
+                        {property.specifications?.builtUpArea || "N/A"} sq.ft
                       </span>
                     </div>
                     <div className="detail-item">
                       <span className="label">Balconies</span>
                       <span className="value">
-                        {property.specifications?.balconies || 'N/A'}
+                        {property.specifications?.balconies || "N/A"}
                       </span>
                     </div>
                   </div>
@@ -666,14 +666,14 @@ const PropertyDetails = () => {
               </div>
             )}
 
-            {activeTab === 'amenities' && (
+            {activeTab === "amenities" && (
               <div className="amenities-tab">
                 {property.amenities?.length > 0 ? (
                   <div className="amenities-grid">
                     {property.amenities.map((amenity, index) => (
                       <div key={index} className="amenity-item">
                         <FiCheck />
-                        <span>{amenity.replace(/-/g, ' ')}</span>
+                        <span>{amenity.replace(/-/g, " ")}</span>
                       </div>
                     ))}
                   </div>
@@ -683,14 +683,14 @@ const PropertyDetails = () => {
               </div>
             )}
 
-            {activeTab === 'location' && (
+            {activeTab === "location" && (
               <div className="location-tab">
                 <div className="location-address">
                   <FiMapPin />
                   <p>
                     {property.location?.address}
                     <br />
-                    {property.location?.city}, {property.location?.state} -{' '}
+                    {property.location?.city}, {property.location?.state} -{" "}
                     {property.location?.pincode}
                   </p>
                 </div>
@@ -713,16 +713,16 @@ const PropertyDetails = () => {
                 )}
 
                 <div className="map-container">
-                  {activeTab === 'location' && (
+                  {activeTab === "location" && (
                     <MapContainer
                       key={`map-${property._id}`}
                       center={[28.6139, 77.209]}
                       zoom={13}
                       scrollWheelZoom={false}
                       style={{
-                        height: '400px',
-                        width: '100%',
-                        borderRadius: '12px',
+                        height: "400px",
+                        width: "100%",
+                        borderRadius: "12px",
                       }}
                     >
                       <TileLayer
@@ -742,7 +742,7 @@ const PropertyDetails = () => {
               </div>
             )}
 
-            {activeTab === 'reviews' && (
+            {activeTab === "reviews" && (
               <div className="reviews-tab">
                 {/* Review Submit Button */}
                 {isAuthenticated && !userHasReviewed && (
@@ -781,9 +781,9 @@ const PropertyDetails = () => {
                             <button
                               key={star}
                               type="button"
-                              className={`star-btn ${star <= reviewData.rating ? 'active' : ''}`}
+                              className={`star-btn ${star <= reviewData.rating ? "active" : ""}`}
                               onClick={() =>
-                                handleRatingChange('overall', star)
+                                handleRatingChange("overall", star)
                               }
                             >
                               ★
@@ -830,11 +830,11 @@ const PropertyDetails = () => {
                         <label>Detailed Ratings</label>
                         <div className="detailed-ratings">
                           {[
-                            { key: 'location', label: 'Location' },
-                            { key: 'valueForMoney', label: 'Value for Money' },
-                            { key: 'amenities', label: 'Amenities' },
-                            { key: 'connectivity', label: 'Connectivity' },
-                            { key: 'safety', label: 'Safety' },
+                            { key: "location", label: "Location" },
+                            { key: "valueForMoney", label: "Value for Money" },
+                            { key: "amenities", label: "Amenities" },
+                            { key: "connectivity", label: "Connectivity" },
+                            { key: "safety", label: "Safety" },
                           ].map((category) => (
                             <div key={category.key} className="rating-row">
                               <span className="rating-label">
@@ -845,7 +845,7 @@ const PropertyDetails = () => {
                                   <button
                                     key={star}
                                     type="button"
-                                    className={`star-btn ${star <= reviewData.ratings[category.key] ? 'active' : ''}`}
+                                    className={`star-btn ${star <= reviewData.ratings[category.key] ? "active" : ""}`}
                                     onClick={() =>
                                       handleRatingChange(category.key, star)
                                     }
@@ -875,7 +875,7 @@ const PropertyDetails = () => {
                             reviewSubmitting || !reviewData.comment.trim()
                           }
                         >
-                          {reviewSubmitting ? 'Submitting...' : 'Submit Review'}
+                          {reviewSubmitting ? "Submitting..." : "Submit Review"}
                         </button>
                       </div>
                     </form>
@@ -896,14 +896,14 @@ const PropertyDetails = () => {
                               <span className="name">{review.user?.name}</span>
                               <span className="date">
                                 {new Date(
-                                  review.createdAt
+                                  review.createdAt,
                                 ).toLocaleDateString()}
                               </span>
                             </div>
                           </div>
                           <div className="rating">
-                            {'★'.repeat(review.rating)}
-                            {'☆'.repeat(5 - review.rating)}
+                            {"★".repeat(review.rating)}
+                            {"☆".repeat(5 - review.rating)}
                           </div>
                         </div>
                         {review.title && <h4>{review.title}</h4>}
@@ -917,16 +917,16 @@ const PropertyDetails = () => {
                                 <div key={key} className="rating-badge">
                                   <span className="badge-label">
                                     {key
-                                      .replace(/([A-Z])/g, ' $1')
+                                      .replace(/([A-Z])/g, " $1")
                                       .replace(/^./, (str) =>
-                                        str.toUpperCase()
+                                        str.toUpperCase(),
                                       )}
                                   </span>
                                   <span className="badge-value">
-                                    {'★'.repeat(value)}
+                                    {"★".repeat(value)}
                                   </span>
                                 </div>
-                              )
+                              ),
                             )}
                           </div>
                         )}
@@ -994,7 +994,7 @@ const PropertyDetails = () => {
               </div>
               <div className="agent-info">
                 <h4>{property.owner?.name}</h4>
-                <p>{property.owner?.companyName || 'Property Owner'}</p>
+                <p>{property.owner?.companyName || "Property Owner"}</p>
               </div>
             </div>
 
@@ -1010,12 +1010,12 @@ const PropertyDetails = () => {
             </div>
 
             <div className="contact-buttons">
-              {property.status === 'sold' || property.status === 'rented' ? (
+              {property.status === "sold" || property.status === "rented" ? (
                 <div className="sold-notice">
                   <span className={`status-sold-tag ${property.status}`}>
-                    {property.status === 'sold'
-                      ? 'This property has been Sold'
-                      : 'This property has been Rented'}
+                    {property.status === "sold"
+                      ? "This property has been Sold"
+                      : "This property has been Rented"}
                   </span>
                 </div>
               ) : (
@@ -1024,8 +1024,8 @@ const PropertyDetails = () => {
                     className="btn-primary"
                     onClick={() => {
                       if (!isAuthenticated) {
-                        alert('Please login to contact the owner');
-                        Navigate('/login');
+                        alert("Please login to contact the owner");
+                        Navigate("/login");
                         return;
                       }
                       setShowInquiryForm(true);
@@ -1039,8 +1039,8 @@ const PropertyDetails = () => {
                       className="btn-primary"
                       onClick={() => {
                         if (!isAuthenticated) {
-                          alert('Please Login to Contact owner');
-                          Navigate('/login');
+                          alert("Please Login to Contact owner");
+                          Navigate("/login");
                         } else {
                           window.location.href = `tel:${property.owner.phone}`;
                         }
@@ -1156,7 +1156,7 @@ const PropertyDetails = () => {
         </aside>
       </div>
 
-      {/* Similar Properties */}
+      {/* Similar Properties 
       {similarProperties.length > 0 && (
         <section className="similar-properties">
           <h2>Similar Properties</h2>
@@ -1166,7 +1166,7 @@ const PropertyDetails = () => {
             ))}
           </div>
         </section>
-      )}
+      )}*/}
 
       {/* Rental Agreement Modal */}
       {showRentalAgreement && (

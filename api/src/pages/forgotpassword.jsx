@@ -1,25 +1,26 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FiArrowLeft, FiCheckCircle } from 'react-icons/fi';
-import authService from '../services/authservice';
-import './Auth.css';
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { FiArrowLeft, FiCheckCircle } from "react-icons/fi";
+import authService from "../services/authservice";
+import "./Auth.css";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSent, setIsSent] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
     try {
       await authService.forgotPassword(email);
       setIsSent(true);
     } catch (err) {
       setError(
-        err.response?.data?.message || 'Something went wrong. Please try again.'
+        err.response?.data?.message ||
+          "Something went wrong. Please try again.",
       );
     } finally {
       setIsLoading(false);
@@ -81,7 +82,7 @@ const ForgotPassword = () => {
                     {isLoading ? (
                       <span className="loading-spinner"></span>
                     ) : (
-                      'Send OTP'
+                      "Send OTP"
                     )}
                   </button>
                 </form>
@@ -91,7 +92,7 @@ const ForgotPassword = () => {
                 <FiCheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
                 <h2 className="text-2xl font-bold mb-2">Check Your Email</h2>
                 <p className="text-gray-500 mb-6">
-                  If the email exists, an OTP was sent to{' '}
+                  If the email exists, an OTP was sent to{" "}
                   <strong>{email}</strong>. Use it to reset your password.
                 </p>
                 <Link

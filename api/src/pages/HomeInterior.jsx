@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 // eslint-disable-next-line no-unused-vars
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import {
   FaCouch,
   FaBed,
@@ -20,127 +20,127 @@ import {
   FaClock,
   FaShieldAlt,
   FaAward,
-} from 'react-icons/fa';
-import { MdDesignServices, MdStyle } from 'react-icons/md';
-import './HomeInterior.css';
+} from "react-icons/fa";
+import { MdDesignServices, MdStyle } from "react-icons/md";
+import "./HomeInterior.css";
 
 // Room Categories
 const ROOM_CATEGORIES = [
   {
-    id: 'living',
-    name: 'Living Room',
+    id: "living",
+    name: "Living Room",
     icon: FaCouch,
-    image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400',
+    image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400",
   },
   {
-    id: 'bedroom',
-    name: 'Bedroom',
+    id: "bedroom",
+    name: "Bedroom",
     icon: FaBed,
-    image: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=400',
+    image: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=400",
   },
   {
-    id: 'kitchen',
-    name: 'Modular Kitchen',
+    id: "kitchen",
+    name: "Modular Kitchen",
     icon: FaUtensils,
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400',
+    image: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400",
   },
   {
-    id: 'bathroom',
-    name: 'Bathroom',
+    id: "bathroom",
+    name: "Bathroom",
     icon: FaBath,
-    image: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400',
+    image: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?w=400",
   },
   {
-    id: 'wardrobe',
-    name: 'Wardrobe',
+    id: "wardrobe",
+    name: "Wardrobe",
     icon: FaDoorOpen,
-    image: 'https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=400',
+    image: "https://images.unsplash.com/photo-1558997519-83ea9252edf8?w=400",
   },
   {
-    id: 'kids',
-    name: 'Kids Room',
+    id: "kids",
+    name: "Kids Room",
     icon: FaChild,
-    image: 'https://images.unsplash.com/photo-1617806118233-18e1de247200?w=400',
+    image: "https://images.unsplash.com/photo-1617806118233-18e1de247200?w=400",
   },
 ];
 
 // Design Styles
 const DESIGN_STYLES = [
-  { id: 'modern', name: 'Modern', desc: 'Clean lines, minimalist approach' },
+  { id: "modern", name: "Modern", desc: "Clean lines, minimalist approach" },
   {
-    id: 'contemporary',
-    name: 'Contemporary',
-    desc: 'Current trends, flexible design',
+    id: "contemporary",
+    name: "Contemporary",
+    desc: "Current trends, flexible design",
   },
   {
-    id: 'traditional',
-    name: 'Traditional',
-    desc: 'Classic elegance, timeless appeal',
+    id: "traditional",
+    name: "Traditional",
+    desc: "Classic elegance, timeless appeal",
   },
   {
-    id: 'minimalist',
-    name: 'Minimalist',
-    desc: 'Less is more, functional beauty',
+    id: "minimalist",
+    name: "Minimalist",
+    desc: "Less is more, functional beauty",
   },
   {
-    id: 'industrial',
-    name: 'Industrial',
-    desc: 'Raw materials, urban aesthetic',
+    id: "industrial",
+    name: "Industrial",
+    desc: "Raw materials, urban aesthetic",
   },
   {
-    id: 'scandinavian',
-    name: 'Scandinavian',
-    desc: 'Light, airy, natural elements',
+    id: "scandinavian",
+    name: "Scandinavian",
+    desc: "Light, airy, natural elements",
   },
 ];
 
 // Design Packages
 const DESIGN_PACKAGES = [
   {
-    id: 'essential',
-    name: 'Essential',
-    price: '₹5.5 Lakh',
-    priceNote: 'Starting price for 2BHK',
+    id: "essential",
+    name: "Essential",
+    price: "₹5.5 Lakh",
+    priceNote: "Starting price for 2BHK",
     features: [
-      'Basic modular kitchen',
-      '2 wardrobes',
-      'Living room setup',
-      'Basic lighting',
-      '5-year warranty',
-      '45-day delivery',
+      "Basic modular kitchen",
+      "2 wardrobes",
+      "Living room setup",
+      "Basic lighting",
+      "5-year warranty",
+      "45-day delivery",
     ],
     popular: false,
   },
   {
-    id: 'premium',
-    name: 'Premium',
-    price: '₹8.5 Lakh',
-    priceNote: 'Starting price for 2BHK',
+    id: "premium",
+    name: "Premium",
+    price: "₹8.5 Lakh",
+    priceNote: "Starting price for 2BHK",
     features: [
-      'Premium modular kitchen',
-      '3 wardrobes with loft',
-      'Complete living room',
-      'Designer lighting',
-      'False ceiling',
-      '8-year warranty',
-      '60-day delivery',
+      "Premium modular kitchen",
+      "3 wardrobes with loft",
+      "Complete living room",
+      "Designer lighting",
+      "False ceiling",
+      "8-year warranty",
+      "60-day delivery",
     ],
     popular: true,
   },
   {
-    id: 'luxe',
-    name: 'Luxe',
-    price: '₹12 Lakh',
-    priceNote: 'Starting price for 2BHK',
+    id: "luxe",
+    name: "Luxe",
+    price: "₹12 Lakh",
+    priceNote: "Starting price for 2BHK",
     features: [
-      'Luxury modular kitchen',
-      'Walk-in wardrobes',
-      'Complete home interiors',
-      'Premium lighting & fixtures',
-      'Designer false ceiling',
-      'Smart home integration',
-      '10-year warranty',
-      'Priority delivery',
+      "Luxury modular kitchen",
+      "Walk-in wardrobes",
+      "Complete home interiors",
+      "Premium lighting & fixtures",
+      "Designer false ceiling",
+      "Smart home integration",
+      "10-year warranty",
+      "Priority delivery",
     ],
     popular: false,
   },
@@ -150,73 +150,73 @@ const DESIGN_PACKAGES = [
 const WHY_CHOOSE_US = [
   {
     icon: FaPaintRoller,
-    title: 'Expert Designers',
-    desc: '150+ experienced interior designers',
+    title: "Expert Designers",
+    desc: "150+ experienced interior designers",
   },
   {
     icon: FaTools,
-    title: 'Quality Materials',
-    desc: 'Premium materials with warranty',
+    title: "Quality Materials",
+    desc: "Premium materials with warranty",
   },
   {
     icon: FaClock,
-    title: 'On-time Delivery',
-    desc: 'Guaranteed timely completion',
+    title: "On-time Delivery",
+    desc: "Guaranteed timely completion",
   },
   {
     icon: FaShieldAlt,
-    title: 'Price Assurance',
-    desc: 'No hidden costs, transparent pricing',
+    title: "Price Assurance",
+    desc: "No hidden costs, transparent pricing",
   },
   {
     icon: FaAward,
-    title: '10 Year Warranty',
-    desc: 'Industry-leading warranty coverage',
+    title: "10 Year Warranty",
+    desc: "Industry-leading warranty coverage",
   },
   {
     icon: MdDesignServices,
-    title: 'Free Consultation',
-    desc: 'Complimentary design consultation',
+    title: "Free Consultation",
+    desc: "Complimentary design consultation",
   },
 ];
 
 // Testimonials
 const TESTIMONIALS = [
   {
-    name: 'Priya Sharma',
-    location: 'Mumbai',
+    name: "Priya Sharma",
+    location: "Mumbai",
     rating: 5,
     comment:
-      'Amazing transformation of my 3BHK! The team was professional and delivered on time.',
-    image: 'https://randomuser.me/api/portraits/women/44.jpg',
+      "Amazing transformation of my 3BHK! The team was professional and delivered on time.",
+    image: "https://randomuser.me/api/portraits/women/44.jpg",
   },
   {
-    name: 'Rahul Verma',
-    location: 'Delhi',
+    name: "Rahul Verma",
+    location: "Delhi",
     rating: 5,
     comment:
-      'Excellent service and quality. My modular kitchen looks stunning!',
-    image: 'https://randomuser.me/api/portraits/men/32.jpg',
+      "Excellent service and quality. My modular kitchen looks stunning!",
+    image: "https://randomuser.me/api/portraits/men/32.jpg",
   },
   {
-    name: 'Anita Desai',
-    location: 'Bangalore',
+    name: "Anita Desai",
+    location: "Bangalore",
     rating: 5,
     comment:
-      'Professional team, great designs, and value for money. Highly recommend!',
-    image: 'https://randomuser.me/api/portraits/women/68.jpg',
+      "Professional team, great designs, and value for money. Highly recommend!",
+    image: "https://randomuser.me/api/portraits/women/68.jpg",
   },
 ];
 
 const HomeInterior = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    propertyType: '2bhk',
-    city: '',
-    message: '',
+    name: "",
+    email: "",
+    phone: "",
+    propertyType: "2bhk",
+    city: "",
+    message: "",
   });
   const [formStatus, setFormStatus] = useState({
     submitted: false,
@@ -233,7 +233,7 @@ const HomeInterior = () => {
     // Simulate form submission
     setFormStatus({ submitted: true, error: null });
     // In production, you would send this to your backend
-    console.log('Interior consultation request:', formData);
+    console.log("Interior consultation request:", formData);
   };
 
   return (
@@ -304,7 +304,7 @@ const HomeInterior = () => {
             {ROOM_CATEGORIES.map((room) => (
               <motion.div
                 key={room.id}
-                className={`room-card ${selectedRoom === room.id ? 'active' : ''}`}
+                className={`room-card ${selectedRoom === room.id ? "active" : ""}`}
                 onClick={() => setSelectedRoom(room.id)}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
@@ -356,7 +356,7 @@ const HomeInterior = () => {
             {DESIGN_PACKAGES.map((pkg) => (
               <motion.div
                 key={pkg.id}
-                className={`package-card ${pkg.popular ? 'popular' : ''}`}
+                className={`package-card ${pkg.popular ? "popular" : ""}`}
                 whileHover={{ y: -5 }}
               >
                 {pkg.popular && (

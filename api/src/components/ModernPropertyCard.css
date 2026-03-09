@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 .modern-property-card {
   --primary-color: #ffffff;
@@ -10,7 +10,7 @@
   --accent-blue: #3b82f6;
 
   font-family:
-    'Inter',
+    "Inter",
     system-ui,
     -apple-system,
     sans-serif;

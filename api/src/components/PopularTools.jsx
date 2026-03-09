@@ -1,26 +1,26 @@
-import { Link } from 'react-router-dom';
-import './PopularTools.css';
+import { Link } from "react-router-dom";
+import "./PopularTools.css";
 
 const TOOLS = [
   {
-    title: 'EMI Calculator',
-    desc: 'Calculate your home loan EMI',
-    href: '/emi-calculator',
+    title: "EMI Calculator",
+    desc: "Calculate your home loan EMI",
+    href: "/emi-calculator",
   },
   {
-    title: 'Home Interior',
-    desc: 'Design your dream home interior',
-    href: '/home-interior',
+    title: "Home Interior",
+    desc: "Design your dream home interior",
+    href: "/home-interior",
   },
   {
-    title: 'Loan Eligibility',
-    desc: 'See what you can borrow for your home',
-    href: 'loan-eligibility',
+    title: "Loan Eligibility",
+    desc: "See what you can borrow for your home",
+    href: "loan-eligibility",
   },
   {
-    title: 'Area Converter',
-    desc: 'Convert one area into any other easily',
-    href: 'area-converter',
+    title: "Area Converter",
+    desc: "Convert one area into any other easily",
+    href: "area-converter",
   },
 ];
 
@@ -32,7 +32,7 @@ const PopularTools = () => {
         <p className="popular-tools-subtitle">Go from browsing to buying</p>
         <div className="popular-tools-grid">
           {TOOLS.map((tool) =>
-            tool.href.startsWith('/') ? (
+            tool.href.startsWith("/") ? (
               <Link
                 key={tool.title}
                 to={tool.href}
@@ -50,7 +50,7 @@ const PopularTools = () => {
                 <h3 className="popular-tools-card-title">{tool.title}</h3>
                 <p className="popular-tools-card-desc">{tool.desc}</p>
               </a>
-            )
+            ),
           )}
         </div>
       </div>

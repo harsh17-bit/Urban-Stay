@@ -1,8 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const {
-    createReview, getPropertyReviews, getMyReviews, updateReview, deleteReview,
-    voteReview, respondToReview, moderateReview, getPendingReviews
+  createReview,
+  getPropertyReviews,
+  getMyReviews,
+  updateReview,
+  deleteReview,
+  voteReview,
+  respondToReview,
+  moderateReview,
+  getPendingReviews,
 } = require("../controllers/reviewcontroller");
 const { protect, authorize } = require("../middleware/auth");
 

@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   FiHome,
   FiUsers,
@@ -23,23 +23,23 @@ import {
   FiCalendar,
   FiUser,
   FiDollarSign,
-} from 'react-icons/fi';
-import { useAuth } from '../context/authcontext.jsx';
-import { propertyService } from '../services/propertyservice';
-import { reviewService } from '../services/dataservice';
-import api from '../services/api';
-import './Dashboard.css';
-import './AdminDashboard.css';
+} from "react-icons/fi";
+import { useAuth } from "../context/authcontext.jsx";
+import { propertyService } from "../services/propertyservice";
+import { reviewService } from "../services/dataservice";
+import api from "../services/api";
+import "./Dashboard.css";
+import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
   const { user } = useAuth();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [stats, setStats] = useState(null);
   const [users, setUsers] = useState([]);
   const [properties, setProperties] = useState([]);
   const [pendingReviews, setPendingReviews] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [filterRole, setFilterRole] = useState('all');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterRole, setFilterRole] = useState("all");
   const [selectedUser, setSelectedUser] = useState(null);
   const [showUserDetailModal, setShowUserDetailModal] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -61,29 +61,29 @@ const AdminDashboard = () => {
 
   const fetchData = async () => {
     try {
-      if (activeTab === 'overview') {
+      if (activeTab === "overview") {
         const statsRes = await propertyService.getAdminStats();
         setStats(statsRes.stats);
         setProperties(statsRes.recentProperties || []);
       }
-      if (activeTab === 'properties') {
+      if (activeTab === "properties") {
         const propertiesRes = await propertyService.getProperties({
           limit: 100,
-          sort: 'newest',
-          status: 'all',
+          sort: "newest",
+          status: "all",
         });
         setProperties(propertiesRes.properties || []);
       }
-      if (activeTab === 'users') {
-        const usersRes = await api.get('/auth/users');
+      if (activeTab === "users") {
+        const usersRes = await api.get("/auth/users");
         setUsers(usersRes.data.users || []);
       }
-      if (activeTab === 'reviews') {
+      if (activeTab === "reviews") {
         const reviewsRes = await reviewService.getPending();
         setPendingReviews(reviewsRes.reviews || []);
       }
-      if (activeTab === 'payments') {
-        const paymentsRes = await api.get('/payments');
+      if (activeTab === "payments") {
+        const paymentsRes = await api.get("/payments");
         setPayments(paymentsRes.data.payments || []);
         setPaymentStats({
           count: paymentsRes.data.count || 0,
@@ -91,7 +91,7 @@ const AdminDashboard = () => {
         });
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
       await propertyService.verifyProperty(id);
       await fetchData();
     } catch (error) {
-      console.error('Error verifying property:', error);
+      console.error("Error verifying property:", error);
     }
   };
 
@@ -109,7 +109,7 @@ const AdminDashboard = () => {
       await propertyService.featureProperty(id, 30);
       await fetchData();
     } catch (error) {
-      console.error('Error featuring property:', error);
+      console.error("Error featuring property:", error);
     }
   };
 
@@ -118,7 +118,7 @@ const AdminDashboard = () => {
       await propertyService.unfeatureProperty(id);
       await fetchData();
     } catch (error) {
-      console.error('Error cancelling featured status:', error);
+      console.error("Error cancelling featured status:", error);
     }
   };
 
@@ -127,7 +127,7 @@ const AdminDashboard = () => {
       await reviewService.moderate(id, status);
       setPendingReviews(pendingReviews.filter((r) => r._id !== id));
     } catch (error) {
-      console.error('Error moderating review:', error);
+      console.error("Error moderating review:", error);
     }
   };
 
@@ -136,7 +136,7 @@ const AdminDashboard = () => {
       await api.put(`/auth/users/${userId}/role`, { role });
       setUsers(users.map((u) => (u._id === userId ? { ...u, role } : u)));
     } catch (error) {
-      console.error('Error updating user role:', error);
+      console.error("Error updating user role:", error);
     }
   };
 
@@ -149,10 +149,10 @@ const AdminDashboard = () => {
       setUsers(users.filter((u) => u._id !== userToDelete._id));
       setShowDeleteConfirm(false);
       setUserToDelete(null);
-      alert('User deleted successfully!');
+      alert("User deleted successfully!");
     } catch (error) {
-      console.error('Error deleting user:', error);
-      alert(error.response?.data?.message || 'Error deleting user');
+      console.error("Error deleting user:", error);
+      alert(error.response?.data?.message || "Error deleting user");
     } finally {
       setIsDeleting(false);
     }
@@ -174,13 +174,13 @@ const AdminDashboard = () => {
     try {
       await propertyService.deleteProperty(propertyToDelete._id);
       setProperties((prev) =>
-        prev.filter((p) => p._id !== propertyToDelete._id)
+        prev.filter((p) => p._id !== propertyToDelete._id),
       );
       setShowPropertyDeleteConfirm(false);
       setPropertyToDelete(null);
     } catch (error) {
-      console.error('Error deleting property:', error);
-      alert(error.response?.data?.message || 'Error deleting property');
+      console.error("Error deleting property:", error);
+      alert(error.response?.data?.message || "Error deleting property");
     } finally {
       setIsDeletingProperty(false);
     }
@@ -190,16 +190,16 @@ const AdminDashboard = () => {
     const matchesSearch =
       u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.email.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesRole = filterRole === 'all' || u.role === filterRole;
+    const matchesRole = filterRole === "all" || u.role === filterRole;
     return matchesSearch && matchesRole;
   });
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: FiTrendingUp },
-    { id: 'properties', label: 'Properties', icon: FiHome },
-    { id: 'users', label: 'Users', icon: FiUsers },
-    { id: 'reviews', label: 'Reviews', icon: FiStar },
-    { id: 'payments', label: 'Payments', icon: FiDollarSign },
+    { id: "overview", label: "Overview", icon: FiTrendingUp },
+    { id: "properties", label: "Properties", icon: FiHome },
+    { id: "users", label: "Users", icon: FiUsers },
+    { id: "reviews", label: "Reviews", icon: FiStar },
+    { id: "payments", label: "Payments", icon: FiDollarSign },
   ];
 
   return (
@@ -220,7 +220,7 @@ const AdminDashboard = () => {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
+                className={`nav-item ${activeTab === tab.id ? "active" : ""}`}
                 onClick={() => setActiveTab(tab.id)}
               >
                 <tab.icon />
@@ -233,7 +233,7 @@ const AdminDashboard = () => {
         {/* Main Content */}
         <main className="dashboard-main">
           {/* Overview Tab */}
-          {activeTab === 'overview' && (
+          {activeTab === "overview" && (
             <div className="dashboard-content">
               <h1>Admin Dashboard</h1>
               <p className="subtitle">Platform overview and statistics</p>
@@ -346,7 +346,7 @@ const AdminDashboard = () => {
               <div className="dashboard-section">
                 <div className="section-header">
                   <h2>Recent Properties</h2>
-                  <button onClick={() => setActiveTab('properties')}>
+                  <button onClick={() => setActiveTab("properties")}>
                     View All
                   </button>
                 </div>
@@ -429,7 +429,7 @@ const AdminDashboard = () => {
           )}
 
           {/* Users Tab */}
-          {activeTab === 'users' && (
+          {activeTab === "users" && (
             <div className="dashboard-content">
               <h1>User Management</h1>
               <p className="subtitle">Manage platform users and roles</p>
@@ -512,7 +512,7 @@ const AdminDashboard = () => {
                           </select>
                         </td>
                         <td>
-                          {u.role === 'seller' ? (
+                          {u.role === "seller" ? (
                             <div className="professional-info">
                               {u.companyName && (
                                 <div className="info-item">
@@ -566,7 +566,7 @@ const AdminDashboard = () => {
           )}
 
           {/* Properties Tab */}
-          {activeTab === 'properties' && (
+          {activeTab === "properties" && (
             <div className="dashboard-content">
               <h1>Property Management</h1>
               <p className="subtitle">View and manage all property listings</p>
@@ -593,24 +593,24 @@ const AdminDashboard = () => {
                               <span>{property.title}</span>
                             </div>
                           </td>
-                          <td>{property.owner?.name || '-'}</td>
+                          <td>{property.owner?.name || "-"}</td>
                           <td>
                             {property.propertyType}
                             {property.listingType
                               ? ` (${property.listingType})`
-                              : ''}
+                              : ""}
                           </td>
                           <td>
-                            {property.location?.city || '-'}
+                            {property.location?.city || "-"}
                             {property.location?.state
                               ? `, ${property.location.state}`
-                              : ''}
+                              : ""}
                           </td>
                           <td>
                             <span
-                              className={`status-badge ${property.status || 'pending'}`}
+                              className={`status-badge ${property.status || "pending"}`}
                             >
-                              {property.status || 'pending'}
+                              {property.status || "pending"}
                             </span>
                           </td>
                           <td>
@@ -671,12 +671,12 @@ const AdminDashboard = () => {
           )}
 
           {/* Payments Tab */}
-          {activeTab === 'payments' && (
+          {activeTab === "payments" && (
             <div className="dashboard-content">
               <h1>Payment Records</h1>
               <p className="subtitle">All Featured Listing transactions</p>
 
-              <div className="stats-grid" style={{ marginBottom: '1.5rem' }}>
+              <div className="stats-grid" style={{ marginBottom: "1.5rem" }}>
                 <div className="stat-card">
                   <div className="stat-info">
                     <h3>₹{paymentStats.totalRevenue.toLocaleString()}</h3>
@@ -713,9 +713,9 @@ const AdminDashboard = () => {
                           <td>
                             <span
                               style={{
-                                fontFamily: 'monospace',
-                                fontSize: '0.78rem',
-                                color: 'black',
+                                fontFamily: "monospace",
+                                fontSize: "0.78rem",
+                                color: "black",
                               }}
                             >
                               {p.transactionId}
@@ -724,21 +724,21 @@ const AdminDashboard = () => {
                           <td>
                             <div>
                               <span className="user-name">
-                                {p.seller?.name || '—'}
+                                {p.seller?.name || "—"}
                               </span>
                               <br />
-                              <small style={{ color: 'black' }}>
+                              <small style={{ color: "black" }}>
                                 {p.seller?.email}
                               </small>
                             </div>
                           </td>
-                          <td>{p.property?.title || '—'}</td>
+                          <td>{p.property?.title || "—"}</td>
                           <td>
                             <strong>₹{p.amount?.toLocaleString()}</strong>
                           </td>
                           <td>
                             <span
-                              className={`status-badge ${p.status === 'captured' ? 'available' : 'sold'}`}
+                              className={`status-badge ${p.status === "captured" ? "available" : "sold"}`}
                             >
                               {p.status}
                             </span>
@@ -746,7 +746,7 @@ const AdminDashboard = () => {
                           <td>
                             {p.featuredUntil
                               ? new Date(p.featuredUntil).toLocaleDateString()
-                              : '—'}
+                              : "—"}
                           </td>
                           <td>{new Date(p.createdAt).toLocaleDateString()}</td>
                         </tr>
@@ -768,7 +768,7 @@ const AdminDashboard = () => {
           )}
 
           {/* Reviews Tab */}
-          {activeTab === 'reviews' && (
+          {activeTab === "reviews" && (
             <div className="dashboard-content">
               <h1>Review Moderation</h1>
               <p className="subtitle">Approve or reject user reviews</p>
@@ -788,8 +788,8 @@ const AdminDashboard = () => {
                           </div>
                         </div>
                         <div className="review-rating">
-                          {'★'.repeat(review.rating)}
-                          {'☆'.repeat(5 - review.rating)}
+                          {"★".repeat(review.rating)}
+                          {"☆".repeat(5 - review.rating)}
                         </div>
                       </div>
                       <div className="review-property">
@@ -800,7 +800,7 @@ const AdminDashboard = () => {
                         <button
                           className="btn-approve"
                           onClick={() =>
-                            handleModerateReview(review._id, 'approved')
+                            handleModerateReview(review._id, "approved")
                           }
                         >
                           <FiCheck /> Approve
@@ -808,7 +808,7 @@ const AdminDashboard = () => {
                         <button
                           className="btn-reject"
                           onClick={() =>
-                            handleModerateReview(review._id, 'rejected')
+                            handleModerateReview(review._id, "rejected")
                           }
                         >
                           <FiX /> Reject
@@ -876,13 +876,13 @@ const AdminDashboard = () => {
                       <label>
                         <FiPhone /> Phone
                       </label>
-                      <p>{selectedUser.phone || 'Not provided'}</p>
+                      <p>{selectedUser.phone || "Not provided"}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Professional Information */}
-                {selectedUser.role === 'seller' && (
+                {selectedUser.role === "seller" && (
                   <div className="detail-section">
                     <h3>Professional Information</h3>
                     <div className="detail-grid">
@@ -890,13 +890,13 @@ const AdminDashboard = () => {
                         <label>
                           <FiBriefcase /> Company Name
                         </label>
-                        <p>{selectedUser.companyName || 'Not provided'}</p>
+                        <p>{selectedUser.companyName || "Not provided"}</p>
                       </div>
                       <div className="detail-item">
                         <label>
                           <FiAward /> RERA Number
                         </label>
-                        <p>{selectedUser.reraNumber || 'Not provided'}</p>
+                        <p>{selectedUser.reraNumber || "Not provided"}</p>
                       </div>
                     </div>
                   </div>
@@ -934,7 +934,7 @@ const AdminDashboard = () => {
                         {selectedUser.isVerified ? (
                           <FiCheck className="text-success" />
                         ) : (
-                          'Not Verified'
+                          "Not Verified"
                         )}
                       </p>
                     </div>
@@ -943,7 +943,7 @@ const AdminDashboard = () => {
                         <label>Last Login</label>
                         <p>
                           {new Date(
-                            selectedUser.lastLogin
+                            selectedUser.lastLogin,
                           ).toLocaleDateString()}
                         </p>
                       </div>
@@ -996,12 +996,12 @@ const AdminDashboard = () => {
                       {propertyToDelete.location?.city}
                       {propertyToDelete.location?.state
                         ? `, ${propertyToDelete.location.state}`
-                        : ''}
+                        : ""}
                     </p>
                     <span
-                      className={`status-badge ${propertyToDelete.status || 'pending'}`}
+                      className={`status-badge ${propertyToDelete.status || "pending"}`}
                     >
-                      {propertyToDelete.status || 'pending'}
+                      {propertyToDelete.status || "pending"}
                     </span>
                   </div>
                 </div>
@@ -1019,7 +1019,7 @@ const AdminDashboard = () => {
                   onClick={handleDeleteProperty}
                   disabled={isDeletingProperty}
                 >
-                  {isDeletingProperty ? 'Deleting...' : 'Delete Property'}
+                  {isDeletingProperty ? "Deleting..." : "Delete Property"}
                 </button>
               </div>
             </div>
@@ -1071,7 +1071,7 @@ const AdminDashboard = () => {
                   onClick={handleDeleteUser}
                   disabled={isDeleting}
                 >
-                  {isDeleting ? 'Deleting...' : 'Delete User'}
+                  {isDeleting ? "Deleting..." : "Delete User"}
                 </button>
               </div>
             </div>

@@ -15,7 +15,7 @@ const FeaturedProjects = () => {
       try {
         const response = await propertyService.getFeatured();
         setFeatured(response?.properties || []);
-      // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
       } catch (err) {
         setError("Failed to load featured properties");
       } finally {
@@ -29,14 +29,18 @@ const FeaturedProjects = () => {
     <section className="featured-projects">
       <div className="featured-container">
         <h2 className="featured-title">Handpicked Residential Projects</h2>
-        <p className="featured-subtitle">Featured Residential projects across India</p>
+        <p className="featured-subtitle">
+          Featured Residential projects across India
+        </p>
         <div className="featured-grid">
           {loading && <p>Loading featured properties...</p>}
           {!loading && error && <p>{error}</p>}
           {!loading && !error && featured.length === 0 && (
             <p>No featured properties yet.</p>
           )}
-          {!loading && !error && featured.length > 0 &&
+          {!loading &&
+            !error &&
+            featured.length > 0 &&
             featured.map((item) => (
               <PropertyCard key={item._id} property={item} />
             ))}

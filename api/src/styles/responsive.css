@@ -22,7 +22,7 @@ iframe {
 
 /* ─── Container Responsive ─── */
 .container,
-[class*='-container'] {
+[class*="-container"] {
   width: 100%;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -64,7 +64,7 @@ iframe {
 /* ─── Grid Responsive Utilities ─── */
 @media (max-width: 768px) {
   .grid,
-  [class*='-grid'] {
+  [class*="-grid"] {
     grid-template-columns: 1fr !important;
   }
 
@@ -98,7 +98,7 @@ iframe {
 /* ─── Spacing Responsive ─── */
 @media (max-width: 768px) {
   .section,
-  [class*='-section'] {
+  [class*="-section"] {
     padding-top: 2rem;
     padding-bottom: 2rem;
   }
@@ -128,7 +128,7 @@ iframe {
 @media (max-width: 480px) {
   button,
   .btn,
-  [class*='-btn'] {
+  [class*="-btn"] {
     padding: 0.75rem 1rem;
     font-size: 0.9rem;
   }
@@ -148,13 +148,13 @@ iframe {
   }
 
   .form-row,
-  [class*='-form-row'] {
+  [class*="-form-row"] {
     flex-direction: column !important;
     gap: 1rem !important;
   }
 
   .form-group,
-  [class*='-form-group'] {
+  [class*="-form-group"] {
     width: 100% !important;
   }
 }
@@ -177,7 +177,7 @@ iframe {
 /* ─── Card Responsive ─── */
 @media (max-width: 768px) {
   .card,
-  [class*='-card'] {
+  [class*="-card"] {
     border-radius: 12px;
   }
 }
@@ -185,7 +185,7 @@ iframe {
 /* ─── Modal Responsive ─── */
 @media (max-width: 768px) {
   .modal-content,
-  [class*='modal-content'] {
+  [class*="modal-content"] {
     width: 95% !important;
     max-width: 95vw !important;
     margin: 1rem !important;
@@ -220,7 +220,7 @@ iframe {
 /* ─── Fixed Elements Responsive ─── */
 @media (max-width: 768px) {
   .sticky,
-  [class*='sticky'] {
+  [class*="sticky"] {
     position: relative !important;
   }
 }
@@ -235,8 +235,8 @@ iframe {
 @media (max-width: 768px) {
   a,
   button,
-  input[type='submit'],
-  input[type='button'] {
+  input[type="submit"],
+  input[type="button"] {
     min-height: 44px;
     min-width: 44px;
   }

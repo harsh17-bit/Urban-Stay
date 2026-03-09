@@ -6,7 +6,7 @@
  *  @prop {Function} onClose – callback to unmount the modal
  */
 
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 import {
   FiX,
   FiPrinter,
@@ -14,56 +14,56 @@ import {
   FiCheckCircle,
   FiChevronRight,
   FiChevronLeft,
-} from 'react-icons/fi';
-import './RentalAgreement.css';
+} from "react-icons/fi";
+import "./RentalAgreement.css";
 const TEMPLATES = [
   {
-    id: 'standard',
-    name: 'Standard Residential',
-    tag: 'Basic',
+    id: "standard",
+    name: "Standard Residential",
+    tag: "Basic",
     description:
-      'A concise, legally-sound agreement ideal for individual tenants renting apartments, flats, or houses.',
+      "A concise, legally-sound agreement ideal for individual tenants renting apartments, flats, or houses.",
     features: [
-      'Basic clauses',
-      'Maintenance terms',
-      'Utility responsibilities',
-      'Termination policy',
+      "Basic clauses",
+      "Maintenance terms",
+      "Utility responsibilities",
+      "Termination policy",
     ],
   },
   {
-    id: 'premium',
-    name: 'Premium Residential',
-    tag: 'Recommended',
+    id: "premium",
+    name: "Premium Residential",
+    tag: "Recommended",
     description:
-      'A comprehensive agreement with detailed clauses covering sub-letting, pets, alterations, and dispute resolution.',
+      "A comprehensive agreement with detailed clauses covering sub-letting, pets, alterations, and dispute resolution.",
     features: [
-      'All Standard clauses',
-      'Pet & sub-letting policy',
-      'Interior alteration terms',
-      'Dispute resolution clause',
-      'Force majeure clause',
+      "All Standard clauses",
+      "Pet & sub-letting policy",
+      "Interior alteration terms",
+      "Dispute resolution clause",
+      "Force majeure clause",
     ],
   },
   {
-    id: 'commercial',
-    name: 'Corporate / Commercial',
-    tag: 'Commercial',
+    id: "commercial",
+    name: "Corporate / Commercial",
+    tag: "Commercial",
     description:
-      'Designed for offices, shops, and commercial spaces. Includes GST details, business use clauses, and signage rights.',
+      "Designed for offices, shops, and commercial spaces. Includes GST details, business use clauses, and signage rights.",
     features: [
-      'Commercial use clause',
-      'GST & taxation terms',
-      'Signage & branding rights',
-      'Business hours policy',
-      'Fit-out & restoration terms',
+      "Commercial use clause",
+      "GST & taxation terms",
+      "Signage & branding rights",
+      "Business hours policy",
+      "Fit-out & restoration terms",
     ],
   },
 ];
 
 const DURATIONS = [
-  { label: '1 Month', months: 1 },
-  { label: '3 Months', months: 3 },
-  { label: '6 Months', months: 6 },
+  { label: "1 Month", months: 1 },
+  { label: "3 Months", months: 3 },
+  { label: "6 Months", months: 6 },
 ];
 function addMonths(date, n) {
   const d = new Date(date);
@@ -72,15 +72,15 @@ function addMonths(date, n) {
 }
 
 function fmt(date) {
-  return date.toLocaleDateString('en-IN', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
   });
 }
 
 function inr(n) {
-  return '₹' + Number(n).toLocaleString('en-IN');
+  return "₹" + Number(n).toLocaleString("en-IN");
 }
 
 function StandardAgreement({ p, user, startDate, endDate, deposit, refNo }) {
@@ -123,21 +123,21 @@ function StandardAgreement({ p, user, startDate, endDate, deposit, refNo }) {
       <section className="agreement-section">
         <h2>1. PARTIES</h2>
         <p>
-          This Rental Agreement ("Agreement") is entered into on{' '}
+          This Rental Agreement ("Agreement") is entered into on{" "}
           <strong>{fmt(startDate)}</strong> between:
         </p>
         <div className="party-block">
           <strong>LANDLORD (Owner):</strong>
-          <p>Name: {p.owner?.name || 'Property Owner'}</p>
+          <p>Name: {p.owner?.name || "Property Owner"}</p>
           <p>
-            Contact: {p.owner?.phone || '—'} | {p.owner?.email || '—'}
+            Contact: {p.owner?.phone || "—"} | {p.owner?.email || "—"}
           </p>
         </div>
         <div className="party-block">
           <strong>TENANT:</strong>
-          <p>Name: {user?.name || 'Tenant Name'}</p>
+          <p>Name: {user?.name || "Tenant Name"}</p>
           <p>
-            Contact: {user?.phone || '—'} | {user?.email || '—'}
+            Contact: {user?.phone || "—"} | {user?.email || "—"}
           </p>
         </div>
       </section>
@@ -153,7 +153,7 @@ function StandardAgreement({ p, user, startDate, endDate, deposit, refNo }) {
             <strong>Type:</strong> {p.propertyType} ({p.listingType})
           </p>
           <p>
-            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{' '}
+            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{" "}
             {p.location?.state} – {p.location?.pincode}
           </p>
           {p.area && (
@@ -219,7 +219,7 @@ function StandardAgreement({ p, user, startDate, endDate, deposit, refNo }) {
             the Tenant.
           </li>
           <li>
-            Society maintenance charges shall be borne by the{' '}
+            Society maintenance charges shall be borne by the{" "}
             <strong>Landlord</strong>.
           </li>
           <li>
@@ -249,7 +249,7 @@ function StandardAgreement({ p, user, startDate, endDate, deposit, refNo }) {
       <section className="agreement-section">
         <h2>7. TERMINATION</h2>
         <p>
-          Either party may terminate this Agreement by providing{' '}
+          Either party may terminate this Agreement by providing{" "}
           <strong>30 days' written notice</strong>. The Tenant shall vacate the
           property and return keys on or before the last day. The Security
           Deposit shall be refunded within 7 working days of vacating, after
@@ -261,13 +261,13 @@ function StandardAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <div className="sig-col">
           <p>Landlord Signature</p>
           <div className="sig-line" />
-          <p className="sig-name">{p.owner?.name || 'Landlord'}</p>
+          <p className="sig-name">{p.owner?.name || "Landlord"}</p>
           <p className="sig-date">Date: ___________</p>
         </div>
         <div className="sig-col">
           <p>Tenant Signature</p>
           <div className="sig-line" />
-          <p className="sig-name">{user?.name || 'Tenant'}</p>
+          <p className="sig-name">{user?.name || "Tenant"}</p>
           <p className="sig-date">Date: ___________</p>
         </div>
         <div className="sig-col">
@@ -309,17 +309,17 @@ function PremiumAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <h2>1. PARTIES TO THE AGREEMENT</h2>
         <div className="party-block">
           <strong>LESSOR (Landlord):</strong>
-          <p>Name: {p.owner?.name || 'Property Owner'}</p>
+          <p>Name: {p.owner?.name || "Property Owner"}</p>
           <p>
-            Phone: {p.owner?.phone || '—'} | Email: {p.owner?.email || '—'}
+            Phone: {p.owner?.phone || "—"} | Email: {p.owner?.email || "—"}
           </p>
-          <p>Company: {p.owner?.companyName || 'Individual Owner'}</p>
+          <p>Company: {p.owner?.companyName || "Individual Owner"}</p>
         </div>
         <div className="party-block">
           <strong>LESSEE (Tenant):</strong>
-          <p>Name: {user?.name || 'Tenant Name'}</p>
+          <p>Name: {user?.name || "Tenant Name"}</p>
           <p>
-            Phone: {user?.phone || '—'} | Email: {user?.email || '—'}
+            Phone: {user?.phone || "—"} | Email: {user?.email || "—"}
           </p>
           <p>
             ID Proof: (Aadhaar / PAN / Passport – to be provided at signing)
@@ -334,11 +334,11 @@ function PremiumAgreement({ p, user, startDate, endDate, deposit, refNo }) {
             <strong>Property:</strong> {p.title}
           </p>
           <p>
-            <strong>Category:</strong> {p.propertyType} | Listing:{' '}
+            <strong>Category:</strong> {p.propertyType} | Listing:{" "}
             {p.listingType}
           </p>
           <p>
-            <strong>Full Address:</strong> {p.location?.address},{' '}
+            <strong>Full Address:</strong> {p.location?.address},{" "}
             {p.location?.city}, {p.location?.state} – {p.location?.pincode}
           </p>
           {p.area && (
@@ -347,10 +347,10 @@ function PremiumAgreement({ p, user, startDate, endDate, deposit, refNo }) {
             </p>
           )}
           <p>
-            <strong>Furnishing:</strong> {p.furnishing || 'As-Is'}
+            <strong>Furnishing:</strong> {p.furnishing || "As-Is"}
           </p>
           <p>
-            <strong>Floor:</strong> {p.floor || '—'}
+            <strong>Floor:</strong> {p.floor || "—"}
           </p>
         </div>
       </section>
@@ -436,7 +436,7 @@ function PremiumAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <h2>6. PERMITTED USE & RESTRICTIONS</h2>
         <ul>
           <li>
-            The premises shall be used for{' '}
+            The premises shall be used for{" "}
             <strong>residential purposes only</strong>.
           </li>
           <li>
@@ -495,7 +495,7 @@ function PremiumAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <p>
           Any dispute arising under this Agreement shall first be resolved via
           mutual discussion. If unresolved within 30 days, the parties shall
-          submit to mediation before a mutually agreed mediator in{' '}
+          submit to mediation before a mutually agreed mediator in{" "}
           <strong>{p.location?.city}</strong>. Failing mediation, disputes shall
           be settled by courts of competent jurisdiction in {p.location?.city}.
         </p>
@@ -505,13 +505,13 @@ function PremiumAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <div className="sig-col">
           <p>Landlord</p>
           <div className="sig-line" />
-          <p className="sig-name">{p.owner?.name || 'Landlord'}</p>
+          <p className="sig-name">{p.owner?.name || "Landlord"}</p>
           <p className="sig-date">Date: ___________</p>
         </div>
         <div className="sig-col">
           <p>Tenant</p>
           <div className="sig-line" />
-          <p className="sig-name">{user?.name || 'Tenant'}</p>
+          <p className="sig-name">{user?.name || "Tenant"}</p>
           <p className="sig-date">Date: ___________</p>
         </div>
         <div className="sig-col">
@@ -552,19 +552,19 @@ function CommercialAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <h2>1. CONTRACTING PARTIES</h2>
         <div className="party-block">
           <strong>LICENSOR (Owner):</strong>
-          <p>Name / Company: {p.owner?.name || 'Owner'}</p>
+          <p>Name / Company: {p.owner?.name || "Owner"}</p>
           <p>PAN / GSTIN: _______________</p>
           <p>
-            Phone: {p.owner?.phone || '—'} | Email: {p.owner?.email || '—'}
+            Phone: {p.owner?.phone || "—"} | Email: {p.owner?.email || "—"}
           </p>
         </div>
         <div className="party-block">
           <strong>LICENSEE (Business / Tenant):</strong>
-          <p>Name: {user?.name || 'Business Name'}</p>
+          <p>Name: {user?.name || "Business Name"}</p>
           <p>Company Registration No.: _______________</p>
           <p>GSTIN: _______________</p>
           <p>
-            Phone: {user?.phone || '—'} | Email: {user?.email || '—'}
+            Phone: {user?.phone || "—"} | Email: {user?.email || "—"}
           </p>
         </div>
       </section>
@@ -579,7 +579,7 @@ function CommercialAgreement({ p, user, startDate, endDate, deposit, refNo }) {
             <strong>Type:</strong> {p.propertyType}
           </p>
           <p>
-            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{' '}
+            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{" "}
             {p.location?.state} – {p.location?.pincode}
           </p>
           {p.area && (
@@ -649,7 +649,7 @@ function CommercialAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <h2>5. USE OF PREMISES</h2>
         <ul>
           <li>
-            Premises shall be used exclusively for{' '}
+            Premises shall be used exclusively for{" "}
             <strong>lawful commercial / business activities</strong>.
           </li>
           <li>
@@ -708,7 +708,7 @@ function CommercialAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <h2>8. TERMINATION</h2>
         <ul>
           <li>
-            After the lock-in period, either party may terminate with{' '}
+            After the lock-in period, either party may terminate with{" "}
             <strong>30 days' written notice</strong>.
           </li>
           <li>
@@ -738,7 +738,7 @@ function CommercialAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <p>
           This Agreement is governed by the laws of India. Any dispute shall be
           resolved by arbitration under the Arbitration and Conciliation Act,
-          1996, with a sole arbitrator mutually appointed, seated at{' '}
+          1996, with a sole arbitrator mutually appointed, seated at{" "}
           <strong>{p.location?.city}</strong>.
         </p>
       </section>
@@ -747,13 +747,13 @@ function CommercialAgreement({ p, user, startDate, endDate, deposit, refNo }) {
         <div className="sig-col">
           <p>Licensor</p>
           <div className="sig-line" />
-          <p className="sig-name">{p.owner?.name || 'Owner'}</p>
+          <p className="sig-name">{p.owner?.name || "Owner"}</p>
           <p className="sig-date">Seal & Date: ___________</p>
         </div>
         <div className="sig-col">
           <p>Licensee / Authorised Signatory</p>
           <div className="sig-line" />
-          <p className="sig-name">{user?.name || 'Business'}</p>
+          <p className="sig-name">{user?.name || "Business"}</p>
           <p className="sig-date">Seal & Date: ___________</p>
         </div>
         <div className="sig-col">
@@ -792,12 +792,12 @@ const RentalAgreement = ({ property, user, onClose }) => {
   const handlePrint = () => {
     const content = printRef.current?.innerHTML;
     if (!content) return;
-    const win = window.open('', '_blank');
+    const win = window.open("", "_blank");
     win.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Rental Agreement – ${property?.title || 'Property'}</title>
+          <title>Rental Agreement – ${property?.title || "Property"}</title>
           <style>
             * { margin:0; padding:0; box-sizing:border-box; }
             body { font-family:Arial,sans-serif; color:#000; padding:30px; font-size:11px; line-height:1.5; }
@@ -839,9 +839,9 @@ const RentalAgreement = ({ property, user, onClose }) => {
 
   const renderAgreementContent = () => {
     const props = { p: property, user, startDate, endDate, deposit, refNo };
-    if (selectedTemplate?.id === 'premium')
+    if (selectedTemplate?.id === "premium")
       return <PremiumAgreement {...props} />;
-    if (selectedTemplate?.id === 'commercial')
+    if (selectedTemplate?.id === "commercial")
       return <CommercialAgreement {...props} />;
     return <StandardAgreement {...props} />;
   };
@@ -868,7 +868,7 @@ const RentalAgreement = ({ property, user, onClose }) => {
 
         {/* Step Indicator */}
         <div className="ra-steps">
-          {['Choose Template', 'Select Duration', 'Preview & Print'].map(
+          {["Choose Template", "Select Duration", "Preview & Print"].map(
             (label, i) => {
               const idx = i + 1;
               const done = step > idx;
@@ -876,18 +876,18 @@ const RentalAgreement = ({ property, user, onClose }) => {
               return (
                 <div
                   key={idx}
-                  className={`ra-step ${active ? 'active' : ''} ${done ? 'done' : ''}`}
+                  className={`ra-step ${active ? "active" : ""} ${done ? "done" : ""}`}
                 >
                   <div className="ra-step-circle">
                     {done ? <FiCheckCircle /> : <span>{idx}</span>}
                   </div>
                   <span className="ra-step-label">{label}</span>
                   {i < 2 && (
-                    <div className={`ra-step-line ${done ? 'done' : ''}`} />
+                    <div className={`ra-step-line ${done ? "done" : ""}`} />
                   )}
                 </div>
               );
-            }
+            },
           )}
         </div>
 
@@ -902,7 +902,7 @@ const RentalAgreement = ({ property, user, onClose }) => {
               {TEMPLATES.map((t) => (
                 <div
                   key={t.id}
-                  className={`ra-template-card ${selectedTemplate?.id === t.id ? 'selected' : ''}`}
+                  className={`ra-template-card ${selectedTemplate?.id === t.id ? "selected" : ""}`}
                   onClick={() => setSelectedTemplate(t)}
                 >
                   <div className="ra-template-tag">{t.tag}</div>
@@ -940,7 +940,7 @@ const RentalAgreement = ({ property, user, onClose }) => {
                 return (
                   <div
                     key={d.months}
-                    className={`ra-duration-card ${selectedDuration?.months === d.months ? 'selected' : ''}`}
+                    className={`ra-duration-card ${selectedDuration?.months === d.months ? "selected" : ""}`}
                     onClick={() => setSelectedDuration(d)}
                   >
                     <div className="ra-duration-icon">📅</div>

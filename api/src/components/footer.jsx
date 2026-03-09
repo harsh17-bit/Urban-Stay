@@ -1,18 +1,18 @@
-import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const companyLinks = [
-    { label: 'About Us', href: '/about-us' },
-    { label: 'Contact', href: '/about-us' },
+    { label: "About Us", href: "/about-us" },
+    { label: "Contact", href: "/about-us" },
   ];
 
   const serviceLinks = [
-    { label: 'Buy Property', href: '/properties?listingType=buy' },
-    { label: 'Rent Property', href: '/properties?listingType=rent' },
-    { label: 'Post Property', href: '/post-property' },
+    { label: "Buy Property", href: "/properties?listingType=buy" },
+    { label: "Rent Property", href: "/properties?listingType=rent" },
+    { label: "Post Property", href: "/post-property" },
   ];
 
   return (
@@ -49,7 +49,7 @@ const Footer = () => {
             <ul className="space-y-3">
               {companyLinks.map((link) => (
                 <li key={link.label}>
-                  {link.href.startsWith('/') ? (
+                  {link.href.startsWith("/") ? (
                     <Link
                       to={link.href}
                       className="text-gray-400 hover:text-[var(--color-accent)] transition-colors duration-300 text-sm flex items-center gap-2 group"
@@ -129,7 +129,7 @@ const Footer = () => {
         <div className="mt-12 pt-8 border-t border-white/10">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <p className="text-gray-500 text-sm text-center sm:text-left">
-              © {currentYear}{' '}
+              © {currentYear}{" "}
               <span className="text-gray-400">UrbanStay.com</span>. All rights
               reserved.
             </p>

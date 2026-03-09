@@ -6,15 +6,15 @@ A full-stack real estate platform built with **React + Vite** (frontend) and **N
 
 ## Tech Stack
 
-| Layer     | Technology                                      |
-|-----------|-------------------------------------------------|
-| Frontend  | React 18, Vite, React Router v7, Tailwind CSS, Framer Motion, Axios, Zod |
-| Backend   | Node.js, Express 5, Mongoose, MongoDB Atlas     |
-| Auth      | JWT (7-day expiry), bcryptjs                    |
-| Email     | Nodemailer (SMTP)                               |
-| Payments  | Razorpay                                        |
-| Maps      | Leaflet + React Leaflet                         |
-| Uploads   | Multer (local storage)                          |
+| Layer    | Technology                                                               |
+| -------- | ------------------------------------------------------------------------ |
+| Frontend | React 18, Vite, React Router v7, Tailwind CSS, Framer Motion, Axios, Zod |
+| Backend  | Node.js, Express 5, Mongoose, MongoDB Atlas                              |
+| Auth     | JWT (7-day expiry), bcryptjs                                             |
+| Email    | Nodemailer (SMTP)                                                        |
+| Payments | Razorpay                                                                 |
+| Maps     | Leaflet + React Leaflet                                                  |
+| Uploads  | Multer (local storage)                                                   |
 
 ---
 
@@ -108,15 +108,15 @@ node seeder.js
 
 ## API Overview
 
-| Route prefix        | Description                        |
-|---------------------|------------------------------------|
-| `POST /api/auth`    | Register, Login, Forgot/Reset password, Get profile |
-| `GET/POST /api/properties` | Property CRUD, search, filter, featured |
-| `GET/POST /api/inquiries`  | Send & manage inquiries           |
-| `GET/POST /api/reviews`    | Property reviews & ratings        |
-| `GET/POST /api/alerts`     | Saved search alerts               |
-| `GET/POST /api/projects`   | Builder projects                  |
-| `GET /api/health`          | Server health check               |
+| Route prefix               | Description                                         |
+| -------------------------- | --------------------------------------------------- |
+| `POST /api/auth`           | Register, Login, Forgot/Reset password, Get profile |
+| `GET/POST /api/properties` | Property CRUD, search, filter, featured             |
+| `GET/POST /api/inquiries`  | Send & manage inquiries                             |
+| `GET/POST /api/reviews`    | Property reviews & ratings                          |
+| `GET/POST /api/alerts`     | Saved search alerts                                 |
+| `GET/POST /api/projects`   | Builder projects                                    |
+| `GET /api/health`          | Server health check                                 |
 
 Full Postman collection is available in [`server/postman/`](server/postman/).
 
@@ -125,25 +125,25 @@ Full Postman collection is available in [`server/postman/`](server/postman/).
 ## Roles & Permissions
 
 | Action                  | User | Seller | Admin |
-|-------------------------|:----:|:------:|:-----:|
-| Browse / Search         | ✅   | ✅     | ✅    |
-| Send Inquiry            | ✅   | ✅     | ✅    |
-| Post Property           | ❌   | ✅     | ✅    |
-| Respond to Inquiry      | ❌   | ✅     | ✅    |
-| Verify Property         | ❌   | ❌     | ✅    |
-| Feature Property        | ❌   | ❌     | ✅    |
-| Admin Dashboard & Stats | ❌   | ❌     | ✅    |
+| ----------------------- | :--: | :----: | :---: |
+| Browse / Search         |  ✅  |   ✅   |  ✅   |
+| Send Inquiry            |  ✅  |   ✅   |  ✅   |
+| Post Property           |  ❌  |   ✅   |  ✅   |
+| Respond to Inquiry      |  ❌  |   ✅   |  ✅   |
+| Verify Property         |  ❌  |   ❌   |  ✅   |
+| Feature Property        |  ❌  |   ❌   |  ✅   |
+| Admin Dashboard & Stats |  ❌  |   ❌   |  ✅   |
 
 ---
 
 ## Scripts
 
-| Location | Command         | Description                  |
-|----------|-----------------|------------------------------|
-| `api/`   | `npm run dev`   | Start Vite dev server        |
-| `api/`   | `npm run build` | Production build             |
-| `server/`| `npm run dev`   | Start backend with nodemon   |
-| `server/`| `npm start`     | Start backend (production)   |
+| Location  | Command         | Description                |
+| --------- | --------------- | -------------------------- |
+| `api/`    | `npm run dev`   | Start Vite dev server      |
+| `api/`    | `npm run build` | Production build           |
+| `server/` | `npm run dev`   | Start backend with nodemon |
+| `server/` | `npm start`     | Start backend (production) |
 
 ---
 

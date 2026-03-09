@@ -1,6 +1,6 @@
-import { useEffect } from 'react';
-import { FiCheck, FiX } from 'react-icons/fi';
-import './PaymentToast.css';
+import { useEffect } from "react";
+import { FiCheck, FiX } from "react-icons/fi";
+import "./PaymentToast.css";
 
 /**
  * PaymentToast - Minimal success/error toast for payments
@@ -13,7 +13,7 @@ import './PaymentToast.css';
  */
 const PaymentToast = ({
   show,
-  type = 'success',
+  type = "success",
   message,
   txnId,
   onClose,
@@ -31,7 +31,7 @@ const PaymentToast = ({
   return (
     <div className={`pt-toast pt-${type}`}>
       <div className="pt-icon">
-        {type === 'success' ? <FiCheck /> : <FiX />}
+        {type === "success" ? <FiCheck /> : <FiX />}
       </div>
       <div className="pt-content">
         <p className="pt-message">{message}</p>

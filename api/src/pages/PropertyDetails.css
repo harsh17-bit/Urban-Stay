@@ -729,7 +729,7 @@
   font-size: 0.9rem;
 }
 
-.review-form input[type='text'],
+.review-form input[type="text"],
 .review-form textarea {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -740,7 +740,7 @@
   font-family: inherit;
 }
 
-.review-form input[type='text']:focus,
+.review-form input[type="text"]:focus,
 .review-form textarea:focus {
   outline: none;
   border-color: var(--primary-color);
@@ -1351,7 +1351,7 @@
   font-size: 0.875rem;
 }
 
-.emi-inputs input[type='number'] {
+.emi-inputs input[type="number"] {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 2px solid #e2e8f0;
@@ -1360,7 +1360,7 @@
   transition: all 0.2s;
 }
 
-.emi-inputs input[type='number']:focus {
+.emi-inputs input[type="number"]:focus {
   outline: none;
   border-color: var(--primary-color);
 }
@@ -1379,7 +1379,7 @@
   margin-top: 0.75rem;
 }
 
-.input-range input[type='range'] {
+.input-range input[type="range"] {
   flex: 1;
   -webkit-appearance: none;
   appearance: none;
@@ -1389,7 +1389,7 @@
   outline: none;
 }
 
-.input-range input[type='range']::-webkit-slider-thumb {
+.input-range input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 18px;
@@ -1400,11 +1400,11 @@
   transition: all 0.2s;
 }
 
-.input-range input[type='range']::-webkit-slider-thumb:hover {
+.input-range input[type="range"]::-webkit-slider-thumb:hover {
   transform: scale(1.2);
 }
 
-.input-range input[type='range']::-moz-range-thumb {
+.input-range input[type="range"]::-moz-range-thumb {
   width: 18px;
   height: 18px;
   background: var(--primary-color);
@@ -1909,7 +1909,7 @@
 
   /* Add print header */
   .property-details-page::before {
-    content: 'Logic Wave Property - Property Details';
+    content: "Logic Wave Property - Property Details";
     display: block;
     text-align: center;
     font-size: 18pt;
@@ -1936,7 +1936,7 @@
   }
 
   a[href]::after {
-    content: ' (' attr(href) ')';
+    content: " (" attr(href) ")";
     font-size: 8pt;
     color: #666;
   }

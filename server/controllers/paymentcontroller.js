@@ -1,5 +1,5 @@
-const Property = require('../models/property');
-const Payment = require('../models/payment');
+const Property = require("../models/property");
+const Payment = require("../models/payment");
 
 // GET /api/payments/pricing
 const getPricing = async (req, res) => {
@@ -7,14 +7,14 @@ const getPricing = async (req, res) => {
     success: true,
     pricing: {
       amount: 499,
-      currency: 'INR',
-      duration: '30 days',
-      label: 'Featured Listing',
+      currency: "INR",
+      duration: "30 days",
+      label: "Featured Listing",
       benefits: [
-        'Highlighted in Featured Properties section on the homepage',
-        'Priority placement in search results',
-        'Star badge on your listing',
-        '30 days of featured visibility',
+        "Highlighted in Featured Properties section on the homepage",
+        "Priority placement in search results",
+        "Star badge on your listing",
+        "30 days of featured visibility",
       ],
     },
   });
@@ -32,19 +32,19 @@ const featureProperty = async (req, res) => {
     if (!property) {
       return res
         .status(404)
-        .json({ success: false, message: 'Property not found.' });
+        .json({ success: false, message: "Property not found." });
     }
 
     // Allow admin or the owning seller to feature the property
     const isOwner =
       property.seller?.toString() === req.user._id.toString() ||
       property.owner?.toString() === req.user._id.toString();
-    const isAdmin = req.user.role === 'admin';
+    const isAdmin = req.user.role === "admin";
 
     if (!isOwner && !isAdmin) {
       return res.status(403).json({
         success: false,
-        message: 'You do not have permission to feature this property.',
+        message: "You do not have permission to feature this property.",
       });
     }
 
@@ -67,7 +67,7 @@ const featureProperty = async (req, res) => {
     const updatedProperty = await Property.findByIdAndUpdate(
       propertyId,
       { isFeatured: true, featuredUntil },
-      { new: true }
+      { new: true },
     );
 
     // Persist payment record for admin audit trail
@@ -77,16 +77,16 @@ const featureProperty = async (req, res) => {
       property: updatedProperty._id,
       seller: req.user._id,
       amount: 499,
-      currency: 'INR',
-      status: 'captured',
-      method: 'mock',
-      plan: 'Featured Listing — 30 days',
+      currency: "INR",
+      status: "captured",
+      method: "mock",
+      plan: "Featured Listing — 30 days",
       featuredUntil,
     });
 
     return res.json({
       success: true,
-      message: 'Your property has been featured for 30 days!',
+      message: "Your property has been featured for 30 days!",
       property: {
         _id: updatedProperty._id,
         title: updatedProperty.title,
@@ -96,17 +96,17 @@ const featureProperty = async (req, res) => {
       transaction: {
         id: txnId,
         amount: 499,
-        currency: 'INR',
-        status: 'captured',
-        method: 'mock',
+        currency: "INR",
+        status: "captured",
+        method: "mock",
         timestamp: new Date().toISOString(),
       },
     });
   } catch (error) {
-    console.error('featureProperty error:', error);
+    console.error("featureProperty error:", error);
     return res.status(500).json({
       success: false,
-      message: 'Something went wrong. Please try again.',
+      message: "Something went wrong. Please try again.",
     });
   }
 };
@@ -120,24 +120,24 @@ const unfeatureProperty = async (req, res) => {
     if (!property) {
       return res
         .status(404)
-        .json({ success: false, message: 'Property not found.' });
+        .json({ success: false, message: "Property not found." });
     }
 
     if (!property.isFeatured) {
       return res
         .status(400)
-        .json({ success: false, message: 'Property is not featured.' });
+        .json({ success: false, message: "Property is not featured." });
     }
 
     const updatedProperty = await Property.findByIdAndUpdate(
       propertyId,
       { isFeatured: false, featuredUntil: null },
-      { new: true }
+      { new: true },
     );
 
     return res.json({
       success: true,
-      message: 'Featured status has been cancelled.',
+      message: "Featured status has been cancelled.",
       property: {
         _id: updatedProperty._id,
         title: updatedProperty.title,
@@ -145,10 +145,10 @@ const unfeatureProperty = async (req, res) => {
       },
     });
   } catch (error) {
-    console.error('unfeatureProperty error:', error);
+    console.error("unfeatureProperty error:", error);
     return res
       .status(500)
-      .json({ success: false, message: 'Failed to cancel featured status.' });
+      .json({ success: false, message: "Failed to cancel featured status." });
   }
 };
 
@@ -156,15 +156,15 @@ const unfeatureProperty = async (req, res) => {
 const getMyPayments = async (req, res) => {
   try {
     const payments = await Payment.find({ seller: req.user._id })
-      .populate('property', 'title location')
+      .populate("property", "title location")
       .sort({ createdAt: -1 });
 
     return res.json({ success: true, payments });
   } catch (error) {
-    console.error('getMyPayments error:', error);
+    console.error("getMyPayments error:", error);
     return res
       .status(500)
-      .json({ success: false, message: 'Failed to fetch payments.' });
+      .json({ success: false, message: "Failed to fetch payments." });
   }
 };
 
@@ -172,8 +172,8 @@ const getMyPayments = async (req, res) => {
 const getAllPayments = async (req, res) => {
   try {
     const payments = await Payment.find()
-      .populate('property', 'title location')
-      .populate('seller', 'name email phone')
+      .populate("property", "title location")
+      .populate("seller", "name email phone")
       .sort({ createdAt: -1 });
 
     const total = payments.reduce((sum, p) => sum + p.amount, 0);
@@ -185,10 +185,10 @@ const getAllPayments = async (req, res) => {
       payments,
     });
   } catch (error) {
-    console.error('getAllPayments error:', error);
+    console.error("getAllPayments error:", error);
     return res
       .status(500)
-      .json({ success: false, message: 'Failed to fetch payments.' });
+      .json({ success: false, message: "Failed to fetch payments." });
   }
 };
 

@@ -1,31 +1,32 @@
-import React, { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+import React, { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import App from "./App.jsx";
 class ErrorBoundary extends React.Component {
   constructor(props) {
-    super(props)
-    this.state = { hasError: false, error: null }
+    super(props);
+    this.state = { hasError: false, error: null };
   }
   static getDerivedStateFromError(error) {
-    return { hasError: true, error }
+    return { hasError: true, error };
   }
   render() {
     if (this.state.hasError) {
       return (
         <div className="error-boundary">
           <h1>Something went wrong</h1>
-          <pre>{this.state.error?.message ?? 'Unknown error'}</pre>
+          <pre>{this.state.error?.message ?? "Unknown error"}</pre>
         </div>
-      )
+      );
     }
-    return this.props.children
+    return this.props.children;
   }
 }
 
-const root = document.getElementById('root')
+const root = document.getElementById("root");
 if (!root) {
-  document.body.innerHTML = '<p style="padding:2rem">No #root element found. Check index.html.</p>'
+  document.body.innerHTML =
+    '<p style="padding:2rem">No #root element found. Check index.html.</p>';
 } else {
   createRoot(root).render(
     <React.StrictMode>
@@ -33,5 +34,5 @@ if (!root) {
         <App />
       </ErrorBoundary>
     </React.StrictMode>,
-  )
+  );
 }

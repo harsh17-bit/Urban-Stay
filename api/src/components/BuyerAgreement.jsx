@@ -31,7 +31,7 @@
  *  addDays(d, n) – returns new Date n days ahead
  */
 
-import { useState, useRef } from 'react';
+import { useState, useRef } from "react";
 import {
   FiX,
   FiPrinter,
@@ -40,90 +40,90 @@ import {
   FiChevronRight,
   FiChevronLeft,
   FiCreditCard,
-} from 'react-icons/fi';
-import './BuyerAgreement.css';
+} from "react-icons/fi";
+import "./BuyerAgreement.css";
 
 /* ──────────────────────────────────────────────────────
    CONSTANTS
 ────────────────────────────────────────────────────── */
 const TEMPLATES = [
   {
-    id: 'standard',
-    name: 'Standard Sale Agreement',
-    tag: 'Basic',
+    id: "standard",
+    name: "Standard Sale Agreement",
+    tag: "Basic",
     description:
-      'A concise, legally-valid agreement for straightforward residential property purchases — apartments, floors, and houses.',
+      "A concise, legally-valid agreement for straightforward residential property purchases — apartments, floors, and houses.",
     features: [
-      'Sale & purchase clauses',
-      'Token advance terms',
-      'Possession date',
-      'Default & penalty',
-      'Stamp duty note',
+      "Sale & purchase clauses",
+      "Token advance terms",
+      "Possession date",
+      "Default & penalty",
+      "Stamp duty note",
     ],
   },
   {
-    id: 'premium',
-    name: 'Premium Sale Agreement',
-    tag: 'Recommended',
+    id: "premium",
+    name: "Premium Sale Agreement",
+    tag: "Recommended",
     description:
-      'Comprehensive agreement with title warranty, property inspection rights, encumbrance-free guarantee, and detailed handover checklist.',
+      "Comprehensive agreement with title warranty, property inspection rights, encumbrance-free guarantee, and detailed handover checklist.",
     features: [
-      'All Standard clauses',
-      'Title warranty clause',
-      'Encumbrance-free guarantee',
-      'Pre-possession inspection rights',
-      'Fixtures & fittings handover',
-      'Force majeure clause',
+      "All Standard clauses",
+      "Title warranty clause",
+      "Encumbrance-free guarantee",
+      "Pre-possession inspection rights",
+      "Fixtures & fittings handover",
+      "Force majeure clause",
     ],
   },
   {
-    id: 'commercial',
-    name: 'Commercial Purchase Agreement',
-    tag: 'Commercial',
+    id: "commercial",
+    name: "Commercial Purchase Agreement",
+    tag: "Commercial",
     description:
-      'Designed for offices, shops, plots, and commercial spaces. Covers GST, business-use handover, and arbitration.',
+      "Designed for offices, shops, plots, and commercial spaces. Covers GST, business-use handover, and arbitration.",
     features: [
-      'Commercial use clauses',
-      'GST & tax compliance',
-      'Fit-out / shell handover',
-      'Signage & parking rights',
-      'Arbitration clause',
+      "Commercial use clauses",
+      "GST & tax compliance",
+      "Fit-out / shell handover",
+      "Signage & parking rights",
+      "Arbitration clause",
     ],
   },
 ];
 
 const PAYMENT_PLANS = [
   {
-    id: 'full',
-    label: 'Full Payment',
-    icon: '💰',
-    description: '10% token at signing + 90% balance on registration day.',
+    id: "full",
+    label: "Full Payment",
+    icon: "💰",
+    description: "10% token at signing + 90% balance on registration day.",
     steps: [
-      '10% Token Advance — at signing',
-      '90% Balance — on registration day',
+      "10% Token Advance — at signing",
+      "90% Balance — on registration day",
     ],
   },
   {
-    id: 'installment',
-    label: 'Installment Plan',
-    icon: '📆',
-    description: '10% token + 40% within 30 days + 50% at registration.',
+    id: "installment",
+    label: "Installment Plan",
+    icon: "📆",
+    description: "10% token + 40% within 30 days + 50% at registration.",
     steps: [
-      '10% Token Advance — at signing',
-      '40% Part Payment — within 30 days',
-      '50% Balance — on registration day',
+      "10% Token Advance — at signing",
+      "40% Part Payment — within 30 days",
+      "50% Balance — on registration day",
     ],
   },
   {
-    id: 'homeloan',
-    label: 'Home Loan Purchase',
-    icon: '🏦',
+    id: "homeloan",
+    label: "Home Loan Purchase",
+    icon: "🏦",
     description:
-      'Token advance by buyer + remaining via bank loan disbursed at registration.',
+      "Token advance by buyer + remaining via bank loan disbursed at registration.",
     steps: [
-      '10% Token Advance — by buyer at signing',
-      'Loan sanction letter required within 15 days',
-      'Balance — bank disbursement on registration day',
+      "10% Token Advance — by buyer at signing",
+      "Loan sanction letter required within 15 days",
+      "Balance — bank disbursement on registration day",
     ],
   },
 ];
@@ -132,14 +132,14 @@ const PAYMENT_PLANS = [
    HELPERS
 ────────────────────────────────────────────────────── */
 function fmt(date) {
-  return date.toLocaleDateString('en-IN', {
-    day: '2-digit',
-    month: 'long',
-    year: 'numeric',
+  return date.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
   });
 }
 function inr(n) {
-  return '₹' + Number(n || 0).toLocaleString('en-IN');
+  return "₹" + Number(n || 0).toLocaleString("en-IN");
 }
 function addDays(date, n) {
   const d = new Date(date);
@@ -173,22 +173,22 @@ function StandardSaleAgreement({ p, user, today, refNo, plan }) {
       <section className="ba-section">
         <h2>1. PARTIES</h2>
         <p>
-          This Agreement for Sale ("Agreement") is made on{' '}
+          This Agreement for Sale ("Agreement") is made on{" "}
           <strong>{fmt(today)}</strong> between:
         </p>
         <div className="ba-party">
           <strong>VENDOR (Seller):</strong>
-          <p>Name: {p.owner?.name || 'Property Owner'}</p>
+          <p>Name: {p.owner?.name || "Property Owner"}</p>
           <p>
-            Contact: {p.owner?.phone || '—'} | {p.owner?.email || '—'}
+            Contact: {p.owner?.phone || "—"} | {p.owner?.email || "—"}
           </p>
-          <p>Company / Agency: {p.owner?.companyName || 'Individual Owner'}</p>
+          <p>Company / Agency: {p.owner?.companyName || "Individual Owner"}</p>
         </div>
         <div className="ba-party">
           <strong>PURCHASER (Buyer):</strong>
-          <p>Name: {user?.name || 'Buyer Name'}</p>
+          <p>Name: {user?.name || "Buyer Name"}</p>
           <p>
-            Contact: {user?.phone || '—'} | {user?.email || '—'}
+            Contact: {user?.phone || "—"} | {user?.email || "—"}
           </p>
           <p>
             ID Proof: (Aadhaar / PAN / Passport – to be provided at signing)
@@ -206,7 +206,7 @@ function StandardSaleAgreement({ p, user, today, refNo, plan }) {
             <strong>Type:</strong> {p.propertyType} | Listed as: {p.listingType}
           </p>
           <p>
-            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{' '}
+            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{" "}
             {p.location?.state} – {p.location?.pincode}
           </p>
           {p.area && (
@@ -225,7 +225,7 @@ function StandardSaleAgreement({ p, user, today, refNo, plan }) {
             </p>
           )}
           <p>
-            <strong>Furnishing:</strong> {p.furnishing || 'As-Is (unfurnished)'}
+            <strong>Furnishing:</strong> {p.furnishing || "As-Is (unfurnished)"}
           </p>
         </div>
       </section>
@@ -253,8 +253,8 @@ function StandardSaleAgreement({ p, user, today, refNo, plan }) {
           </tbody>
         </table>
         <p>
-          Payment schedule as per:{' '}
-          <strong>{plan?.label || 'Full Payment'}</strong>
+          Payment schedule as per:{" "}
+          <strong>{plan?.label || "Full Payment"}</strong>
         </p>
         <ul>
           {plan?.steps?.map((s, i) => (
@@ -267,7 +267,7 @@ function StandardSaleAgreement({ p, user, today, refNo, plan }) {
         <h2>4. POSSESSION</h2>
         <p>
           The Vendor agrees to hand over vacant physical possession of the
-          property to the Purchaser on or before{' '}
+          property to the Purchaser on or before{" "}
           <strong>{fmt(addDays(today, 30))}</strong>, subject to receipt of full
           sale consideration and completion of registration formalities.
         </p>
@@ -335,7 +335,7 @@ function StandardSaleAgreement({ p, user, today, refNo, plan }) {
           This agreement shall be executed on appropriate non-judicial stamp
           paper. The sale deed shall be registered before the Sub-Registrar of
           Assurances having jurisdiction over the property. Stamp duty and
-          registration charges shall be borne by the <strong>Purchaser</strong>{' '}
+          registration charges shall be borne by the <strong>Purchaser</strong>{" "}
           as per applicable state laws.
         </p>
       </section>
@@ -344,13 +344,13 @@ function StandardSaleAgreement({ p, user, today, refNo, plan }) {
         <div className="ba-sig-col">
           <p>Vendor (Seller)</p>
           <div className="ba-sig-line" />
-          <p className="ba-sig-name">{p.owner?.name || 'Seller'}</p>
+          <p className="ba-sig-name">{p.owner?.name || "Seller"}</p>
           <p className="ba-sig-date">Date: ___________</p>
         </div>
         <div className="ba-sig-col">
           <p>Purchaser (Buyer)</p>
           <div className="ba-sig-line" />
-          <p className="ba-sig-name">{user?.name || 'Buyer'}</p>
+          <p className="ba-sig-name">{user?.name || "Buyer"}</p>
           <p className="ba-sig-date">Date: ___________</p>
         </div>
         <div className="ba-sig-col">
@@ -395,18 +395,18 @@ function PremiumSaleAgreement({ p, user, today, refNo, plan }) {
         <h2>1. CONTRACTING PARTIES</h2>
         <div className="ba-party">
           <strong>VENDOR (Seller):</strong>
-          <p>Name: {p.owner?.name || 'Property Owner'}</p>
+          <p>Name: {p.owner?.name || "Property Owner"}</p>
           <p>PAN: _______________ | Aadhaar: _______________</p>
           <p>
-            Phone: {p.owner?.phone || '—'} | Email: {p.owner?.email || '—'}
+            Phone: {p.owner?.phone || "—"} | Email: {p.owner?.email || "—"}
           </p>
         </div>
         <div className="ba-party">
           <strong>PURCHASER (Buyer):</strong>
-          <p>Name: {user?.name || 'Buyer Name'}</p>
+          <p>Name: {user?.name || "Buyer Name"}</p>
           <p>PAN: _______________ | Aadhaar: _______________</p>
           <p>
-            Phone: {user?.phone || '—'} | Email: {user?.email || '—'}
+            Phone: {user?.phone || "—"} | Email: {user?.email || "—"}
           </p>
         </div>
       </section>
@@ -421,7 +421,7 @@ function PremiumSaleAgreement({ p, user, today, refNo, plan }) {
             <strong>Type:</strong> {p.propertyType}
           </p>
           <p>
-            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{' '}
+            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{" "}
             {p.location?.state} – {p.location?.pincode}
           </p>
           {p.area && (
@@ -430,11 +430,11 @@ function PremiumSaleAgreement({ p, user, today, refNo, plan }) {
             </p>
           )}
           <p>
-            <strong>Floor:</strong> {p.floor || '—'} |{' '}
-            <strong>Furnishing:</strong> {p.furnishing || 'As-Is'}
+            <strong>Floor:</strong> {p.floor || "—"} |{" "}
+            <strong>Furnishing:</strong> {p.furnishing || "As-Is"}
           </p>
           <p>
-            <strong>Parking:</strong> {p.parking || 'As per society norms'}
+            <strong>Parking:</strong> {p.parking || "As per society norms"}
           </p>
         </div>
       </section>
@@ -517,7 +517,7 @@ function PremiumSaleAgreement({ p, user, today, refNo, plan }) {
             the Vendor at their cost.
           </li>
           <li>
-            Inspection shall be completed at least{' '}
+            Inspection shall be completed at least{" "}
             <strong>3 days before</strong> the possession date.
           </li>
         </ul>
@@ -575,7 +575,7 @@ function PremiumSaleAgreement({ p, user, today, refNo, plan }) {
         <h2>11. STAMP DUTY & REGISTRATION</h2>
         <p>
           Stamp duty and registration charges shall be borne by the Purchaser as
-          per applicable state laws. Registration to be completed within{' '}
+          per applicable state laws. Registration to be completed within{" "}
           <strong>30 days of this agreement</strong>.
         </p>
       </section>
@@ -584,13 +584,13 @@ function PremiumSaleAgreement({ p, user, today, refNo, plan }) {
         <div className="ba-sig-col">
           <p>Vendor (Seller)</p>
           <div className="ba-sig-line" />
-          <p className="ba-sig-name">{p.owner?.name || 'Seller'}</p>
+          <p className="ba-sig-name">{p.owner?.name || "Seller"}</p>
           <p className="ba-sig-date">Date: ___________</p>
         </div>
         <div className="ba-sig-col">
           <p>Purchaser (Buyer)</p>
           <div className="ba-sig-line" />
-          <p className="ba-sig-name">{user?.name || 'Buyer'}</p>
+          <p className="ba-sig-name">{user?.name || "Buyer"}</p>
           <p className="ba-sig-date">Date: ___________</p>
         </div>
         <div className="ba-sig-col">
@@ -633,18 +633,18 @@ function CommercialPurchaseAgreement({ p, user, today, refNo, plan }) {
         <h2>1. CONTRACTING PARTIES</h2>
         <div className="ba-party">
           <strong>VENDOR (Seller / Developer):</strong>
-          <p>Name / Entity: {p.owner?.name || 'Owner / Developer'}</p>
+          <p>Name / Entity: {p.owner?.name || "Owner / Developer"}</p>
           <p>GSTIN: _______________ | PAN: _______________</p>
           <p>
-            Phone: {p.owner?.phone || '—'} | Email: {p.owner?.email || '—'}
+            Phone: {p.owner?.phone || "—"} | Email: {p.owner?.email || "—"}
           </p>
         </div>
         <div className="ba-party">
           <strong>PURCHASER (Buyer / Business Entity):</strong>
-          <p>Name / Entity: {user?.name || 'Buyer / Company Name'}</p>
+          <p>Name / Entity: {user?.name || "Buyer / Company Name"}</p>
           <p>Company Reg. No.: _______________ | GSTIN: _______________</p>
           <p>
-            Phone: {user?.phone || '—'} | Email: {user?.email || '—'}
+            Phone: {user?.phone || "—"} | Email: {user?.email || "—"}
           </p>
         </div>
       </section>
@@ -659,7 +659,7 @@ function CommercialPurchaseAgreement({ p, user, today, refNo, plan }) {
             <strong>Type:</strong> {p.propertyType}
           </p>
           <p>
-            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{' '}
+            <strong>Address:</strong> {p.location?.address}, {p.location?.city},{" "}
             {p.location?.state} – {p.location?.pincode}
           </p>
           {p.area && (
@@ -812,13 +812,13 @@ function CommercialPurchaseAgreement({ p, user, today, refNo, plan }) {
         <div className="ba-sig-col">
           <p>Vendor / Authorised Signatory</p>
           <div className="ba-sig-line" />
-          <p className="ba-sig-name">{p.owner?.name || 'Vendor'}</p>
+          <p className="ba-sig-name">{p.owner?.name || "Vendor"}</p>
           <p className="ba-sig-date">Seal & Date: ___________</p>
         </div>
         <div className="ba-sig-col">
           <p>Purchaser / Authorised Signatory</p>
           <div className="ba-sig-line" />
-          <p className="ba-sig-name">{user?.name || 'Purchaser'}</p>
+          <p className="ba-sig-name">{user?.name || "Purchaser"}</p>
           <p className="ba-sig-date">Seal & Date: ___________</p>
         </div>
         <div className="ba-sig-col">
@@ -854,12 +854,12 @@ const BuyerAgreement = ({ property, user, onClose }) => {
   const handlePrint = () => {
     const content = printRef.current?.innerHTML;
     if (!content) return;
-    const win = window.open('', '_blank');
+    const win = window.open("", "_blank");
     win.document.write(`
       <!DOCTYPE html>
       <html>
         <head>
-          <title>Buyer Agreement – ${property?.title || 'Property'}</title>
+          <title>Buyer Agreement – ${property?.title || "Property"}</title>
           <style>
             * { margin:0; padding:0; box-sizing:border-box; }
             body { font-family:Arial,sans-serif; color:#000; padding:30px; font-size:11px; line-height:1.5; }
@@ -902,9 +902,9 @@ const BuyerAgreement = ({ property, user, onClose }) => {
   /* ── Render selected agreement ─────────────── */
   const renderAgreement = () => {
     const props = { p: property, user, today, refNo, plan: selectedPlan };
-    if (selectedTemplate?.id === 'premium')
+    if (selectedTemplate?.id === "premium")
       return <PremiumSaleAgreement {...props} />;
-    if (selectedTemplate?.id === 'commercial')
+    if (selectedTemplate?.id === "commercial")
       return <CommercialPurchaseAgreement {...props} />;
     return <StandardSaleAgreement {...props} />;
   };
@@ -931,7 +931,7 @@ const BuyerAgreement = ({ property, user, onClose }) => {
 
         {/* ── Step Indicator ── */}
         <div className="ba-steps">
-          {['Choose Template', 'Payment Plan', 'Preview & Print'].map(
+          {["Choose Template", "Payment Plan", "Preview & Print"].map(
             (label, i) => {
               const idx = i + 1;
               const done = step > idx;
@@ -939,18 +939,18 @@ const BuyerAgreement = ({ property, user, onClose }) => {
               return (
                 <div
                   key={idx}
-                  className={`ba-step ${active ? 'active' : ''} ${done ? 'done' : ''}`}
+                  className={`ba-step ${active ? "active" : ""} ${done ? "done" : ""}`}
                 >
                   <div className="ba-step-circle">
                     {done ? <FiCheckCircle /> : <span>{idx}</span>}
                   </div>
                   <span className="ba-step-label">{label}</span>
                   {i < 2 && (
-                    <div className={`ba-step-line ${done ? 'done' : ''}`} />
+                    <div className={`ba-step-line ${done ? "done" : ""}`} />
                   )}
                 </div>
               );
-            }
+            },
           )}
         </div>
 
@@ -967,7 +967,7 @@ const BuyerAgreement = ({ property, user, onClose }) => {
               {TEMPLATES.map((t) => (
                 <div
                   key={t.id}
-                  className={`ba-template-card ${selectedTemplate?.id === t.id ? 'selected' : ''}`}
+                  className={`ba-template-card ${selectedTemplate?.id === t.id ? "selected" : ""}`}
                   onClick={() => setSelectedTemplate(t)}
                 >
                   <div className="ba-template-tag">{t.tag}</div>
@@ -1004,7 +1004,7 @@ const BuyerAgreement = ({ property, user, onClose }) => {
               {PAYMENT_PLANS.map((plan) => (
                 <div
                   key={plan.id}
-                  className={`ba-plan-card ${selectedPlan?.id === plan.id ? 'selected' : ''}`}
+                  className={`ba-plan-card ${selectedPlan?.id === plan.id ? "selected" : ""}`}
                   onClick={() => setSelectedPlan(plan)}
                 >
                   <div className="ba-plan-icon">{plan.icon}</div>

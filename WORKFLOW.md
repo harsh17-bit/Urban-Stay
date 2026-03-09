@@ -497,20 +497,20 @@ React component updates state → UI re-renders
 
 ## 10. ROLES & PERMISSION MATRIX
 
-| Action                        | user | seller | admin |
-|-------------------------------|------|--------|-------|
-| Browse / Search properties    | ✅   | ✅     | ✅    |
-| View property details         | ✅   | ✅     | ✅    |
-| Save favorites                | ✅   | ✅     | ✅    |
-| Send inquiry                  | ✅   | ✅     | ✅    |
-| Post property                 | ❌   | ✅     | ✅    |
-| Edit own property             | ❌   | ✅     | ✅    |
-| Respond to inquiry            | ❌   | ✅     | ✅    |
-| Verify property               | ❌   | ❌     | ✅    |
-| Feature property              | ❌   | ❌     | ✅    |
-| Delete any property           | ❌   | ❌     | ✅    |
-| View admin stats              | ❌   | ❌     | ✅    |
-| Manage all users              | ❌   | ❌     | ✅    |
+| Action                     | user | seller | admin |
+| -------------------------- | ---- | ------ | ----- |
+| Browse / Search properties | ✅   | ✅     | ✅    |
+| View property details      | ✅   | ✅     | ✅    |
+| Save favorites             | ✅   | ✅     | ✅    |
+| Send inquiry               | ✅   | ✅     | ✅    |
+| Post property              | ❌   | ✅     | ✅    |
+| Edit own property          | ❌   | ✅     | ✅    |
+| Respond to inquiry         | ❌   | ✅     | ✅    |
+| Verify property            | ❌   | ❌     | ✅    |
+| Feature property           | ❌   | ❌     | ✅    |
+| Delete any property        | ❌   | ❌     | ✅    |
+| View admin stats           | ❌   | ❌     | ✅    |
+| Manage all users           | ❌   | ❌     | ✅    |
 
 ---
 

@@ -10,11 +10,11 @@ const Hero = () => {
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    
+
     if (searchTerm) {
       params.append("search", searchTerm);
     }
-    
+
     if (propertyFilter === "buy") {
       params.append("listingType", "buy");
     } else if (propertyFilter === "rent") {
@@ -31,16 +31,12 @@ const Hero = () => {
   };
 
   return (
-    
     <div className="hero">
- 
       <div className="hero-container">
         {/* Main Heading */}
         <h1 className="hero-title">Find Your Perfect Home</h1>
 
-        
         <div className="hero-search-section">
-        
           <div className="hero-search-bar">
             <input
               type="text"

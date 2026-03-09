@@ -22,7 +22,7 @@ const propertySchema = new mongoose.Schema(
       required: [true, "Description is required"],
       maxlength: [2000, "Description cannot exceed 2000 characters"],
     },
-    
+
     // Pricing Information
     price: {
       type: Number,
@@ -35,7 +35,7 @@ const propertySchema = new mongoose.Schema(
       default: "total",
       // Defines how price is calculated/displayed
     },
-    
+
     // Property Classification
     propertyType: {
       type: String,
@@ -53,7 +53,7 @@ const propertySchema = new mongoose.Schema(
       enum: ["available", "sold", "rented", "pending", "draft"],
       default: "available",
     },
-    
+
     // Location Details
     location: {
       address: {
@@ -81,7 +81,7 @@ const propertySchema = new mongoose.Schema(
         // Used for map display and location-based search
       },
     },
-    
+
     // Property Specifications
     specifications: {
       bedrooms: {
@@ -116,7 +116,16 @@ const propertySchema = new mongoose.Schema(
       floorNumber: Number,
       facing: {
         type: String,
-        enum: ["north", "south", "east", "west", "north-east", "north-west", "south-east", "south-west"],
+        enum: [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north-east",
+          "north-west",
+          "south-east",
+          "south-west",
+        ],
         // Direction property faces - important in Indian real estate
       },
       furnishing: {
@@ -132,32 +141,55 @@ const propertySchema = new mongoose.Schema(
       },
       availableFrom: Date,
     },
-    
+
     // Amenities - Common facilities available
-    amenities: [{
-      type: String,
-      enum: [
-        "parking", "lift", "power-backup", "gated-security", "swimming-pool",
-        "gym", "clubhouse", "garden", "playground", "intercom",
-        "fire-safety", "water-supply", "gas-pipeline", "air-conditioning",
-        "internet", "cctv", "pet-friendly", "visitor-parking", "rainwater-harvesting",
-        "solar-panels", "waste-disposal", "maintenance-staff", "shopping-center", "hospital-nearby"
-      ],
-    }],
-    
-    // Images and Media
-    images: [{
-      url: {
+    amenities: [
+      {
         type: String,
-        required: true,
+        enum: [
+          "parking",
+          "lift",
+          "power-backup",
+          "gated-security",
+          "swimming-pool",
+          "gym",
+          "clubhouse",
+          "garden",
+          "playground",
+          "intercom",
+          "fire-safety",
+          "water-supply",
+          "gas-pipeline",
+          "air-conditioning",
+          "internet",
+          "cctv",
+          "pet-friendly",
+          "visitor-parking",
+          "rainwater-harvesting",
+          "solar-panels",
+          "waste-disposal",
+          "maintenance-staff",
+          "shopping-center",
+          "hospital-nearby",
+        ],
       },
-      caption: String,
-      isPrimary: {
-        type: Boolean,
-        default: false,
-        // First image or marked primary shown in listings
+    ],
+
+    // Images and Media
+    images: [
+      {
+        url: {
+          type: String,
+          required: true,
+        },
+        caption: String,
+        isPrimary: {
+          type: Boolean,
+          default: false,
+          // First image or marked primary shown in listings
+        },
       },
-    }],
+    ],
     videoUrl: String,
     virtualTourUrl: String,
     // Pricing Details
@@ -172,14 +204,26 @@ const propertySchema = new mongoose.Schema(
     },
     // Additional Details
     highlights: [String],
-    nearbyPlaces: [{
-      type: {
-        type: String,
-        enum: ["school", "hospital", "metro", "bus-stop", "market", "mall", "park", "atm", "restaurant"],
+    nearbyPlaces: [
+      {
+        type: {
+          type: String,
+          enum: [
+            "school",
+            "hospital",
+            "metro",
+            "bus-stop",
+            "market",
+            "mall",
+            "park",
+            "atm",
+            "restaurant",
+          ],
+        },
+        name: String,
+        distance: String,
       },
-      name: String,
-      distance: String,
-    }],
+    ],
     // Owner/Agent Info
     owner: {
       type: mongoose.Schema.Types.ObjectId,
@@ -216,7 +260,7 @@ const propertySchema = new mongoose.Schema(
     timestamps: true,
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
-  }
+  },
 );
 
 // Virtual for average rating
@@ -229,17 +273,29 @@ propertySchema.virtual("averageRating", {
 // Create slug before saving
 propertySchema.pre("save", async function () {
   if (this.isModified("title")) {
-    this.slug = this.title
-      .toLowerCase()
-      .replace(/[^a-zA-Z0-9 ]/g, "")
-      .replace(/\s+/g, "-")
-      + "-" + Date.now();
+    this.slug =
+      this.title
+        .toLowerCase()
+        .replace(/[^a-zA-Z0-9 ]/g, "")
+        .replace(/\s+/g, "-") +
+      "-" +
+      Date.now();
   }
 });
 
 // Index for search
-propertySchema.index({ title: "text", description: "text", "location.city": "text", "location.address": "text" });
-propertySchema.index({ "location.city": 1, propertyType: 1, listingType: 1, price: 1 });
+propertySchema.index({
+  title: "text",
+  description: "text",
+  "location.city": "text",
+  "location.address": "text",
+});
+propertySchema.index({
+  "location.city": 1,
+  propertyType: 1,
+  listingType: 1,
+  price: 1,
+});
 propertySchema.index({ owner: 1 });
 propertySchema.index({ status: 1, isFeatured: -1, createdAt: -1 });
 

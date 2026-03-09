@@ -1,7 +1,7 @@
 :root {
   /* Brand Colors */
   --color-primary: #785835;
-  --color-accent: #62C85F;
+  --color-accent: #62c85f;
   --color-highlight: #f59e0b;
   --color-dark: #1e293b;
 
@@ -58,7 +58,6 @@
   --color-ink-700: #334155;
   --color-ink-800: #1e293b;
 
-
   /* Overlays & Shadows */
   --overlay-strong: rgba(15, 23, 42, 0.65);
   --overlay-medium: rgba(15, 23, 42, 0.45);
@@ -69,12 +68,12 @@
   --shadow-04: rgba(15, 23, 42, 0.04);
   --shadow-05: rgba(15, 23, 42, 0.05);
   --shadow-08: rgba(15, 23, 42, 0.08);
-  --shadow-10: rgba(15, 23, 42, 0.10);
+  --shadow-10: rgba(15, 23, 42, 0.1);
   --shadow-12: rgba(15, 23, 42, 0.12);
   --shadow-15: rgba(15, 23, 42, 0.15);
-  --shadow-20: rgba(15, 23, 42, 0.20);
-  --shadow-30: rgba(15, 23, 42, 0.30);
-  --shadow-40: rgba(15, 23, 42, 0.40);
+  --shadow-20: rgba(15, 23, 42, 0.2);
+  --shadow-30: rgba(15, 23, 42, 0.3);
+  --shadow-40: rgba(15, 23, 42, 0.4);
 
   --white-10: rgba(255, 255, 255, 0.08);
   --white-15: rgba(255, 255, 255, 0.14);
@@ -83,7 +82,7 @@
   --white-40: rgba(255, 255, 255, 0.38);
 
   --info-alpha-05: rgba(37, 99, 235, 0.05);
-  --info-alpha-10: rgba(37, 99, 235, 0.10);
+  --info-alpha-10: rgba(37, 99, 235, 0.1);
   --info-alpha-20: rgba(37, 99, 235, 0.18);
   --info-alpha-40: rgba(37, 99, 235, 0.35);
   --blue-alpha-05: rgba(96, 165, 250, 0.06);
@@ -96,22 +95,22 @@
 
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.07);
   --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.09);
-  --shadow-lg: 0 10px 32px rgba(15, 23, 42, 0.10);
+  --shadow-lg: 0 10px 32px rgba(15, 23, 42, 0.1);
   --shadow-xl: 0 20px 56px rgba(15, 23, 42, 0.13);
   --glow-primary: 0 0 28px rgba(13, 115, 119, 0.5);
   --glow-accent: 0 0 32px rgba(124, 179, 66, 0.45);
 }
 
 [data-theme="dark"] {
-  --color-bg: #0F1419;
-  --color-surface: #1A2332;
-  --color-surface-muted: #212B3A;
-  --color-surface-soft: #2A3645;
-  --color-text: #E8EBED;
-  --color-text-muted: #9BA5B0;
-  --color-text-strong: #F5F7F8;
-  --color-border: #2D3748;
-  --color-border-strong: #4A5568;
+  --color-bg: #0f1419;
+  --color-surface: #1a2332;
+  --color-surface-muted: #212b3a;
+  --color-surface-soft: #2a3645;
+  --color-text: #e8ebed;
+  --color-text-muted: #9ba5b0;
+  --color-text-strong: #f5f7f8;
+  --color-border: #2d3748;
+  --color-border-strong: #4a5568;
   --overlay-strong: rgba(0, 0, 0, 0.8);
   --overlay-medium: rgba(0, 0, 0, 0.6);
   --overlay-soft: rgba(0, 0, 0, 0.35);

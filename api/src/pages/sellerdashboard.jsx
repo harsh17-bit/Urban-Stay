@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   FiHome,
   FiPlus,
@@ -20,43 +20,43 @@ import {
   FiUser,
   FiFileText,
   FiDownload,
-} from 'react-icons/fi';
-import FeaturedUpgradeModal from '../components/FeaturedUpgradeModal.jsx';
-import PaymentToast from '../components/PaymentToast.jsx';
-import { useAuth } from '../context/authcontext.jsx';
-import { propertyService } from '../services/propertyservice';
-import { inquiryService, paymentService } from '../services/dataservice';
-import { getImageUrl } from '../utils/imageUtils';
-import './Dashboard.css';
+} from "react-icons/fi";
+import FeaturedUpgradeModal from "../components/FeaturedUpgradeModal.jsx";
+import PaymentToast from "../components/PaymentToast.jsx";
+import { useAuth } from "../context/authcontext.jsx";
+import { propertyService } from "../services/propertyservice";
+import { inquiryService, paymentService } from "../services/dataservice";
+import { getImageUrl } from "../utils/imageUtils";
+import "./Dashboard.css";
 
 const SellerDashboard = () => {
   const { user, updateProfile } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState("overview");
   const [properties, setProperties] = useState([]);
   const [inquiries, setInquiries] = useState([]);
   const [, setStats] = useState(null);
   const [, setLoading] = useState(true);
   const [respondingTo, setRespondingTo] = useState(null);
-  const [replyMessage, setReplyMessage] = useState('');
+  const [replyMessage, setReplyMessage] = useState("");
   const [actionLoading, setActionLoading] = useState(false);
   const [inquiryError, setInquiryError] = useState(null);
 
   const [featuredProperty, setFeaturedProperty] = useState(null);
   const [paymentToast, setPaymentToast] = useState({
     show: false,
-    type: 'success',
-    message: '',
-    txnId: '',
+    type: "success",
+    message: "",
+    txnId: "",
   });
   const [payments, setPayments] = useState([]);
   const [invoiceItem, setInvoiceItem] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [profileData, setProfileData] = useState({
-    name: user?.name || '',
-    phone: user?.phone || '',
-    bio: user?.bio || '',
-    role: user?.role || 'user',
+    name: user?.name || "",
+    phone: user?.phone || "",
+    bio: user?.bio || "",
+    role: user?.role || "user",
   });
   useEffect(() => {
     fetchData();
@@ -67,20 +67,20 @@ const SellerDashboard = () => {
       await updateProfile(profileData);
       setEditMode(false);
     } catch (error) {
-      console.error('Error updating profile:', error);
+      console.error("Error updating profile:", error);
     }
   };
   const handleFeatureSuccess = (updatedProp, txnId) => {
     setProperties((prev) =>
       prev.map((p) =>
-        p._id === updatedProp._id ? { ...p, ...updatedProp } : p
-      )
+        p._id === updatedProp._id ? { ...p, ...updatedProp } : p,
+      ),
     );
     setPaymentToast({
       show: true,
-      type: 'success',
-      message: 'Payment Successful!',
-      txnId: txnId || '',
+      type: "success",
+      message: "Payment Successful!",
+      txnId: txnId || "",
     });
   };
 
@@ -92,8 +92,8 @@ const SellerDashboard = () => {
 
   const featuredLabel = (property) =>
     isFeaturedActive(property)
-      ? `Featured until ${new Date(property.featuredUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`
-      : 'Feature this listing — ₹499 / 30 days';
+      ? `Featured until ${new Date(property.featuredUntil).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}`
+      : "Feature this listing — ₹499 / 30 days";
 
   const fetchData = async () => {
     setLoading(true);
@@ -103,37 +103,37 @@ const SellerDashboard = () => {
       setProperties(propertiesRes.properties || []);
       setStats(propertiesRes.stats || []);
     } catch (error) {
-      console.error('Error fetching properties:', error);
+      console.error("Error fetching properties:", error);
     }
     try {
       const inquiriesRes = await inquiryService.getReceived();
       setInquiries(inquiriesRes.inquiries || []);
     } catch (error) {
       console.error(
-        'Error fetching inquiries:',
-        error?.response?.data || error.message
+        "Error fetching inquiries:",
+        error?.response?.data || error.message,
       );
       setInquiryError(
         error?.response?.data?.message ||
-          'Failed to load inquiries. Please try again.'
+          "Failed to load inquiries. Please try again.",
       );
     }
     try {
       const paymentsRes = await paymentService.getMy();
       setPayments(paymentsRes.payments || []);
     } catch (error) {
-      console.error('Error fetching payments:', error);
+      console.error("Error fetching payments:", error);
     }
     setLoading(false);
   };
 
   const handleDeleteProperty = async (id) => {
-    if (window.confirm('Are you sure you want to delete this property?')) {
+    if (window.confirm("Are you sure you want to delete this property?")) {
       try {
         await propertyService.deleteProperty(id);
         setProperties(properties.filter((p) => p._id !== id));
       } catch (error) {
-        console.error('Error deleting property:', error);
+        console.error("Error deleting property:", error);
       }
     }
   };
@@ -141,17 +141,17 @@ const SellerDashboard = () => {
     try {
       await propertyService.updateProperty(id, { status: newStatus });
       setProperties(
-        properties.map((p) => (p._id === id ? { ...p, status: newStatus } : p))
+        properties.map((p) => (p._id === id ? { ...p, status: newStatus } : p)),
       );
     } catch (error) {
-      console.error('Error updating status', error);
-      alert('Failed to update status. Please try again.');
+      console.error("Error updating status", error);
+      alert("Failed to update status. Please try again.");
     }
   };
 
   const handleOpenReply = (inquiry) => {
     setRespondingTo(inquiry);
-    setReplyMessage('');
+    setReplyMessage("");
   };
 
   const handleSendReply = async (e) => {
@@ -165,16 +165,16 @@ const SellerDashboard = () => {
       // Update local state
       setInquiries(
         inquiries.map((iq) =>
-          iq._id === respondingTo._id ? { ...iq, status: 'responded' } : iq
-        )
+          iq._id === respondingTo._id ? { ...iq, status: "responded" } : iq,
+        ),
       );
 
       // Close modal and show success (using simple alert for now as requested)
       setRespondingTo(null);
-      alert('Response sent successfully!');
+      alert("Response sent successfully!");
     } catch (error) {
-      console.error('Error sending reply:', error);
-      alert('Failed to send response. Please try again.');
+      console.error("Error sending reply:", error);
+      alert("Failed to send response. Please try again.");
     } finally {
       setActionLoading(false);
     }
@@ -183,16 +183,16 @@ const SellerDashboard = () => {
   const totalViews = properties.reduce((acc, p) => acc + (p.views || 0), 0);
   const totalInquiries = inquiries.length;
   const activeListings = properties.filter(
-    (p) => p.status === 'available'
+    (p) => p.status === "available",
   ).length;
 
   const tabs = [
-    { id: 'overview', label: 'Overview', icon: FiBarChart2 },
-    { id: 'properties', label: 'My Properties', icon: FiHome },
-    { id: 'inquiries', label: 'Inquiries', icon: FiMessageSquare },
-    { id: 'analytics', label: 'Analytics', icon: FiTrendingUp },
-    { id: 'payments', label: 'Payments', icon: FiDollarSign },
-    { id: 'profile', label: 'Profile', icon: FiUser },
+    { id: "overview", label: "Overview", icon: FiBarChart2 },
+    { id: "properties", label: "My Properties", icon: FiHome },
+    { id: "inquiries", label: "Inquiries", icon: FiMessageSquare },
+    { id: "analytics", label: "Analytics", icon: FiTrendingUp },
+    { id: "payments", label: "Payments", icon: FiDollarSign },
+    { id: "profile", label: "Profile", icon: FiUser },
   ];
 
   return (
@@ -209,7 +209,7 @@ const SellerDashboard = () => {
               )}
             </div>
             <h3>{user?.name}</h3>
-            <p>{user?.companyName || 'Property Seller'}</p>
+            <p>{user?.companyName || "Property Seller"}</p>
             <span className="user-badge seller">Seller</span>
           </div>
 
@@ -217,7 +217,7 @@ const SellerDashboard = () => {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
+                className={`nav-item ${activeTab === tab.id ? "active" : ""}`}
                 onClick={() => setActiveTab(tab.id)}
               >
                 <tab.icon />
@@ -230,7 +230,7 @@ const SellerDashboard = () => {
         {/* Main Content */}
         <main className="dashboard-main">
           {/* Overview Tab */}
-          {activeTab === 'overview' && (
+          {activeTab === "overview" && (
             <div className="dashboard-content">
               <h1>Seller Dashboard</h1>
               <p className="subtitle">
@@ -371,22 +371,22 @@ const SellerDashboard = () => {
               <div className="dashboard-section">
                 <div className="section-header">
                   <h2>New Inquiries</h2>
-                  <button onClick={() => setActiveTab('inquiries')}>
+                  <button onClick={() => setActiveTab("inquiries")}>
                     View All
                   </button>
                 </div>
-                {inquiries.filter((i) => i.status !== 'responded').length >
+                {inquiries.filter((i) => i.status !== "responded").length >
                 0 ? (
                   <div className="inquiry-list">
                     {inquiries
-                      .filter((i) => i.status !== 'responded')
+                      .filter((i) => i.status !== "responded")
                       .slice(0, 5)
                       .map((inquiry) => (
                         <div key={inquiry._id} className="inquiry-card">
                           <div className="inquiry-property">
                             <img
                               src={getImageUrl(
-                                inquiry.property?.images?.[0]?.url
+                                inquiry.property?.images?.[0]?.url,
                               )}
                               alt=""
                             />
@@ -414,7 +414,7 @@ const SellerDashboard = () => {
                     <FiMessageSquare />
                     {inquiryError ? (
                       <>
-                        <p style={{ color: '#dc2626' }}>{inquiryError}</p>
+                        <p style={{ color: "#dc2626" }}>{inquiryError}</p>
                         <button
                           className="btn-outline small"
                           onClick={fetchData}
@@ -433,7 +433,7 @@ const SellerDashboard = () => {
               <div className="dashboard-section">
                 <div className="section-header">
                   <h2>Your Properties</h2>
-                  <button onClick={() => setActiveTab('properties')}>
+                  <button onClick={() => setActiveTab("properties")}>
                     View All
                   </button>
                 </div>
@@ -468,7 +468,7 @@ const SellerDashboard = () => {
                                 onChange={(e) =>
                                   handleStatusChange(
                                     property._id,
-                                    e.target.value
+                                    e.target.value,
                                   )
                                 }
                               >
@@ -498,7 +498,7 @@ const SellerDashboard = () => {
                                   <FiEdit2 />
                                 </button>
                                 <button
-                                  className={`btn-icon feature${isFeaturedActive(property) ? ' featured' : ''}`}
+                                  className={`btn-icon feature${isFeaturedActive(property) ? " featured" : ""}`}
                                   onClick={() =>
                                     !isFeaturedActive(property) &&
                                     setFeaturedProperty(property)
@@ -529,7 +529,7 @@ const SellerDashboard = () => {
                     <p>No properties listed yet</p>
                     <button
                       className="btn-primary"
-                      onClick={() => navigate('/post-property')}
+                      onClick={() => navigate("/post-property")}
                     >
                       <FiPlus /> Add Your First Property
                     </button>
@@ -540,14 +540,14 @@ const SellerDashboard = () => {
           )}
 
           {/* Properties Tab */}
-          {activeTab === 'properties' && (
+          {activeTab === "properties" && (
             <div className="dashboard-content">
               <div className="section-header">
                 <div>
                   <h1>My Properties</h1>
                   <p className="subtitle">Manage all your property listings</p>
                 </div>
-                <button onClick={() => navigate('/post-property')}>
+                <button onClick={() => navigate("/post-property")}>
                   <FiPlus /> Add Property
                 </button>
               </div>
@@ -607,13 +607,13 @@ const SellerDashboard = () => {
                               <div className="featured-status-cell">
                                 <FiStar className="featured-star-active" />
                                 <span className="featured-until-text">
-                                  Until{' '}
+                                  Until{" "}
                                   {new Date(
-                                    property.featuredUntil
-                                  ).toLocaleDateString('en-IN', {
-                                    day: 'numeric',
-                                    month: 'short',
-                                    year: 'numeric',
+                                    property.featuredUntil,
+                                  ).toLocaleDateString("en-IN", {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric",
                                   })}
                                 </span>
                               </div>
@@ -648,7 +648,7 @@ const SellerDashboard = () => {
                                 <FiEdit2 />
                               </button>
                               <button
-                                className={`btn-icon feature${isFeaturedActive(property) ? ' featured' : ''}`}
+                                className={`btn-icon feature${isFeaturedActive(property) ? " featured" : ""}`}
                                 onClick={() =>
                                   !isFeaturedActive(property) &&
                                   setFeaturedProperty(property)
@@ -684,7 +684,7 @@ const SellerDashboard = () => {
           )}
 
           {/* Inquiries Tab */}
-          {activeTab === 'inquiries' && (
+          {activeTab === "inquiries" && (
             <div className="dashboard-content">
               <h1>Property Inquiries</h1>
               <p className="subtitle">Respond to buyer inquiries</p>
@@ -693,7 +693,7 @@ const SellerDashboard = () => {
                 <div className="empty-state large">
                   <FiMessageSquare />
                   <h3>Could not load inquiries</h3>
-                  <p style={{ color: '#dc2626' }}>{inquiryError}</p>
+                  <p style={{ color: "#dc2626" }}>{inquiryError}</p>
                   <button className="btn-primary" onClick={fetchData}>
                     Retry
                   </button>
@@ -710,7 +710,7 @@ const SellerDashboard = () => {
                         <div>
                           <h4>{inquiry.property?.title}</h4>
                           <p className="sender-info">
-                            <strong>{inquiry.sender?.name}</strong> •{' '}
+                            <strong>{inquiry.sender?.name}</strong> •{" "}
                             {inquiry.sender?.email}
                           </p>
                           <p className="inquiry-message">{inquiry.message}</p>
@@ -723,7 +723,7 @@ const SellerDashboard = () => {
                         <span className="inquiry-date">
                           {new Date(inquiry.createdAt).toLocaleDateString()}
                         </span>
-                        {inquiry.status !== 'responded' ? (
+                        {inquiry.status !== "responded" ? (
                           <button
                             className="btn-primary small"
                             onClick={() => handleOpenReply(inquiry)}
@@ -756,7 +756,7 @@ const SellerDashboard = () => {
           )}
 
           {/* Analytics Tab */}
-          {activeTab === 'analytics' && (
+          {activeTab === "analytics" && (
             <div className="dashboard-content">
               <h1>Analytics & Insights</h1>
               <p className="subtitle">Track your property performance</p>
@@ -781,7 +781,7 @@ const SellerDashboard = () => {
                         <div className="performance-info">
                           <span>{property.title}</span>
                           <small>
-                            {property.views} views • {property.inquiries || 0}{' '}
+                            {property.views} views • {property.inquiries || 0}{" "}
                             inquiries
                           </small>
                         </div>
@@ -792,7 +792,7 @@ const SellerDashboard = () => {
             </div>
           )}
           {/* Payments Tab */}
-          {activeTab === 'payments' && (
+          {activeTab === "payments" && (
             <div className="dashboard-content">
               <div className="section-header">
                 <div>
@@ -825,7 +825,7 @@ const SellerDashboard = () => {
                               {p.transactionId}
                             </small>
                           </td>
-                          <td>{p.property?.title || '—'}</td>
+                          <td>{p.property?.title || "—"}</td>
                           <td>{p.plan}</td>
                           <td>₹{p.amount}</td>
                           <td>
@@ -834,7 +834,7 @@ const SellerDashboard = () => {
                             </span>
                           </td>
                           <td>
-                            {new Date(p.createdAt).toLocaleDateString('en-IN')}
+                            {new Date(p.createdAt).toLocaleDateString("en-IN")}
                           </td>
                           <td>
                             <button
@@ -860,7 +860,7 @@ const SellerDashboard = () => {
           )}
 
           {/* Profile Tab */}
-          {activeTab === 'profile' && (
+          {activeTab === "profile" && (
             <div className="dashboard-content">
               <div className="section-header">
                 <div>
@@ -868,11 +868,11 @@ const SellerDashboard = () => {
                   <p className="subtitle">Manage your account information</p>
                 </div>
                 <button
-                  className={`btn-outline ${editMode ? 'cancel' : ''}`}
+                  className={`btn-outline ${editMode ? "cancel" : ""}`}
                   onClick={() => setEditMode(!editMode)}
                 >
                   {editMode ? (
-                    'Cancel'
+                    "Cancel"
                   ) : (
                     <>
                       <FiEdit2 /> Edit Profile
@@ -942,7 +942,7 @@ const SellerDashboard = () => {
                           }
                         />
                       ) : (
-                        <p>{user?.phone || 'Not provided'}</p>
+                        <p>{user?.phone || "Not provided"}</p>
                       )}
                     </div>
 
@@ -965,9 +965,9 @@ const SellerDashboard = () => {
                         </select>
                       ) : (
                         <p>
-                          {(user?.role === 'seller') | 'buyer'
-                            ? 'Sell / List Property'
-                            : 'Buy / Rent Property'}
+                          {(user?.role === "seller") | "buyer"
+                            ? "Sell / List Property"
+                            : "Buy / Rent Property"}
                         </p>
                       )}
                     </div>
@@ -987,7 +987,7 @@ const SellerDashboard = () => {
                           placeholder="Tell us about yourself..."
                         />
                       ) : (
-                        <p>{user?.bio || 'No bio added'}</p>
+                        <p>{user?.bio || "No bio added"}</p>
                       )}
                     </div>
                   </div>
@@ -1034,10 +1034,10 @@ const SellerDashboard = () => {
               <div className="invoice-row">
                 <span>Date</span>
                 <strong>
-                  {new Date(invoiceItem.createdAt).toLocaleDateString('en-IN', {
-                    day: 'numeric',
-                    month: 'long',
-                    year: 'numeric',
+                  {new Date(invoiceItem.createdAt).toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
                   })}
                 </strong>
               </div>
@@ -1047,7 +1047,7 @@ const SellerDashboard = () => {
               </div>
               <div className="invoice-row">
                 <span>Property</span>
-                <strong>{invoiceItem.property?.title || '—'}</strong>
+                <strong>{invoiceItem.property?.title || "—"}</strong>
               </div>
               <div className="invoice-row">
                 <span>Plan</span>
@@ -1057,8 +1057,8 @@ const SellerDashboard = () => {
                 <span>Featured Until</span>
                 <strong>
                   {new Date(invoiceItem.featuredUntil).toLocaleDateString(
-                    'en-IN',
-                    { day: 'numeric', month: 'long', year: 'numeric' }
+                    "en-IN",
+                    { day: "numeric", month: "long", year: "numeric" },
                   )}
                 </strong>
               </div>
@@ -1124,7 +1124,7 @@ const SellerDashboard = () => {
                     className="btn-primary"
                     disabled={actionLoading}
                   >
-                    {actionLoading ? 'Sending...' : 'Send Reply'}
+                    {actionLoading ? "Sending..." : "Send Reply"}
                   </button>
                 </div>
               </form>

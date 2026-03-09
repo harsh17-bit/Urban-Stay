@@ -132,7 +132,7 @@
   margin: 0;
 }
 
-.emi-rate-input[type='number'] {
+.emi-rate-input[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
@@ -162,7 +162,7 @@
   color: #555;
 }
 
-.emi-radio input[type='radio'] {
+.emi-radio input[type="radio"] {
   display: none;
 }
 
@@ -175,12 +175,12 @@
   transition: all 0.2s ease;
 }
 
-.emi-radio input[type='radio']:checked + .radio-circle {
+.emi-radio input[type="radio"]:checked + .radio-circle {
   border-color: #00a88e;
 }
 
-.emi-radio input[type='radio']:checked + .radio-circle::after {
-  content: '';
+.emi-radio input[type="radio"]:checked + .radio-circle::after {
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -223,7 +223,7 @@
 
 /* Decorative arc at top */
 .emi-result-panel::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -20px;
   right: 40px;
@@ -486,7 +486,7 @@
   font-weight: 600;
   color: #333;
   margin-bottom: 20px;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
 }
 
 .formula-legend {

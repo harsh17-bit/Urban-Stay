@@ -30,13 +30,11 @@ const Projects = () => {
     fetchProjects();
   }, [filters]);
 
-
-  
   return (
     <div className="projects-page">
       <div className="projects-hero">
         <h1 className="projects-title">Coming Soon!</h1>
-    </div>
+      </div>
     </div>
   );
 };

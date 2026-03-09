@@ -1,34 +1,34 @@
-const { z } = require('zod');
+const { z } = require("zod");
 // -------- ZOD SCHEMAS --------
 const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$/;
 
 const registerSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Invalid email format'),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Invalid email format"),
   password: z
     .string()
     .regex(
       passwordRegex,
-      'Password must have uppercase, lowercase, number & special character'
+      "Password must have uppercase, lowercase, number & special character",
     ),
   phone: z.string().optional(),
-  role: z.enum(['user', 'seller']).optional(),
+  role: z.enum(["user", "seller"]).optional(),
 });
 
 const loginSchema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
+  email: z.string().email("Invalid email"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
 });
 
 const updatePasswordSchema = z.object({
   currentPassword: z.string().min(8),
-  newPassword: z.string().regex(passwordRegex, 'New password is too weak'),
+  newPassword: z.string().regex(passwordRegex, "New password is too weak"),
 });
 
 const resetPasswordSchema = z.object({
   email: z.string().email(),
   otp: z.string().regex(/^\d{6}$/),
-  newPassword: z.string().regex(passwordRegex, 'Password is too weak'),
+  newPassword: z.string().regex(passwordRegex, "Password is too weak"),
 });
 
 /**
@@ -39,17 +39,17 @@ const resetPasswordSchema = z.object({
  * @module controllers/authController
  */
 
-const User = require('../models/user');
-const Property = require('../models/property');
-const Inquiry = require('../models/inquiry');
-const Review = require('../models/review');
-const Alert = require('../models/alert');
-const Project = require('../models/project');
-const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
+const User = require("../models/user");
+const Property = require("../models/property");
+const Inquiry = require("../models/inquiry");
+const Review = require("../models/review");
+const Alert = require("../models/alert");
+const Project = require("../models/project");
+const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
+  host: "smtp.gmail.com",
   port: 587,
   secure: false,
   auth: {
@@ -63,11 +63,11 @@ const transporter = nodemailer.createTransport({
 const {
   sendWelcomeEmail,
   sendPasswordResetOtpEmail,
-} = require('../utils/email');
-const crypto = require('crypto');
-const fs = require('fs');
-const path = require('path');
-const { deleteImage, getPublicIdFromUrl } = require('../config/cloudinary');
+} = require("../utils/email");
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
+const { deleteImage, getPublicIdFromUrl } = require("../config/cloudinary");
 
 /**
  * Generates a JWT token for authenticated users
@@ -77,7 +77,7 @@ const { deleteImage, getPublicIdFromUrl } = require('../config/cloudinary');
  */
 const generateToken = (userId) => {
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRE || '7d',
+    expiresIn: process.env.JWT_EXPIRE || "7d",
   });
 };
 
@@ -132,7 +132,7 @@ exports.register = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: 'Email already registered',
+        message: "Email already registered",
       });
     }
 
@@ -143,14 +143,14 @@ exports.register = async (req, res) => {
       email,
       password,
       phone,
-      role: role === 'seller' ? 'seller' : 'user',
+      role: role === "seller" ? "seller" : "user",
       dateOfBirth,
       gender,
       address: address || {},
-      companyName: role === 'seller' ? companyName : '',
-      reraNumber: role === 'seller' ? reraNumber : '',
+      companyName: role === "seller" ? companyName : "",
+      reraNumber: role === "seller" ? reraNumber : "",
       bio,
-      registrationStatus: 'complete',
+      registrationStatus: "complete",
       registrationDate: new Date(),
     });
 
@@ -163,15 +163,15 @@ exports.register = async (req, res) => {
         role: user.role,
       });
     } catch (emailError) {
-      console.error('Failed to send welcome email:', emailError.message);
+      console.error("Failed to send welcome email:", emailError.message);
     }
 
     sendTokenResponse(user, 201, res);
   } catch (error) {
-    console.error('Register error:', error);
+    console.error("Register error:", error);
     res.status(500).json({
       success: false,
-      message: error.message || 'Error creating user',
+      message: error.message || "Error creating user",
     });
   }
 };
@@ -194,16 +194,16 @@ exports.login = async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide email and password',
+        message: "Please provide email and password",
       });
     }
 
     // Find user by email and include password field for comparison
-    const user = await User.findOne({ email }).select('+password');
+    const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials',
+        message: "Invalid credentials",
       });
     }
 
@@ -212,7 +212,7 @@ exports.login = async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials',
+        message: "Invalid credentials",
       });
     }
 
@@ -221,10 +221,10 @@ exports.login = async (req, res) => {
 
     sendTokenResponse(user, 200, res);
   } catch (error) {
-    console.error('Login error:', error);
+    console.error("Login error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error logging in',
+      message: "Error logging in",
     });
   }
 };
@@ -240,17 +240,17 @@ exports.login = async (req, res) => {
 exports.getMe = async (req, res) => {
   try {
     // Fetch user and populate favorite properties
-    const user = await User.findById(req.user.id).populate('favorites');
+    const user = await User.findById(req.user.id).populate("favorites");
 
     res.status(200).json({
       success: true,
       user,
     });
   } catch (error) {
-    console.error('GetMe error:', error);
+    console.error("GetMe error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching user',
+      message: "Error fetching user",
     });
   }
 };
@@ -280,19 +280,19 @@ exports.updateProfile = async (req, res) => {
     };
 
     if (
-      req.user.role !== 'admin' &&
-      ['user', 'seller'].includes(req.body.role)
+      req.user.role !== "admin" &&
+      ["user", "seller"].includes(req.body.role)
     ) {
       fieldsToUpdate.role = req.body.role;
     }
 
     // Remove undefined fields
     Object.keys(fieldsToUpdate).forEach(
-      (key) => fieldsToUpdate[key] === undefined && delete fieldsToUpdate[key]
+      (key) => fieldsToUpdate[key] === undefined && delete fieldsToUpdate[key],
     );
 
     const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
-      returnDocument: 'after',
+      returnDocument: "after",
       runValidators: true,
     });
 
@@ -301,10 +301,10 @@ exports.updateProfile = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.error('Update profile error:', error);
+    console.error("Update profile error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error updating profile',
+      message: "Error updating profile",
     });
   }
 };
@@ -316,14 +316,14 @@ exports.updatePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
 
-    const user = await User.findById(req.user.id).select('+password');
+    const user = await User.findById(req.user.id).select("+password");
 
     // Check current password
     const isMatch = await user.comparePassword(currentPassword);
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: 'Current password is incorrect',
+        message: "Current password is incorrect",
       });
     }
 
@@ -332,10 +332,10 @@ exports.updatePassword = async (req, res) => {
 
     sendTokenResponse(user, 200, res);
   } catch (error) {
-    console.error('Update password error:', error);
+    console.error("Update password error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error updating password',
+      message: "Error updating password",
     });
   }
 };
@@ -345,8 +345,8 @@ exports.updatePassword = async (req, res) => {
 // @access  Public
 exports.forgotPassword = async (req, res) => {
   try {
-    console.log('EMAIL_USER:', process.env.EMAIL_USER);
-    console.log('EMAIL_PASS exists:', process.env.EMAIL_PASS ? 'YES' : 'NO');
+    console.log("EMAIL_USER:", process.env.EMAIL_USER);
+    console.log("EMAIL_PASS exists:", process.env.EMAIL_PASS ? "YES" : "NO");
 
     const { email } = req.body;
 
@@ -355,7 +355,7 @@ exports.forgotPassword = async (req, res) => {
     if (!user) {
       return res.status(200).json({
         success: true,
-        message: 'If the email exists, OTP has been sent',
+        message: "If the email exists, OTP has been sent",
       });
     }
 
@@ -369,20 +369,20 @@ exports.forgotPassword = async (req, res) => {
     // send email BEFORE response (safe version)
     await transporter.sendMail({
       to: user.email,
-      subject: 'Password Reset OTP',
+      subject: "Password Reset OTP",
       text: `Your OTP is ${otp}. It expires in 10 minutes.`,
     });
 
     return res.status(200).json({
       success: true,
-      message: 'OTP sent successfully',
+      message: "OTP sent successfully",
     });
   } catch (error) {
-    console.error('Forgot Password Error:', error);
+    console.error("Forgot Password Error:", error);
 
     return res.status(500).json({
       success: false,
-      message: 'Error sending password reset OTP',
+      message: "Error sending password reset OTP",
     });
   }
 };
@@ -410,10 +410,10 @@ exports.toggleFavorite = async (req, res) => {
       isFavorite: index === -1,
     });
   } catch (error) {
-    console.error('Toggle favorite error:', error);
+    console.error("Toggle favorite error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error updating favorites',
+      message: "Error updating favorites",
     });
   }
 };
@@ -431,15 +431,15 @@ exports.getAllUsers = async (req, res) => {
     if (req.query.role) filter.role = req.query.role;
     if (req.query.search) {
       filter.$or = [
-        { name: { $regex: req.query.search, $options: 'i' } },
-        { email: { $regex: req.query.search, $options: 'i' } },
+        { name: { $regex: req.query.search, $options: "i" } },
+        { email: { $regex: req.query.search, $options: "i" } },
       ];
     }
 
     const users = await User.find(filter)
       .skip(skip)
       .limit(limit)
-      .sort('-createdAt');
+      .sort("-createdAt");
 
     const total = await User.countDocuments(filter);
 
@@ -452,10 +452,10 @@ exports.getAllUsers = async (req, res) => {
       users,
     });
   } catch (error) {
-    console.error('Get all users error:', error);
+    console.error("Get all users error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error fetching users',
+      message: "Error fetching users",
     });
   }
 };
@@ -467,23 +467,23 @@ exports.updateUserRole = async (req, res) => {
   try {
     const { role } = req.body;
 
-    if (!['user', 'seller', 'admin'].includes(role)) {
+    if (!["user", "seller", "admin"].includes(role)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid role',
+        message: "Invalid role",
       });
     }
 
     const user = await User.findByIdAndUpdate(
       req.params.id,
       { role },
-      { returnDocument: 'after' }
+      { returnDocument: "after" },
     );
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found',
+        message: "User not found",
       });
     }
 
@@ -492,10 +492,10 @@ exports.updateUserRole = async (req, res) => {
       user,
     });
   } catch (error) {
-    console.error('Update user role error:', error);
+    console.error("Update user role error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error updating user role',
+      message: "Error updating user role",
     });
   }
 };
@@ -512,7 +512,7 @@ exports.checkEmail = async (req, res) => {
     if (!email) {
       return res.status(400).json({
         success: false,
-        message: 'Email is required',
+        message: "Email is required",
       });
     }
 
@@ -523,10 +523,10 @@ exports.checkEmail = async (req, res) => {
       exists: !!user,
     });
   } catch (error) {
-    console.error('Check email error:', error);
+    console.error("Check email error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error checking email',
+      message: "Error checking email",
     });
   }
 };
@@ -556,7 +556,7 @@ exports.resetPassword = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid or expired OTP',
+        message: "Invalid or expired OTP",
       });
     }
 
@@ -568,13 +568,13 @@ exports.resetPassword = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'Password reset successfully',
+      message: "Password reset successfully",
     });
   } catch (error) {
-    console.error('Reset password error:', error);
+    console.error("Reset password error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error resetting password',
+      message: "Error resetting password",
     });
   }
 };
@@ -588,13 +588,13 @@ exports.deleteUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'User not found',
+        message: "User not found",
       });
     }
 
     // 1. Find all properties owned by this user
     const userProperties = await Property.find({ owner: userId }).select(
-      '_id images'
+      "_id images",
     );
     const propertyIds = userProperties.map((p) => p._id);
 
@@ -603,11 +603,11 @@ exports.deleteUser = async (req, res) => {
       if (Array.isArray(property.images)) {
         for (const img of property.images) {
           if (img.url) {
-            if (img.url.startsWith('/uploads/')) {
+            if (img.url.startsWith("/uploads/")) {
               // Local file
-              const filePath = path.join(__dirname, '../', img.url);
+              const filePath = path.join(__dirname, "../", img.url);
               fs.unlink(filePath, () => {}); // silent — file may already be gone
-            } else if (img.url.includes('cloudinary')) {
+            } else if (img.url.includes("cloudinary")) {
               // Cloudinary image
               const publicId = getPublicIdFromUrl(img.url);
               if (publicId) {
@@ -647,18 +647,18 @@ exports.deleteUser = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: 'User and all associated data deleted successfully',
+      message: "User and all associated data deleted successfully",
       deleted: {
         properties: propertyIds.length,
         projects: await Project.countDocuments({ developer: userId }),
       },
     });
   } catch (error) {
-    console.error('Delete user error:', error);
+    console.error("Delete user error:", error);
     res.status(500).json({
       success: false,
-      message: 'Error deleting user',
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
+      message: "Error deleting user",
+      error: process.env.NODE_ENV === "development" ? error.message : undefined,
     });
   }
 };

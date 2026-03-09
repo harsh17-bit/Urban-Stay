@@ -11,7 +11,7 @@
   justify-content: center;
   background-color: var(--color-ink-50);
   padding: 2rem;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 /* ── Two-column card ── */
@@ -42,7 +42,7 @@
 
 /* Decorative bubbles */
 .register-left::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -60px;
   left: -60px;
@@ -53,7 +53,7 @@
 }
 
 .register-left::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -80px;
   right: -40px;
@@ -342,25 +342,54 @@
 
 /* ── Entrance animations ── */
 @keyframes fadeInSlideUpReg {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0);     }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.reg-slide-1 { animation: fadeInSlideUpReg 0.5s ease-out 0.05s backwards; }
-.reg-slide-2 { animation: fadeInSlideUpReg 0.5s ease-out 0.15s backwards; }
-.reg-slide-3 { animation: fadeInSlideUpReg 0.5s ease-out 0.25s backwards; }
-.reg-slide-4 { animation: fadeInSlideUpReg 0.5s ease-out 0.35s backwards; }
-.reg-slide-5 { animation: fadeInSlideUpReg 0.5s ease-out 0.45s backwards; }
-.reg-slide-6 { animation: fadeInSlideUpReg 0.5s ease-out 0.55s backwards; }
+.reg-slide-1 {
+  animation: fadeInSlideUpReg 0.5s ease-out 0.05s backwards;
+}
+.reg-slide-2 {
+  animation: fadeInSlideUpReg 0.5s ease-out 0.15s backwards;
+}
+.reg-slide-3 {
+  animation: fadeInSlideUpReg 0.5s ease-out 0.25s backwards;
+}
+.reg-slide-4 {
+  animation: fadeInSlideUpReg 0.5s ease-out 0.35s backwards;
+}
+.reg-slide-5 {
+  animation: fadeInSlideUpReg 0.5s ease-out 0.45s backwards;
+}
+.reg-slide-6 {
+  animation: fadeInSlideUpReg 0.5s ease-out 0.55s backwards;
+}
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0);  }
-  20%, 60%  { transform: translateX(-5px); }
-  40%, 80%  { transform: translateX(5px);  }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ── Responsive ── */
@@ -411,4 +440,3 @@
     font-size: 1.5rem;
   }
 }
-

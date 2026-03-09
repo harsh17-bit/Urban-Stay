@@ -1,11 +1,11 @@
-import { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
-import { FiExternalLink, FiPhone } from 'react-icons/fi';
-import './EMICalculator.css';
+import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
+import { FiExternalLink, FiPhone } from "react-icons/fi";
+import "./EMICalculator.css";
 
 /* ── helpers ── */
 const fmt = (n) =>
-  new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(n);
+  new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(n);
 
 /* ── Donut Chart Component ── */
 const DonutChart = ({ principal, interest }) => {
@@ -45,7 +45,7 @@ const DonutChart = ({ principal, interest }) => {
         strokeDashoffset={0}
         strokeLinecap="butt"
         style={{
-          transform: 'rotate(-90deg)',
+          transform: "rotate(-90deg)",
           transformOrigin: `${cx}px ${cy}px`,
         }}
       />
@@ -61,7 +61,7 @@ const DonutChart = ({ principal, interest }) => {
         strokeDashoffset={-principalDash}
         strokeLinecap="butt"
         style={{
-          transform: 'rotate(-90deg)',
+          transform: "rotate(-90deg)",
           transformOrigin: `${cx}px ${cy}px`,
         }}
       />
@@ -92,14 +92,14 @@ const EMICalculator = () => {
   }, [loanAmount, interestRate, tenure]);
 
   const handleLoanAmountChange = (e) => {
-    const value = e.target.value.replace(/,/g, '');
+    const value = e.target.value.replace(/,/g, "");
     const numValue = parseInt(value) || 0;
     setLoanAmount(numValue);
   };
 
   const handleRecalculate = () => {
     // Trigger recalculation (already done via useMemo)
-    console.log('Recalculating EMI...');
+    console.log("Recalculating EMI...");
   };
 
   return (
@@ -138,7 +138,7 @@ const EMICalculator = () => {
                         <option key={yr} value={yr}>
                           {yr} yrs
                         </option>
-                      )
+                      ),
                     )}
                   </select>
                 </div>

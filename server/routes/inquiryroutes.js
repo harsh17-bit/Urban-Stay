@@ -1,8 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const {
-    createInquiry, getReceivedInquiries, getSentInquiries, getInquiry,
-    respondToInquiry, updateInquiryStatus, deleteInquiry, getInquiryStats
+  createInquiry,
+  getReceivedInquiries,
+  getSentInquiries,
+  getInquiry,
+  respondToInquiry,
+  updateInquiryStatus,
+  deleteInquiry,
+  getInquiryStats,
 } = require("../controllers/inquirycontroller");
 const { protect } = require("../middleware/auth");
 

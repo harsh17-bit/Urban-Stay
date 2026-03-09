@@ -6,7 +6,7 @@
  * @module services/authService
  */
 
-import api from './api';
+import api from "./api";
 /**
  * Authentication service object containing all auth-related methods
  * Automatically manages JWT tokens and user data in localStorage
@@ -25,10 +25,10 @@ export const authService = {
    * @returns {Promise<Object>} Registration response with token and user
    */
   register: async (userData) => {
-    const response = await api.post('/auth/register', userData);
+    const response = await api.post("/auth/register", userData);
     if (response.data.token) {
-      sessionStorage.setItem('token', response.data.token);
-      sessionStorage.setItem('user', JSON.stringify(response.data.user));
+      sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem("user", JSON.stringify(response.data.user));
     }
     return response.data;
   },
@@ -40,7 +40,7 @@ export const authService = {
    * @returns {Promise<Object>} Availability response
    */
   checkEmail: async (email) => {
-    const response = await api.get('/auth/check-email', {
+    const response = await api.get("/auth/check-email", {
       params: { email },
     });
     return response.data;
@@ -56,10 +56,10 @@ export const authService = {
    * @returns {Promise<Object>} Login response with token and user
    */
   login: async (credentials) => {
-    const response = await api.post('/auth/login', credentials);
+    const response = await api.post("/auth/login", credentials);
     if (response.data.token) {
-      sessionStorage.setItem('token', response.data.token);
-      sessionStorage.setItem('user', JSON.stringify(response.data.user));
+      sessionStorage.setItem("token", response.data.token);
+      sessionStorage.setItem("user", JSON.stringify(response.data.user));
     }
     return response.data;
   },
@@ -69,8 +69,8 @@ export const authService = {
    * Clears all authentication data from sessionStorage
    */
   logout: () => {
-    sessionStorage.removeItem('token');
-    sessionStorage.removeItem('user');
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
   },
 
   /**
@@ -80,7 +80,7 @@ export const authService = {
    * @returns {Promise<Object>} User profile data
    */
   getMe: async () => {
-    const response = await api.get('/auth/me');
+    const response = await api.get("/auth/me");
     return response.data;
   },
 
@@ -92,9 +92,9 @@ export const authService = {
    * @returns {Promise<Object>} Updated user profile
    */
   updateProfile: async (data) => {
-    const response = await api.put('/auth/updateprofile', data);
+    const response = await api.put("/auth/updateprofile", data);
     if (response.data.user) {
-      sessionStorage.setItem('user', JSON.stringify(response.data.user));
+      sessionStorage.setItem("user", JSON.stringify(response.data.user));
     }
     return response.data;
   },
@@ -109,7 +109,7 @@ export const authService = {
    * @returns {Promise<Object>} Success response
    */
   updatePassword: async (data) => {
-    const response = await api.put('/auth/updatepassword', data);
+    const response = await api.put("/auth/updatepassword", data);
     return response.data;
   },
 
@@ -121,7 +121,7 @@ export const authService = {
    * @returns {Promise<Object>} Success message
    */
   forgotPassword: async (email) => {
-    const response = await api.post('/auth/forgotpassword', { email });
+    const response = await api.post("/auth/forgotpassword", { email });
     return response.data;
   },
 
@@ -134,7 +134,7 @@ export const authService = {
    * @returns {Promise<Object>} Success response with new token
    */
   resetPassword: async (data) => {
-    const response = await api.post('/auth/resetpassword', data);
+    const response = await api.post("/auth/resetpassword", data);
     return response.data;
   },
 

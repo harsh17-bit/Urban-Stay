@@ -7,7 +7,7 @@
  * @requires nodemailer
  */
 
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 /**
  * Creates and configures the email transporter
@@ -17,13 +17,13 @@ const nodemailer = require('nodemailer');
  * @throws {Error} If EMAIL_USER or EMAIL_PASSWORD is not configured
  */
 const createTransporter = () => {
-  console.log('EMAIL_USER:', process.env.EMAIL_USER);
-  console.log('EMAIL_PASS exists:', !!process.env.EMAIL_PASS);
+  console.log("EMAIL_USER:", process.env.EMAIL_USER);
+  console.log("EMAIL_PASS exists:", !!process.env.EMAIL_PASS);
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    throw new Error('Email service is not configured');
+    throw new Error("Email service is not configured");
   }
   return nodemailer.createTransport({
-    host: 'smtp.gmail.com',
+    host: "smtp.gmail.com",
     port: 587,
     secure: false,
     auth: {
@@ -81,11 +81,11 @@ const sendInquiryNotification = async (data) => {
                 <h1>New Property Inquiry</h1>
               <div class="content">
                 <p>Hello,</p>
-                <p>You have received a new <strong>${data.inquiryType.replace(/-/g, ' ')}</strong> inquiry for your property.</p>
+                <p>You have received a new <strong>${data.inquiryType.replace(/-/g, " ")}</strong> inquiry for your property.</p>
                 
                 <div class="info-box">
                   <p><span class="label">Property:</span> ${data.propertyTitle}</p>
-                  <p><span class="label">Inquiry Type:</span> ${data.inquiryType.replace(/-/g, ' ').toUpperCase()}</p>
+                  <p><span class="label">Inquiry Type:</span> ${data.inquiryType.replace(/-/g, " ").toUpperCase()}</p>
                 </div>
                 
                 <h3>Inquirer Details:</h3>
@@ -106,10 +106,10 @@ const sendInquiryNotification = async (data) => {
                 <h3>Preferred Visit:</h3>
                 <div class="info-box">
                   <p><span class="label">Date:</span> ${new Date(data.preferredVisitDate).toLocaleDateString()}</p>
-                  ${data.preferredVisitTime ? `<p><span class="label">Time:</span> ${data.preferredVisitTime}</p>` : ''}
+                  ${data.preferredVisitTime ? `<p><span class="label">Time:</span> ${data.preferredVisitTime}</p>` : ""}
                 </div>
                 `
-                    : ''
+                    : ""
                 }
                 
                 <p>Please respond to the inquirer as soon as possible.</p>
@@ -124,10 +124,10 @@ const sendInquiryNotification = async (data) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(' Inquiry notification email sent:', info.messageId);
+    console.log(" Inquiry notification email sent:", info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(' Error sending email:', error.message);
+    console.error(" Error sending email:", error.message);
     throw error;
   }
 };
@@ -152,7 +152,7 @@ const sendWelcomeEmail = async (data) => {
     const mailOptions = {
       from: `"UrbanStay.com" <${process.env.EMAIL_USER}>`,
       to: data.email,
-      subject: 'Welcome to UrbanStay.com!',
+      subject: "Welcome to UrbanStay.com!",
       html: `
         <!DOCTYPE html>
   <html>
@@ -198,7 +198,7 @@ const sendWelcomeEmail = async (data) => {
 
   <tr>
   <td align="center" style="padding:25px 0;">
-  <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}"
+  <a href="${process.env.FRONTEND_URL || "http://localhost:5173"}"
   style="background:#0ea5a4;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:6px;display:inline-block;font-size:14px;">
   Start Exploring
   </a>
@@ -228,10 +228,10 @@ const sendWelcomeEmail = async (data) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Welcome email sent:', info.messageId);
+    console.log("Welcome email sent:", info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending welcome email:', error.message);
+    console.error("Error sending welcome email:", error.message);
     throw error;
   }
 };
@@ -253,7 +253,7 @@ const sendPasswordResetOtpEmail = async (data) => {
     const mailOptions = {
       from: `"UrbanStay.com" <${process.env.EMAIL_USER}>`,
       to: data.email,
-      subject: 'Your UrbanStay.com password reset OTP',
+      subject: "Your UrbanStay.com password reset OTP",
       text: `Your OTP for password reset is ${data.otp}. It is valid for 10 minutes.`,
       html: `
           <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -266,10 +266,10 @@ const sendPasswordResetOtpEmail = async (data) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Password reset OTP email sent:', info.messageId);
+    console.log("Password reset OTP email sent:", info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending OTP email:', error.message);
+    console.error("Error sending OTP email:", error.message);
     throw error;
   }
 };
@@ -288,7 +288,7 @@ const sendPasswordResetOtpEmail = async (data) => {
 const sendInquiryReplyNotification = async (data) => {
   try {
     const transporter = createTransporter();
-    const dashboardUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/inquiry/${data.inquiryId}`;
+    const dashboardUrl = `${process.env.FRONTEND_URL || "http://localhost:5173"}/inquiry/${data.inquiryId}`;
 
     const mailOptions = {
       from: `"Urban Stay Property" <${process.env.EMAIL_USER}>`,
@@ -353,10 +353,10 @@ const sendInquiryReplyNotification = async (data) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log('Inquiry reply notification sent:', info.messageId);
+    console.log("Inquiry reply notification sent:", info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error('Error sending reply notification email:', error.message);
+    console.error("Error sending reply notification email:", error.message);
     throw error;
   }
 };

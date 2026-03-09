@@ -1,1284 +1,1214 @@
-[{
-  "_id": {
-    "$oid": "6981af17f3aa2d5537262710"
-  },
-  "title": "Luxury 3 BHK Apartment in Bandra West",
-  "description": "Experience premium living in this spacious 3 BHK apartment with sea view. Features modern amenities, Italian marble flooring, and 24/7 security.",
-  "price": 45000000,
-  "priceUnit": "total",
-  "propertyType": "apartment",
-  "listingType": "buy",
-  "status": "available",
-  "location": {
-    "address": "12, Ocean View, Bandra West",
-    "city": "Mumbai",
-    "state": "Maharashtra",
-    "pincode": "400050",
-    "landmark": "Near Bandstand"
-  },
-  "specifications": {
-    "bedrooms": 3,
-    "bathrooms": 3,
-    "balconies": 2,
-    "carpetArea": 1800,
-    "builtUpArea": 2200,
-    "totalFloors": 25,
-    "floorNumber": 15,
-    "facing": "west",
-    "furnishing": "semi-furnished",
-    "ageOfProperty": 2,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "gym",
-    "swimming-pool",
-    "clubhouse",
-    "gated-security",
-    "parking",
-    "lift",
-    "power-backup"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262711"
-      }
+[
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d5537262710"
     },
-    {
-      "url": "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262712"
-      }
+    "title": "Luxury 3 BHK Apartment in Bandra West",
+    "description": "Experience premium living in this spacious 3 BHK apartment with sea view. Features modern amenities, Italian marble flooring, and 24/7 security.",
+    "price": 45000000,
+    "priceUnit": "total",
+    "propertyType": "apartment",
+    "listingType": "buy",
+    "status": "available",
+    "location": {
+      "address": "12, Ocean View, Bandra West",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400050",
+      "landmark": "Near Bandstand"
     },
-    {
-      "url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262713"
+    "specifications": {
+      "bedrooms": 3,
+      "bathrooms": 3,
+      "balconies": 2,
+      "carpetArea": 1800,
+      "builtUpArea": 2200,
+      "totalFloors": 25,
+      "floorNumber": 15,
+      "facing": "west",
+      "furnishing": "semi-furnished",
+      "ageOfProperty": 2,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "gym",
+      "swimming-pool",
+      "clubhouse",
+      "gated-security",
+      "parking",
+      "lift",
+      "power-backup"
+    ],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262711"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262712"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262713"
+        }
       }
+    ],
+    "highlights": ["Sea View", "Italian Marble", "High Floor"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 47,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.285Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T07:34:56.309Z"
+    },
+    "slug": "luxury-3-bhk-apartment-in-bandra-west-1770106647285",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d5537262715"
+    },
+    "title": "Modern Villa in Whitefield",
+    "description": "Beautiful independent villa with private garden and terrace. Located in a gated community with top-class amenities.",
+    "price": 32000000,
+    "priceUnit": "total",
+    "propertyType": "villa",
+    "listingType": "buy",
+    "status": "available",
+    "location": {
+      "address": "45, Palm Meadows, Whitefield",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560066",
+      "landmark": "Near Forum Mall"
+    },
+    "specifications": {
+      "bedrooms": 4,
+      "bathrooms": 4,
+      "balconies": 3,
+      "carpetArea": 2800,
+      "builtUpArea": 3200,
+      "totalFloors": 2,
+      "floorNumber": 0,
+      "facing": "east",
+      "furnishing": "unfurnished",
+      "ageOfProperty": 0,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "garden",
+      "clubhouse",
+      "swimming-pool",
+      "gym",
+      "gated-security",
+      "playground"
+    ],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262716"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262717"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262718"
+        }
+      }
+    ],
+    "highlights": ["Private Garden", "Terrace", "Gated Community"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 12,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.289Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-23T04:48:12.910Z"
+    },
+    "slug": "modern-villa-in-whitefield-1770106647289",
+    "__v": 0,
+    "featuredUntil": {
+      "$date": "2026-03-25T04:48:12.908Z"
     }
-  ],
-  "highlights": [
-    "Sea View",
-    "Italian Marble",
-    "High Floor"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
   },
-  "views": 47,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.285Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T07:34:56.309Z"
-  },
-  "slug": "luxury-3-bhk-apartment-in-bandra-west-1770106647285",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d5537262715"
-  },
-  "title": "Modern Villa in Whitefield",
-  "description": "Beautiful independent villa with private garden and terrace. Located in a gated community with top-class amenities.",
-  "price": 32000000,
-  "priceUnit": "total",
-  "propertyType": "villa",
-  "listingType": "buy",
-  "status": "available",
-  "location": {
-    "address": "45, Palm Meadows, Whitefield",
-    "city": "Bangalore",
-    "state": "Karnataka",
-    "pincode": "560066",
-    "landmark": "Near Forum Mall"
-  },
-  "specifications": {
-    "bedrooms": 4,
-    "bathrooms": 4,
-    "balconies": 3,
-    "carpetArea": 2800,
-    "builtUpArea": 3200,
-    "totalFloors": 2,
-    "floorNumber": 0,
-    "facing": "east",
-    "furnishing": "unfurnished",
-    "ageOfProperty": 0,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "garden",
-    "clubhouse",
-    "swimming-pool",
-    "gym",
-    "gated-security",
-    "playground"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1580587771525-78b9dba3b91d?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262716"
-      }
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d553726271a"
     },
-    {
-      "url": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262717"
-      }
+    "title": "Furnished Office Space in Cyber City",
+    "description": "Ready-to-move commercial office space. Ideal for startups and IT companies. Walking distance from metro station.",
+    "price": 85000,
+    "priceUnit": "total",
+    "propertyType": "office",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "Tower B, Cyber Hub, DLF Phase 2",
+      "city": "Gurgaon",
+      "state": "Haryana",
+      "pincode": "122002",
+      "landmark": "Cyber City Metro"
     },
-    {
-      "url": "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262718"
+    "specifications": {
+      "carpetArea": 1200,
+      "builtUpArea": 1500,
+      "totalFloors": 12,
+      "floorNumber": 8,
+      "facing": "north",
+      "furnishing": "fully-furnished",
+      "ageOfProperty": 5,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "air-conditioning",
+      "power-backup",
+      "gated-security",
+      "cctv",
+      "internet"
+    ],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726271b"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726271c"
+        }
       }
+    ],
+    "highlights": ["Near Metro", "Fully Furnished", "Cafeteria"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 7,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.292Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-23T04:48:13.970Z"
+    },
+    "slug": "furnished-office-space-in-cyber-city-1770106647292",
+    "__v": 0,
+    "featuredUntil": {
+      "$date": "2026-03-25T04:48:13.970Z"
     }
-  ],
-  "highlights": [
-    "Private Garden",
-    "Terrace",
-    "Gated Community"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
   },
-  "views": 12,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.289Z"
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d553726271e"
+    },
+    "title": "2 BHK Apartment in Indiranagar",
+    "description": "Cozy 2 BHK apartment in the heart of the city. Close to parks, restaurants, and metro station. Perfect for small families.",
+    "price": 35000,
+    "priceUnit": "total",
+    "propertyType": "apartment",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "88, 12th Main, Indiranagar",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560038",
+      "landmark": "Near Metro Station"
+    },
+    "specifications": {
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "balconies": 1,
+      "carpetArea": 1000,
+      "builtUpArea": 1200,
+      "totalFloors": 4,
+      "floorNumber": 2,
+      "facing": "north",
+      "furnishing": "semi-furnished",
+      "ageOfProperty": 8,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "gated-security",
+      "parking",
+      "water-supply",
+      "power-backup",
+      "lift"
+    ],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726271f"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262720"
+        }
+      }
+    ],
+    "highlights": ["Central Location", "Park Nearby"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 8,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.294Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T04:35:34.106Z"
+    },
+    "slug": "2-bhk-apartment-in-indiranagar-1770106647294",
+    "__v": 0,
+    "verifiedAt": {
+      "$date": "2026-02-19T05:45:21.689Z"
+    },
+    "verifiedBy": {
+      "$oid": "6981af17f3aa2d553726270c"
+    },
+    "featuredUntil": {
+      "$date": "2026-03-25T07:38:56.419Z"
+    }
   },
-  "updatedAt": {
-    "$date": "2026-02-23T04:48:12.910Z"
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d5537262722"
+    },
+    "title": "Spacious 4 BHK Flat in Greater Kailash",
+    "description": "Premium builder floor in GK-1. High-end interiors, modular kitchen, and exclusive terrace rights.",
+    "price": 65000000,
+    "priceUnit": "total",
+    "propertyType": "apartment",
+    "listingType": "buy",
+    "status": "available",
+    "location": {
+      "address": "B-Block, Greater Kailash 1",
+      "city": "Delhi",
+      "state": "Delhi",
+      "pincode": "110048",
+      "landmark": "M-Block Market"
+    },
+    "specifications": {
+      "bedrooms": 4,
+      "bathrooms": 4,
+      "balconies": 3,
+      "carpetArea": 2400,
+      "builtUpArea": 2700,
+      "totalFloors": 4,
+      "floorNumber": 2,
+      "facing": "north-east",
+      "furnishing": "fully-furnished",
+      "ageOfProperty": 1,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": ["lift", "parking", "gated-security", "gas-pipeline"],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262723"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262724"
+        }
+      }
+    ],
+    "highlights": ["Modular Kitchen", "Terrace Rights", "Park View"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 26,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.297Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T07:50:18.110Z"
+    },
+    "slug": "spacious-4-bhk-flat-in-greater-kailash-1770106647297",
+    "__v": 0
   },
-  "slug": "modern-villa-in-whitefield-1770106647289",
-  "__v": 0,
-  "featuredUntil": {
-    "$date": "2026-03-25T04:48:12.908Z"
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d5537262726"
+    },
+    "title": "Compact 1 BHK in Hinjewadi",
+    "description": "Ideal for IT professionals. Walking distance from IT park. Gated society with all basic amenities.",
+    "price": 18000,
+    "priceUnit": "total",
+    "propertyType": "apartment",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "Blue Ridge, Hinjewadi Phase 1",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "pincode": "411057",
+      "landmark": "Near Wipro Circle"
+    },
+    "specifications": {
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "balconies": 1,
+      "carpetArea": 550,
+      "builtUpArea": 650,
+      "totalFloors": 22,
+      "floorNumber": 7,
+      "facing": "east",
+      "furnishing": "unfurnished",
+      "ageOfProperty": 4,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "lift",
+      "power-backup",
+      "gated-security",
+      "garden",
+      "shopping-center"
+    ],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262727"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1595246140625-573b715d11fc?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262728"
+        }
+      }
+    ],
+    "highlights": ["Near IT Park", "Grocery Shop Inside"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 0,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.300Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-23T04:48:16.352Z"
+    },
+    "slug": "compact-1-bhk-in-hinjewadi-1770106647300",
+    "__v": 0,
+    "verifiedAt": {
+      "$date": "2026-02-19T05:45:20.835Z"
+    },
+    "verifiedBy": {
+      "$oid": "6981af17f3aa2d553726270c"
+    },
+    "featuredUntil": {
+      "$date": "2026-03-25T04:48:16.351Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d553726272a"
+    },
+    "title": "Luxury 5 BHK Villa in Bangalore",
+    "description": "Ultra-luxury villa with premium finishes, smart home automation, private pool and tennis court. Located in an exclusive gated community.",
+    "price": 85000000,
+    "priceUnit": "total",
+    "propertyType": "villa",
+    "listingType": "buy",
+    "status": "available",
+    "location": {
+      "address": "Prestige Oaks, Sarjapur Road",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560103",
+      "landmark": "Near Sarjapur"
+    },
+    "specifications": {
+      "bedrooms": 5,
+      "bathrooms": 5,
+      "balconies": 4,
+      "carpetArea": 4000,
+      "builtUpArea": 4800,
+      "totalFloors": 3,
+      "floorNumber": 0,
+      "facing": "south",
+      "furnishing": "fully-furnished",
+      "ageOfProperty": 0,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "swimming-pool",
+      "gym",
+      "clubhouse",
+      "gated-security",
+      "garden",
+      "playground",
+      "power-backup"
+    ],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726272b"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726272c"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726272d"
+        }
+      }
+    ],
+    "highlights": ["Smart Home", "Private Pool", "Tennis Court"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 92,
+    "inquiries": 1,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.302Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-20T06:38:28.205Z"
+    },
+    "slug": "luxury-5-bhk-villa-in-bangalore-1770106647302",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d553726272f"
+    },
+    "title": "Commercial Plot in Sector 7, Noida",
+    "description": "Ideal commercial plot for retail/office development. Located on main road with excellent connectivity. High visibility location.",
+    "price": 25000000,
+    "priceUnit": "total",
+    "propertyType": "plot",
+    "listingType": "buy",
+    "status": "available",
+    "location": {
+      "address": "Plot No. 456, Sector 7",
+      "city": "Noida",
+      "state": "Uttar Pradesh",
+      "pincode": "201301",
+      "landmark": "Main Road, Near Metro"
+    },
+    "specifications": {
+      "plotArea": 2000,
+      "totalFloors": 0,
+      "floorNumber": 0,
+      "facing": "north",
+      "ageOfProperty": 0,
+      "possessionStatus": "ready-to-move",
+      "furnishing": "unfurnished"
+    },
+    "amenities": ["parking", "water-supply", "power-backup"],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262730"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262731"
+        }
+      }
+    ],
+    "highlights": ["High Visibility", "Main Road", "Near Metro"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 22,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.305Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-23T04:48:17.722Z"
+    },
+    "slug": "commercial-plot-in-sector-7-noida-1770106647305",
+    "__v": 0,
+    "featuredUntil": {
+      "$date": "2026-03-25T04:48:17.722Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d553726273b"
+    },
+    "title": "Industrial Warehouse in Mundka",
+    "description": "Large industrial warehouse with high ceiling and clear span. Suitable for manufacturing and storage. Loading dock available.",
+    "price": 120000,
+    "priceUnit": "total",
+    "propertyType": "warehouse",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "Warehouse Complex, Industrial Estate, Mundka",
+      "city": "Delhi",
+      "state": "Delhi",
+      "pincode": "110041",
+      "landmark": "Industrial Area"
+    },
+    "specifications": {
+      "carpetArea": 5000,
+      "builtUpArea": 5500,
+      "totalFloors": 1,
+      "floorNumber": 0,
+      "facing": "north",
+      "furnishing": "unfurnished",
+      "ageOfProperty": 5,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": ["parking", "water-supply", "power-backup", "lift"],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726273c"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726273d"
+        }
+      }
+    ],
+    "highlights": ["High Ceiling", "Clear Span", "Spacious"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 2,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.312Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-19T05:45:16.612Z"
+    },
+    "slug": "industrial-warehouse-in-mundka-1770106647312",
+    "__v": 0,
+    "featuredUntil": {
+      "$date": "2026-03-21T05:45:16.611Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d5537262743"
+    },
+    "title": "2 BHK Flat in Koramangala",
+    "description": "Modern apartment in the heart of Koramangala, a vibrant neighborhood. Walking distance to restaurants, cafes, and shopping centers.",
+    "price": 40000,
+    "priceUnit": "total",
+    "propertyType": "apartment",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "Plot 12, 5th Main Road, Koramangala",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "pincode": "560034",
+      "landmark": "Near Koramangala Junction"
+    },
+    "specifications": {
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "balconies": 1,
+      "carpetArea": 950,
+      "builtUpArea": 1150,
+      "totalFloors": 8,
+      "floorNumber": 4,
+      "facing": "north",
+      "furnishing": "fully-furnished",
+      "ageOfProperty": 2,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "gym",
+      "parking",
+      "gated-security",
+      "power-backup",
+      "water-supply"
+    ],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262744"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262745"
+        }
+      }
+    ],
+    "highlights": ["Vibrant Neighborhood", "Fully Furnished", "Walk to Cafes"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 15,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.318Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T08:01:19.788Z"
+    },
+    "slug": "2-bhk-flat-in-koramangala-1770106647318",
+    "__v": 0,
+    "featuredUntil": {
+      "$date": "2026-03-21T05:45:15.609Z"
+    },
+    "verifiedAt": {
+      "$date": "2026-02-19T05:45:18.194Z"
+    },
+    "verifiedBy": {
+      "$oid": "6981af17f3aa2d553726270c"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d5537262747"
+    },
+    "title": "Luxury Penthouse in South Delhi",
+    "description": "Exclusive penthouse with private rooftop garden and panoramic views. Located in a prestigious gated community.",
+    "price": 75000000,
+    "priceUnit": "total",
+    "propertyType": "apartment",
+    "listingType": "buy",
+    "status": "available",
+    "location": {
+      "address": "Defence Colony, New Delhi",
+      "city": "Delhi",
+      "state": "Delhi",
+      "pincode": "110024",
+      "landmark": "Defence Colony Main Road"
+    },
+    "specifications": {
+      "bedrooms": 4,
+      "bathrooms": 4,
+      "balconies": 3,
+      "carpetArea": 2600,
+      "builtUpArea": 3000,
+      "totalFloors": 12,
+      "floorNumber": 12,
+      "facing": "south",
+      "furnishing": "fully-furnished",
+      "ageOfProperty": 1,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "gym",
+      "swimming-pool",
+      "parking",
+      "gated-security",
+      "cctv",
+      "power-backup"
+    ],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262748"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d5537262749"
+        }
+      }
+    ],
+    "highlights": ["Penthouse", "Rooftop Garden", "Panoramic Views"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 191,
+    "inquiries": 5,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.320Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T09:20:16.212Z"
+    },
+    "slug": "luxury-penthouse-in-south-delhi-1770106647320",
+    "__v": 0
+  },
+  {
+    "_id": {
+      "$oid": "6981af17f3aa2d553726274b"
+    },
+    "title": "1 BHK Studio in Baner, Pune",
+    "description": "Cozy studio apartment perfect for working professionals and students. Modern facilities and great connectivity.",
+    "price": 15000,
+    "priceUnit": "total",
+    "propertyType": "apartment",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "Pinnacle Plaza, Baner Road",
+      "city": "Pune",
+      "state": "Maharashtra",
+      "pincode": "411045",
+      "landmark": "Near Baner Railway Station"
+    },
+    "specifications": {
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "balconies": 1,
+      "carpetArea": 450,
+      "builtUpArea": 550,
+      "totalFloors": 15,
+      "floorNumber": 5,
+      "facing": "south",
+      "furnishing": "semi-furnished",
+      "ageOfProperty": 1,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": ["lift", "power-backup", "gated-security", "water-supply"],
+    "images": [
+      {
+        "url": "https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726274c"
+        }
+      },
+      {
+        "url": "https://images.unsplash.com/photo-1595246140625-573b715d11fc?auto=format&fit=crop&w=1000&q=80",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "6981af17f3aa2d553726274d"
+        }
+      }
+    ],
+    "highlights": ["Affordable", "Modern", "Professional Community"],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 6,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-03T08:17:27.323Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T08:41:13.923Z"
+    },
+    "slug": "1-bhk-studio-in-baner-pune-1770106647323",
+    "__v": 0,
+    "featuredUntil": {
+      "$date": "2026-03-21T05:45:14.993Z"
+    },
+    "verifiedAt": {
+      "$date": "2026-02-19T05:45:17.361Z"
+    },
+    "verifiedBy": {
+      "$oid": "6981af17f3aa2d553726270c"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698592c7469e6754fd073653"
+    },
+    "title": "4-BHK",
+    "description": "this is work space where you can build power ful tools.\n",
+    "price": 10000,
+    "priceUnit": "total",
+    "propertyType": "office",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "4-Arcade Complex",
+      "city": "Jaipur",
+      "state": "Rajasthan",
+      "pincode": "231456",
+      "landmark": "-"
+    },
+    "specifications": {
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "balconies": 1,
+      "carpetArea": 1233,
+      "builtUpArea": 1400,
+      "totalFloors": 2,
+      "floorNumber": 7,
+      "facing": "north-east",
+      "furnishing": "semi-furnished",
+      "ageOfProperty": 4,
+      "possessionStatus": "under-construction"
+    },
+    "amenities": ["swimming-pool"],
+    "images": [
+      {
+        "url": "https://unsplash.com/photos/white-and-black-building-during-daytime-A3DPhhAL6Zg",
+        "caption": "",
+        "isPrimary": true,
+        "_id": {
+          "$oid": "698592c7469e6754fd073654"
+        }
+      },
+      {
+        "url": "https://unsplash.com/photos/white-and-brown-house-near-swimming-pool-ylyn5r4vxcA",
+        "caption": "",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "698592c7469e6754fd073655"
+        }
+      }
+    ],
+    "priceBreakdown": {
+      "maintenanceCharges": 2000
+    },
+    "highlights": [],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270c"
+    },
+    "views": 56,
+    "inquiries": 2,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-06T07:05:43.355Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-23T12:40:06.710Z"
+    },
+    "slug": "4bhk-1770361543356",
+    "__v": 0,
+    "verifiedAt": {
+      "$date": "2026-02-12T14:23:13.473Z"
+    },
+    "verifiedBy": {
+      "$oid": "6981af17f3aa2d553726270c"
+    },
+    "featuredUntil": {
+      "$date": "2026-03-14T14:23:18.697Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "698d6cb7b8f5c0e4fc97ddbe"
+    },
+    "title": "s2",
+    "description": "2fsd",
+    "price": 23232,
+    "priceUnit": "total",
+    "propertyType": "apartment",
+    "listingType": "buy",
+    "status": "available",
+    "location": {
+      "address": "fds",
+      "city": "Mumbai",
+      "state": "Delhi",
+      "pincode": "392001",
+      "landmark": "asdf"
+    },
+    "specifications": {
+      "bedrooms": 1,
+      "bathrooms": 2,
+      "balconies": 1,
+      "carpetArea": 2323,
+      "ageOfProperty": 0,
+      "possessionStatus": "ready-to-move",
+      "furnishing": "unfurnished"
+    },
+    "amenities": [],
+    "images": [
+      {
+        "url": "/uploads/propertyimages/property-1770876087206-451257567.jpg",
+        "caption": "",
+        "isPrimary": true,
+        "_id": {
+          "$oid": "698d6cb7b8f5c0e4fc97ddbf"
+        }
+      }
+    ],
+    "priceBreakdown": {
+      "maintenanceCharges": 1141
+    },
+    "highlights": [],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270c"
+    },
+    "views": 300,
+    "inquiries": 2,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-12T06:01:27.218Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T09:05:05.961Z"
+    },
+    "slug": "s2-1770876087219",
+    "__v": 0,
+    "verifiedAt": {
+      "$date": "2026-02-12T14:23:11.750Z"
+    },
+    "verifiedBy": {
+      "$oid": "6981af17f3aa2d553726270c"
+    },
+    "featuredUntil": {
+      "$date": "2026-03-14T14:23:19.928Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "6992a4e427391d651418de96"
+    },
+    "title": "4 bhk",
+    "description": "this house is perfect for everywhere.\r\n",
+    "price": 12000,
+    "priceUnit": "total",
+    "propertyType": "house",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "L-242,Sarvoday Society,Behind Apnaghar",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "pincode": "392001",
+      "landmark": "Jalaram Clinic"
+    },
+    "specifications": {
+      "bedrooms": 2,
+      "bathrooms": 3,
+      "carpetArea": 1199,
+      "balconies": 2,
+      "ageOfProperty": 0,
+      "furnishing": "unfurnished",
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": ["clubhouse", "garden", "shopping-center", "visitor-parking"],
+    "images": [
+      {
+        "url": "/uploads/propertyimages/property-1771920548253-802866322.jpg",
+        "caption": "",
+        "isPrimary": true,
+        "_id": {
+          "$oid": "699d5ca462464bd0693208e5"
+        }
+      }
+    ],
+    "priceBreakdown": {
+      "maintenanceCharges": 4000
+    },
+    "highlights": [],
+    "owner": {
+      "$oid": "6981af17f3aa2d553726270d"
+    },
+    "views": 106,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-16T05:02:28.062Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T09:27:45.143Z"
+    },
+    "slug": "4-bhk-1771218148062",
+    "__v": 0,
+    "verifiedAt": {
+      "$date": "2026-02-18T05:55:42.276Z"
+    },
+    "verifiedBy": {
+      "$oid": "6981af17f3aa2d553726270c"
+    },
+    "featuredUntil": {
+      "$date": "2026-03-25T07:25:19.117Z"
+    }
+  },
+  {
+    "_id": {
+      "$oid": "699c7bc4910a624e11b532ed"
+    },
+    "title": "4 BHK House in Thane",
+    "description": "this independent house is precious. with near thane metro station.any way this house with becomes more important because this is near to sea view.to get very calmly feeling in it.",
+    "price": 20000,
+    "priceUnit": "total",
+    "propertyType": "house",
+    "listingType": "rent",
+    "status": "available",
+    "location": {
+      "address": "23,Mahalaxmi Bunglows",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "435632",
+      "landmark": "Mahalaxmi Temple"
+    },
+    "specifications": {
+      "bedrooms": 4,
+      "bathrooms": 3,
+      "balconies": 1,
+      "carpetArea": 3400,
+      "builtUpArea": 4000,
+      "totalFloors": 3,
+      "floorNumber": 3,
+      "facing": "south-east",
+      "furnishing": "fully-furnished",
+      "ageOfProperty": 3,
+      "possessionStatus": "ready-to-move"
+    },
+    "amenities": [
+      "clubhouse",
+      "garden",
+      "hospital-nearby",
+      "maintenance-staff",
+      "visitor-parking",
+      "fire-safety",
+      "gym",
+      "gated-security",
+      "parking",
+      "power-backup"
+    ],
+    "images": [
+      {
+        "url": "/uploads/propertyimages/property-1771862980329-984292525.jpg",
+        "caption": "",
+        "isPrimary": true,
+        "_id": {
+          "$oid": "699c7bc4910a624e11b532ee"
+        }
+      },
+      {
+        "url": "/uploads/propertyimages/property-1771862980352-496748709.jpg",
+        "caption": "",
+        "isPrimary": false,
+        "_id": {
+          "$oid": "699c7bc4910a624e11b532ef"
+        }
+      }
+    ],
+    "priceBreakdown": {
+      "maintenanceCharges": 5000
+    },
+    "highlights": [],
+    "owner": {
+      "$oid": "6995425997e6e2f3e55e5421"
+    },
+    "views": 14,
+    "inquiries": 0,
+    "isVerified": true,
+    "isFeatured": true,
+    "nearbyPlaces": [],
+    "createdAt": {
+      "$date": "2026-02-23T16:09:40.392Z"
+    },
+    "updatedAt": {
+      "$date": "2026-02-24T08:56:22.972Z"
+    },
+    "slug": "4-bhk-house-in-thane-1771862980392",
+    "__v": 0,
+    "featuredUntil": {
+      "$date": "2026-03-25T16:10:33.313Z"
+    },
+    "verifiedAt": {
+      "$date": "2026-02-24T06:47:05.665Z"
+    },
+    "verifiedBy": {
+      "$oid": "698d73b6c32d2d78230657f1"
+    }
   }
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d553726271a"
-  },
-  "title": "Furnished Office Space in Cyber City",
-  "description": "Ready-to-move commercial office space. Ideal for startups and IT companies. Walking distance from metro station.",
-  "price": 85000,
-  "priceUnit": "total",
-  "propertyType": "office",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "Tower B, Cyber Hub, DLF Phase 2",
-    "city": "Gurgaon",
-    "state": "Haryana",
-    "pincode": "122002",
-    "landmark": "Cyber City Metro"
-  },
-  "specifications": {
-    "carpetArea": 1200,
-    "builtUpArea": 1500,
-    "totalFloors": 12,
-    "floorNumber": 8,
-    "facing": "north",
-    "furnishing": "fully-furnished",
-    "ageOfProperty": 5,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "air-conditioning",
-    "power-backup",
-    "gated-security",
-    "cctv",
-    "internet"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1497215728101-856f4ea42174?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726271b"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726271c"
-      }
-    }
-  ],
-  "highlights": [
-    "Near Metro",
-    "Fully Furnished",
-    "Cafeteria"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 7,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.292Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-23T04:48:13.970Z"
-  },
-  "slug": "furnished-office-space-in-cyber-city-1770106647292",
-  "__v": 0,
-  "featuredUntil": {
-    "$date": "2026-03-25T04:48:13.970Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d553726271e"
-  },
-  "title": "2 BHK Apartment in Indiranagar",
-  "description": "Cozy 2 BHK apartment in the heart of the city. Close to parks, restaurants, and metro station. Perfect for small families.",
-  "price": 35000,
-  "priceUnit": "total",
-  "propertyType": "apartment",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "88, 12th Main, Indiranagar",
-    "city": "Bangalore",
-    "state": "Karnataka",
-    "pincode": "560038",
-    "landmark": "Near Metro Station"
-  },
-  "specifications": {
-    "bedrooms": 2,
-    "bathrooms": 2,
-    "balconies": 1,
-    "carpetArea": 1000,
-    "builtUpArea": 1200,
-    "totalFloors": 4,
-    "floorNumber": 2,
-    "facing": "north",
-    "furnishing": "semi-furnished",
-    "ageOfProperty": 8,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "gated-security",
-    "parking",
-    "water-supply",
-    "power-backup",
-    "lift"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726271f"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262720"
-      }
-    }
-  ],
-  "highlights": [
-    "Central Location",
-    "Park Nearby"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 8,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.294Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T04:35:34.106Z"
-  },
-  "slug": "2-bhk-apartment-in-indiranagar-1770106647294",
-  "__v": 0,
-  "verifiedAt": {
-    "$date": "2026-02-19T05:45:21.689Z"
-  },
-  "verifiedBy": {
-    "$oid": "6981af17f3aa2d553726270c"
-  },
-  "featuredUntil": {
-    "$date": "2026-03-25T07:38:56.419Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d5537262722"
-  },
-  "title": "Spacious 4 BHK Flat in Greater Kailash",
-  "description": "Premium builder floor in GK-1. High-end interiors, modular kitchen, and exclusive terrace rights.",
-  "price": 65000000,
-  "priceUnit": "total",
-  "propertyType": "apartment",
-  "listingType": "buy",
-  "status": "available",
-  "location": {
-    "address": "B-Block, Greater Kailash 1",
-    "city": "Delhi",
-    "state": "Delhi",
-    "pincode": "110048",
-    "landmark": "M-Block Market"
-  },
-  "specifications": {
-    "bedrooms": 4,
-    "bathrooms": 4,
-    "balconies": 3,
-    "carpetArea": 2400,
-    "builtUpArea": 2700,
-    "totalFloors": 4,
-    "floorNumber": 2,
-    "facing": "north-east",
-    "furnishing": "fully-furnished",
-    "ageOfProperty": 1,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "lift",
-    "parking",
-    "gated-security",
-    "gas-pipeline"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262723"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262724"
-      }
-    }
-  ],
-  "highlights": [
-    "Modular Kitchen",
-    "Terrace Rights",
-    "Park View"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 26,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.297Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T07:50:18.110Z"
-  },
-  "slug": "spacious-4-bhk-flat-in-greater-kailash-1770106647297",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d5537262726"
-  },
-  "title": "Compact 1 BHK in Hinjewadi",
-  "description": "Ideal for IT professionals. Walking distance from IT park. Gated society with all basic amenities.",
-  "price": 18000,
-  "priceUnit": "total",
-  "propertyType": "apartment",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "Blue Ridge, Hinjewadi Phase 1",
-    "city": "Pune",
-    "state": "Maharashtra",
-    "pincode": "411057",
-    "landmark": "Near Wipro Circle"
-  },
-  "specifications": {
-    "bedrooms": 1,
-    "bathrooms": 1,
-    "balconies": 1,
-    "carpetArea": 550,
-    "builtUpArea": 650,
-    "totalFloors": 22,
-    "floorNumber": 7,
-    "facing": "east",
-    "furnishing": "unfurnished",
-    "ageOfProperty": 4,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "lift",
-    "power-backup",
-    "gated-security",
-    "garden",
-    "shopping-center"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262727"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1595246140625-573b715d11fc?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262728"
-      }
-    }
-  ],
-  "highlights": [
-    "Near IT Park",
-    "Grocery Shop Inside"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 0,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.300Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-23T04:48:16.352Z"
-  },
-  "slug": "compact-1-bhk-in-hinjewadi-1770106647300",
-  "__v": 0,
-  "verifiedAt": {
-    "$date": "2026-02-19T05:45:20.835Z"
-  },
-  "verifiedBy": {
-    "$oid": "6981af17f3aa2d553726270c"
-  },
-  "featuredUntil": {
-    "$date": "2026-03-25T04:48:16.351Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d553726272a"
-  },
-  "title": "Luxury 5 BHK Villa in Bangalore",
-  "description": "Ultra-luxury villa with premium finishes, smart home automation, private pool and tennis court. Located in an exclusive gated community.",
-  "price": 85000000,
-  "priceUnit": "total",
-  "propertyType": "villa",
-  "listingType": "buy",
-  "status": "available",
-  "location": {
-    "address": "Prestige Oaks, Sarjapur Road",
-    "city": "Bangalore",
-    "state": "Karnataka",
-    "pincode": "560103",
-    "landmark": "Near Sarjapur"
-  },
-  "specifications": {
-    "bedrooms": 5,
-    "bathrooms": 5,
-    "balconies": 4,
-    "carpetArea": 4000,
-    "builtUpArea": 4800,
-    "totalFloors": 3,
-    "floorNumber": 0,
-    "facing": "south",
-    "furnishing": "fully-furnished",
-    "ageOfProperty": 0,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "swimming-pool",
-    "gym",
-    "clubhouse",
-    "gated-security",
-    "garden",
-    "playground",
-    "power-backup"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726272b"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726272c"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726272d"
-      }
-    }
-  ],
-  "highlights": [
-    "Smart Home",
-    "Private Pool",
-    "Tennis Court"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 92,
-  "inquiries": 1,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.302Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-20T06:38:28.205Z"
-  },
-  "slug": "luxury-5-bhk-villa-in-bangalore-1770106647302",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d553726272f"
-  },
-  "title": "Commercial Plot in Sector 7, Noida",
-  "description": "Ideal commercial plot for retail/office development. Located on main road with excellent connectivity. High visibility location.",
-  "price": 25000000,
-  "priceUnit": "total",
-  "propertyType": "plot",
-  "listingType": "buy",
-  "status": "available",
-  "location": {
-    "address": "Plot No. 456, Sector 7",
-    "city": "Noida",
-    "state": "Uttar Pradesh",
-    "pincode": "201301",
-    "landmark": "Main Road, Near Metro"
-  },
-  "specifications": {
-    "plotArea": 2000,
-    "totalFloors": 0,
-    "floorNumber": 0,
-    "facing": "north",
-    "ageOfProperty": 0,
-    "possessionStatus": "ready-to-move",
-    "furnishing": "unfurnished"
-  },
-  "amenities": [
-    "parking",
-    "water-supply",
-    "power-backup"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262730"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262731"
-      }
-    }
-  ],
-  "highlights": [
-    "High Visibility",
-    "Main Road",
-    "Near Metro"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 22,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.305Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-23T04:48:17.722Z"
-  },
-  "slug": "commercial-plot-in-sector-7-noida-1770106647305",
-  "__v": 0,
-  "featuredUntil": {
-    "$date": "2026-03-25T04:48:17.722Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d553726273b"
-  },
-  "title": "Industrial Warehouse in Mundka",
-  "description": "Large industrial warehouse with high ceiling and clear span. Suitable for manufacturing and storage. Loading dock available.",
-  "price": 120000,
-  "priceUnit": "total",
-  "propertyType": "warehouse",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "Warehouse Complex, Industrial Estate, Mundka",
-    "city": "Delhi",
-    "state": "Delhi",
-    "pincode": "110041",
-    "landmark": "Industrial Area"
-  },
-  "specifications": {
-    "carpetArea": 5000,
-    "builtUpArea": 5500,
-    "totalFloors": 1,
-    "floorNumber": 0,
-    "facing": "north",
-    "furnishing": "unfurnished",
-    "ageOfProperty": 5,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "parking",
-    "water-supply",
-    "power-backup",
-    "lift"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726273c"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726273d"
-      }
-    }
-  ],
-  "highlights": [
-    "High Ceiling",
-    "Clear Span",
-    "Spacious"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 2,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.312Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-19T05:45:16.612Z"
-  },
-  "slug": "industrial-warehouse-in-mundka-1770106647312",
-  "__v": 0,
-  "featuredUntil": {
-    "$date": "2026-03-21T05:45:16.611Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d5537262743"
-  },
-  "title": "2 BHK Flat in Koramangala",
-  "description": "Modern apartment in the heart of Koramangala, a vibrant neighborhood. Walking distance to restaurants, cafes, and shopping centers.",
-  "price": 40000,
-  "priceUnit": "total",
-  "propertyType": "apartment",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "Plot 12, 5th Main Road, Koramangala",
-    "city": "Bangalore",
-    "state": "Karnataka",
-    "pincode": "560034",
-    "landmark": "Near Koramangala Junction"
-  },
-  "specifications": {
-    "bedrooms": 2,
-    "bathrooms": 2,
-    "balconies": 1,
-    "carpetArea": 950,
-    "builtUpArea": 1150,
-    "totalFloors": 8,
-    "floorNumber": 4,
-    "facing": "north",
-    "furnishing": "fully-furnished",
-    "ageOfProperty": 2,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "gym",
-    "parking",
-    "gated-security",
-    "power-backup",
-    "water-supply"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262744"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262745"
-      }
-    }
-  ],
-  "highlights": [
-    "Vibrant Neighborhood",
-    "Fully Furnished",
-    "Walk to Cafes"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 15,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.318Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T08:01:19.788Z"
-  },
-  "slug": "2-bhk-flat-in-koramangala-1770106647318",
-  "__v": 0,
-  "featuredUntil": {
-    "$date": "2026-03-21T05:45:15.609Z"
-  },
-  "verifiedAt": {
-    "$date": "2026-02-19T05:45:18.194Z"
-  },
-  "verifiedBy": {
-    "$oid": "6981af17f3aa2d553726270c"
-  }
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d5537262747"
-  },
-  "title": "Luxury Penthouse in South Delhi",
-  "description": "Exclusive penthouse with private rooftop garden and panoramic views. Located in a prestigious gated community.",
-  "price": 75000000,
-  "priceUnit": "total",
-  "propertyType": "apartment",
-  "listingType": "buy",
-  "status": "available",
-  "location": {
-    "address": "Defence Colony, New Delhi",
-    "city": "Delhi",
-    "state": "Delhi",
-    "pincode": "110024",
-    "landmark": "Defence Colony Main Road"
-  },
-  "specifications": {
-    "bedrooms": 4,
-    "bathrooms": 4,
-    "balconies": 3,
-    "carpetArea": 2600,
-    "builtUpArea": 3000,
-    "totalFloors": 12,
-    "floorNumber": 12,
-    "facing": "south",
-    "furnishing": "fully-furnished",
-    "ageOfProperty": 1,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "gym",
-    "swimming-pool",
-    "parking",
-    "gated-security",
-    "cctv",
-    "power-backup"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262748"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d5537262749"
-      }
-    }
-  ],
-  "highlights": [
-    "Penthouse",
-    "Rooftop Garden",
-    "Panoramic Views"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 191,
-  "inquiries": 5,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.320Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T09:20:16.212Z"
-  },
-  "slug": "luxury-penthouse-in-south-delhi-1770106647320",
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "6981af17f3aa2d553726274b"
-  },
-  "title": "1 BHK Studio in Baner, Pune",
-  "description": "Cozy studio apartment perfect for working professionals and students. Modern facilities and great connectivity.",
-  "price": 15000,
-  "priceUnit": "total",
-  "propertyType": "apartment",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "Pinnacle Plaza, Baner Road",
-    "city": "Pune",
-    "state": "Maharashtra",
-    "pincode": "411045",
-    "landmark": "Near Baner Railway Station"
-  },
-  "specifications": {
-    "bedrooms": 1,
-    "bathrooms": 1,
-    "balconies": 1,
-    "carpetArea": 450,
-    "builtUpArea": 550,
-    "totalFloors": 15,
-    "floorNumber": 5,
-    "facing": "south",
-    "furnishing": "semi-furnished",
-    "ageOfProperty": 1,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "lift",
-    "power-backup",
-    "gated-security",
-    "water-supply"
-  ],
-  "images": [
-    {
-      "url": "https://images.unsplash.com/photo-1595846519845-68e298c2edd8?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726274c"
-      }
-    },
-    {
-      "url": "https://images.unsplash.com/photo-1595246140625-573b715d11fc?auto=format&fit=crop&w=1000&q=80",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "6981af17f3aa2d553726274d"
-      }
-    }
-  ],
-  "highlights": [
-    "Affordable",
-    "Modern",
-    "Professional Community"
-  ],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 6,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-03T08:17:27.323Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T08:41:13.923Z"
-  },
-  "slug": "1-bhk-studio-in-baner-pune-1770106647323",
-  "__v": 0,
-  "featuredUntil": {
-    "$date": "2026-03-21T05:45:14.993Z"
-  },
-  "verifiedAt": {
-    "$date": "2026-02-19T05:45:17.361Z"
-  },
-  "verifiedBy": {
-    "$oid": "6981af17f3aa2d553726270c"
-  }
-},
-{
-  "_id": {
-    "$oid": "698592c7469e6754fd073653"
-  },
-  "title": "4-BHK",
-  "description": "this is work space where you can build power ful tools.\n",
-  "price": 10000,
-  "priceUnit": "total",
-  "propertyType": "office",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "4-Arcade Complex",
-    "city": "Jaipur",
-    "state": "Rajasthan",
-    "pincode": "231456",
-    "landmark": "-"
-  },
-  "specifications": {
-    "bedrooms": 2,
-    "bathrooms": 2,
-    "balconies": 1,
-    "carpetArea": 1233,
-    "builtUpArea": 1400,
-    "totalFloors": 2,
-    "floorNumber": 7,
-    "facing": "north-east",
-    "furnishing": "semi-furnished",
-    "ageOfProperty": 4,
-    "possessionStatus": "under-construction"
-  },
-  "amenities": [
-    "swimming-pool"
-  ],
-  "images": [
-    {
-      "url": "https://unsplash.com/photos/white-and-black-building-during-daytime-A3DPhhAL6Zg",
-      "caption": "",
-      "isPrimary": true,
-      "_id": {
-        "$oid": "698592c7469e6754fd073654"
-      }
-    },
-    {
-      "url": "https://unsplash.com/photos/white-and-brown-house-near-swimming-pool-ylyn5r4vxcA",
-      "caption": "",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "698592c7469e6754fd073655"
-      }
-    }
-  ],
-  "priceBreakdown": {
-    "maintenanceCharges": 2000
-  },
-  "highlights": [],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270c"
-  },
-  "views": 56,
-  "inquiries": 2,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-06T07:05:43.355Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-23T12:40:06.710Z"
-  },
-  "slug": "4bhk-1770361543356",
-  "__v": 0,
-  "verifiedAt": {
-    "$date": "2026-02-12T14:23:13.473Z"
-  },
-  "verifiedBy": {
-    "$oid": "6981af17f3aa2d553726270c"
-  },
-  "featuredUntil": {
-    "$date": "2026-03-14T14:23:18.697Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "698d6cb7b8f5c0e4fc97ddbe"
-  },
-  "title": "s2",
-  "description": "2fsd",
-  "price": 23232,
-  "priceUnit": "total",
-  "propertyType": "apartment",
-  "listingType": "buy",
-  "status": "available",
-  "location": {
-    "address": "fds",
-    "city": "Mumbai",
-    "state": "Delhi",
-    "pincode": "392001",
-    "landmark": "asdf"
-  },
-  "specifications": {
-    "bedrooms": 1,
-    "bathrooms": 2,
-    "balconies": 1,
-    "carpetArea": 2323,
-    "ageOfProperty": 0,
-    "possessionStatus": "ready-to-move",
-    "furnishing": "unfurnished"
-  },
-  "amenities": [],
-  "images": [
-    {
-      "url": "/uploads/propertyimages/property-1770876087206-451257567.jpg",
-      "caption": "",
-      "isPrimary": true,
-      "_id": {
-        "$oid": "698d6cb7b8f5c0e4fc97ddbf"
-      }
-    }
-  ],
-  "priceBreakdown": {
-    "maintenanceCharges": 1141
-  },
-  "highlights": [],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270c"
-  },
-  "views": 300,
-  "inquiries": 2,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-12T06:01:27.218Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T09:05:05.961Z"
-  },
-  "slug": "s2-1770876087219",
-  "__v": 0,
-  "verifiedAt": {
-    "$date": "2026-02-12T14:23:11.750Z"
-  },
-  "verifiedBy": {
-    "$oid": "6981af17f3aa2d553726270c"
-  },
-  "featuredUntil": {
-    "$date": "2026-03-14T14:23:19.928Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "6992a4e427391d651418de96"
-  },
-  "title": "4 bhk",
-  "description": "this house is perfect for everywhere.\r\n",
-  "price": 12000,
-  "priceUnit": "total",
-  "propertyType": "house",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "L-242,Sarvoday Society,Behind Apnaghar",
-    "city": "Hyderabad",
-    "state": "Telangana",
-    "pincode": "392001",
-    "landmark": "Jalaram Clinic"
-  },
-  "specifications": {
-    "bedrooms": 2,
-    "bathrooms": 3,
-    "carpetArea": 1199,
-    "balconies": 2,
-    "ageOfProperty": 0,
-    "furnishing": "unfurnished",
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "clubhouse",
-    "garden",
-    "shopping-center",
-    "visitor-parking"
-  ],
-  "images": [
-    {
-      "url": "/uploads/propertyimages/property-1771920548253-802866322.jpg",
-      "caption": "",
-      "isPrimary": true,
-      "_id": {
-        "$oid": "699d5ca462464bd0693208e5"
-      }
-    }
-  ],
-  "priceBreakdown": {
-    "maintenanceCharges": 4000
-  },
-  "highlights": [],
-  "owner": {
-    "$oid": "6981af17f3aa2d553726270d"
-  },
-  "views": 106,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-16T05:02:28.062Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T09:27:45.143Z"
-  },
-  "slug": "4-bhk-1771218148062",
-  "__v": 0,
-  "verifiedAt": {
-    "$date": "2026-02-18T05:55:42.276Z"
-  },
-  "verifiedBy": {
-    "$oid": "6981af17f3aa2d553726270c"
-  },
-  "featuredUntil": {
-    "$date": "2026-03-25T07:25:19.117Z"
-  }
-},
-{
-  "_id": {
-    "$oid": "699c7bc4910a624e11b532ed"
-  },
-  "title": "4 BHK House in Thane",
-  "description": "this independent house is precious. with near thane metro station.any way this house with becomes more important because this is near to sea view.to get very calmly feeling in it.",
-  "price": 20000,
-  "priceUnit": "total",
-  "propertyType": "house",
-  "listingType": "rent",
-  "status": "available",
-  "location": {
-    "address": "23,Mahalaxmi Bunglows",
-    "city": "Mumbai",
-    "state": "Maharashtra",
-    "pincode": "435632",
-    "landmark": "Mahalaxmi Temple"
-  },
-  "specifications": {
-    "bedrooms": 4,
-    "bathrooms": 3,
-    "balconies": 1,
-    "carpetArea": 3400,
-    "builtUpArea": 4000,
-    "totalFloors": 3,
-    "floorNumber": 3,
-    "facing": "south-east",
-    "furnishing": "fully-furnished",
-    "ageOfProperty": 3,
-    "possessionStatus": "ready-to-move"
-  },
-  "amenities": [
-    "clubhouse",
-    "garden",
-    "hospital-nearby",
-    "maintenance-staff",
-    "visitor-parking",
-    "fire-safety",
-    "gym",
-    "gated-security",
-    "parking",
-    "power-backup"
-  ],
-  "images": [
-    {
-      "url": "/uploads/propertyimages/property-1771862980329-984292525.jpg",
-      "caption": "",
-      "isPrimary": true,
-      "_id": {
-        "$oid": "699c7bc4910a624e11b532ee"
-      }
-    },
-    {
-      "url": "/uploads/propertyimages/property-1771862980352-496748709.jpg",
-      "caption": "",
-      "isPrimary": false,
-      "_id": {
-        "$oid": "699c7bc4910a624e11b532ef"
-      }
-    }
-  ],
-  "priceBreakdown": {
-    "maintenanceCharges": 5000
-  },
-  "highlights": [],
-  "owner": {
-    "$oid": "6995425997e6e2f3e55e5421"
-  },
-  "views": 14,
-  "inquiries": 0,
-  "isVerified": true,
-  "isFeatured": true,
-  "nearbyPlaces": [],
-  "createdAt": {
-    "$date": "2026-02-23T16:09:40.392Z"
-  },
-  "updatedAt": {
-    "$date": "2026-02-24T08:56:22.972Z"
-  },
-  "slug": "4-bhk-house-in-thane-1771862980392",
-  "__v": 0,
-  "featuredUntil": {
-    "$date": "2026-03-25T16:10:33.313Z"
-  },
-  "verifiedAt": {
-    "$date": "2026-02-24T06:47:05.665Z"
-  },
-  "verifiedBy": {
-    "$oid": "698d73b6c32d2d78230657f1"
-  }
-}]
+]

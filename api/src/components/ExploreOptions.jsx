@@ -1,14 +1,14 @@
-import './ExploreOptions.css';
-import { FaHome, FaKey, FaClipboardList, FaPaintRoller } from 'react-icons/fa';
+import "./ExploreOptions.css";
+import { FaHome, FaKey, FaClipboardList, FaPaintRoller } from "react-icons/fa";
 
 const OPTIONS = [
-  { label: 'Buying a home', icon: FaHome, href: 'properties?listingtype=buy' },
-  { label: 'Renting a home', icon: FaKey, href: 'properties?listingtype=rent' },
-  { label: 'Sell your property', icon: FaClipboardList, href: 'post-property' },
+  { label: "Buying a home", icon: FaHome, href: "properties?listingtype=buy" },
+  { label: "Renting a home", icon: FaKey, href: "properties?listingtype=rent" },
+  { label: "Sell your property", icon: FaClipboardList, href: "post-property" },
   {
-    label: 'Home Interior',
+    label: "Home Interior",
     icon: FaPaintRoller,
-    href: 'home-interior',
+    href: "home-interior",
   },
 ];
 const ExploreOptions = () => {

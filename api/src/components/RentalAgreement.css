@@ -31,18 +31,36 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
-.ra-header-left { display: flex; align-items: center; gap: 0.75rem; }
-.ra-header-icon { font-size: 1.25rem; color: #333; }
-.ra-header h2 { font-size: 1rem; font-weight: 600; margin: 0; }
-.ra-header p { font-size: 0.8rem; color: #666; margin: 0; }
+.ra-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.ra-header-icon {
+  font-size: 1.25rem;
+  color: #333;
+}
+.ra-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+.ra-header p {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+}
 
 .ra-close-btn {
-  width: 30px; height: 30px;
+  width: 30px;
+  height: 30px;
   border-radius: 4px;
   background: #f5f5f5;
   border: 1px solid #ddd;
   cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Steps */
@@ -56,33 +74,76 @@
   gap: 0.5rem;
 }
 
-.ra-step { display: flex; align-items: center; gap: 0.4rem; }
+.ra-step {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
 
 .ra-step-circle {
-  width: 26px; height: 26px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: #e0e0e0;
   color: #888;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.75rem; font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
 }
 
-.ra-step.active .ra-step-circle { background: #333; color: #fff; }
-.ra-step.done .ra-step-circle { background: #555; color: #fff; }
-.ra-step-label { font-size: 0.75rem; color: #888; }
-.ra-step.active .ra-step-label { color: #333; font-weight: 500; }
-.ra-step-line { width: 40px; height: 1px; background: #ddd; margin: 0 0.5rem; }
+.ra-step.active .ra-step-circle {
+  background: #333;
+  color: #fff;
+}
+.ra-step.done .ra-step-circle {
+  background: #555;
+  color: #fff;
+}
+.ra-step-label {
+  font-size: 0.75rem;
+  color: #888;
+}
+.ra-step.active .ra-step-label {
+  color: #333;
+  font-weight: 500;
+}
+.ra-step-line {
+  width: 40px;
+  height: 1px;
+  background: #ddd;
+  margin: 0 0.5rem;
+}
 
 /* Body */
-.ra-body { flex: 1; overflow-y: auto; padding: 1.5rem; }
+.ra-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+}
 
 /* Step Content */
-.ra-step-content { padding: 1rem; }
-.ra-step-heading { font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; }
-.ra-step-sub { font-size: 0.85rem; color: #666; margin: 0 0 1rem; }
+.ra-step-content {
+  padding: 1rem;
+}
+.ra-step-heading {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+.ra-step-sub {
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0 0 1rem;
+}
 
 /* Template Cards */
-.ra-templates { display: flex; flex-direction: column; gap: 0.75rem; }
+.ra-templates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
 
 .ra-template-card {
   border: 1px solid #ddd;
@@ -92,8 +153,13 @@
   background: #fff;
 }
 
-.ra-template-card:hover { border-color: #999; }
-.ra-template-card.selected { border-color: #333; background: #fafafa; }
+.ra-template-card:hover {
+  border-color: #999;
+}
+.ra-template-card.selected {
+  border-color: #333;
+  background: #fafafa;
+}
 
 .ra-template-tag {
   display: inline-block;
@@ -107,17 +173,49 @@
   margin-bottom: 0.5rem;
 }
 
-.ra-template-card h4 { font-size: 0.9rem; font-weight: 600; margin: 0 0 0.35rem; }
-.ra-template-desc { font-size: 0.8rem; color: #666; margin: 0 0 0.5rem; }
+.ra-template-card h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 0.35rem;
+}
+.ra-template-desc {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 0.5rem;
+}
 
-.ra-template-features { list-style: none; padding: 0; margin: 0; }
-.ra-template-features li { font-size: 0.75rem; color: #555; padding: 0.15rem 0; display: flex; align-items: center; gap: 0.35rem; }
-.feature-check { color: #333; }
+.ra-template-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ra-template-features li {
+  font-size: 0.75rem;
+  color: #555;
+  padding: 0.15rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.feature-check {
+  color: #333;
+}
 
-.ra-selected-badge { font-size: 0.75rem; color: #333; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.3rem; }
+.ra-selected-badge {
+  font-size: 0.75rem;
+  color: #333;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 
 /* Duration Cards */
-.ra-durations { display: flex; flex-direction: column; gap: 0.6rem; }
+.ra-durations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
 
 .ra-duration-card {
   border: 1px solid #ddd;
@@ -127,17 +225,49 @@
   background: #fff;
 }
 
-.ra-duration-card:hover { border-color: #999; }
-.ra-duration-card.selected { border-color: #333; background: #fafafa; }
-.ra-duration-icon { font-size: 1.25rem; margin-bottom: 0.35rem; }
-.ra-duration-card h4 { margin: 0 0 0.25rem; font-size: 0.9rem; font-weight: 600; }
-.ra-duration-dates { font-size: 0.8rem; color: #666; margin: 0 0 0.25rem; }
-.ra-duration-total { font-size: 0.85rem; font-weight: 500; margin: 0; }
-.ra-duration-deposit { font-size: 0.75rem; color: #666; margin: 0; }
-.ra-duration-selected { font-size: 0.75rem; color: #333; margin-top: 0.5rem; display: flex; align-items: center; gap: 0.3rem; }
+.ra-duration-card:hover {
+  border-color: #999;
+}
+.ra-duration-card.selected {
+  border-color: #333;
+  background: #fafafa;
+}
+.ra-duration-icon {
+  font-size: 1.25rem;
+  margin-bottom: 0.35rem;
+}
+.ra-duration-card h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.ra-duration-dates {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0 0 0.25rem;
+}
+.ra-duration-total {
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin: 0;
+}
+.ra-duration-deposit {
+  font-size: 0.75rem;
+  color: #666;
+  margin: 0;
+}
+.ra-duration-selected {
+  font-size: 0.75rem;
+  color: #333;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
 
 /* Preview */
-.ra-preview-content {}
+.ra-preview-content {
+}
 
 .ra-preview-toolbar {
   display: flex;
@@ -148,8 +278,17 @@
   border-bottom: 1px solid #e0e0e0;
 }
 
-.ra-preview-info { display: flex; gap: 0.5rem; }
-.ra-badge { font-size: 0.75rem; padding: 0.3rem 0.6rem; background: #eee; color: #333; border-radius: 2px; }
+.ra-preview-info {
+  display: flex;
+  gap: 0.5rem;
+}
+.ra-badge {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  background: #eee;
+  color: #333;
+  border-radius: 2px;
+}
 
 .ra-print-btn {
   display: flex;
@@ -178,17 +317,31 @@
   border-radius: 4px;
   font-size: 0.85rem;
   cursor: pointer;
-  display: flex; align-items: center; gap: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
   border: 1px solid #ddd;
   background: #fff;
 }
 
-.ra-btn-primary { background: #333; color: #fff; border-color: #333; }
+.ra-btn-primary {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
 
 /* ====== PRINT/AGREEMENT DOCUMENT STYLES ====== */
-.ra-agreement-preview { max-width: 700px; margin: 0 auto; }
+.ra-agreement-preview {
+  max-width: 700px;
+  margin: 0 auto;
+}
 
-.agreement-body { font-family: Arial, sans-serif; line-height: 1.5; color: #000; font-size: 12px; }
+.agreement-body {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  color: #000;
+  font-size: 12px;
+}
 
 .agreement-header-block {
   text-align: center;
@@ -197,10 +350,24 @@
   margin-bottom: 16px;
 }
 
-.agreement-header-block svg { display: none; }
-.agreement-logo { font-size: 28px; margin-bottom: 4px; }
-.agreement-title { font-size: 16px; font-weight: bold; margin: 0; text-transform: uppercase; }
-.agreement-subtitle { font-size: 11px; color: #333; margin: 2px 0 0; }
+.agreement-header-block svg {
+  display: none;
+}
+.agreement-logo {
+  font-size: 28px;
+  margin-bottom: 4px;
+}
+.agreement-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+  text-transform: uppercase;
+}
+.agreement-subtitle {
+  font-size: 11px;
+  color: #333;
+  margin: 2px 0 0;
+}
 
 .agreement-meta {
   display: flex;
@@ -227,35 +394,53 @@
   text-transform: uppercase;
 }
 
-.agreement-section p { margin: 4px 0; font-size: 11px; }
-.agreement-section ul, .agreement-section ol { margin: 6px 0 6px 18px; font-size: 11px; }
-.agreement-section li { margin: 2px 0; }
+.agreement-section p {
+  margin: 4px 0;
+  font-size: 11px;
+}
+.agreement-section ul,
+.agreement-section ol {
+  margin: 6px 0 6px 18px;
+  font-size: 11px;
+}
+.agreement-section li {
+  margin: 2px 0;
+}
 
 /* Simple field blocks */
-.party-block, .property-block {
+.party-block,
+.property-block {
   border: 1px solid #ccc;
   padding: 8px 10px;
   margin: 6px 0;
   background: #fafafa;
 }
 
-.party-block p, .property-block p { margin: 2px 0; font-size: 11px; }
+.party-block p,
+.property-block p {
+  margin: 2px 0;
+  font-size: 11px;
+}
 
 /* Simple table */
-.agreement-table, .schedule-table {
+.agreement-table,
+.schedule-table {
   width: 100%;
   border-collapse: collapse;
   margin: 8px 0;
   font-size: 11px;
 }
 
-.agreement-table td, .schedule-table td,
-.agreement-table th, .schedule-table th {
+.agreement-table td,
+.schedule-table td,
+.agreement-table th,
+.schedule-table th {
   border: 1px solid #999;
   padding: 6px 8px;
 }
 
-.agreement-table td:first-child, .schedule-table th {
+.agreement-table td:first-child,
+.schedule-table th {
   font-weight: bold;
   background: #f0f0f0;
   width: 40%;
@@ -277,10 +462,22 @@
   font-size: 10px;
 }
 
-.sig-col p:first-child { font-weight: bold; margin-bottom: 4px; }
-.sig-line { border-top: 1px solid #000; margin: 40px 8px 6px; }
-.sig-name { font-size: 10px; margin: 2px 0; }
-.sig-date { font-size: 9px; color: #555; }
+.sig-col p:first-child {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+.sig-line {
+  border-top: 1px solid #000;
+  margin: 40px 8px 6px;
+}
+.sig-name {
+  font-size: 10px;
+  margin: 2px 0;
+}
+.sig-date {
+  font-size: 9px;
+  color: #555;
+}
 
 .agreement-footnote {
   font-size: 9px;
@@ -292,7 +489,20 @@
 }
 
 @media print {
-  .ra-overlay, .ra-modal { position: static; max-height: none; box-shadow: none; }
-  .ra-header, .ra-steps, .ra-footer, .ra-preview-toolbar { display: none; }
-  .ra-body { padding: 0; overflow: visible; }
+  .ra-overlay,
+  .ra-modal {
+    position: static;
+    max-height: none;
+    box-shadow: none;
+  }
+  .ra-header,
+  .ra-steps,
+  .ra-footer,
+  .ra-preview-toolbar {
+    display: none;
+  }
+  .ra-body {
+    padding: 0;
+    overflow: visible;
+  }
 }

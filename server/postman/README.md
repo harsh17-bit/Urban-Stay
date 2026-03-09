@@ -35,6 +35,7 @@ The environment includes two variables:
 #### First Time Setup
 
 1. Make sure your server is running:
+
    ```bash
    cd server
    npm start
@@ -56,6 +57,7 @@ The environment includes two variables:
 ## API Endpoints Overview
 
 ### Auth (`/api/auth`)
+
 - ✅ POST `/register` - Register new user
 - ✅ POST `/login` - Login user (auto-saves token)
 - ✅ GET `/me` - Get current user (requires auth)
@@ -69,6 +71,7 @@ The environment includes two variables:
 - 🔐 DELETE `/users/:id` - Delete user (admin only)
 
 ### Properties (`/api/properties`)
+
 - ✅ GET `/` - Get all properties (with filters)
 - ✅ GET `/featured` - Get featured properties
 - ✅ GET `/stats/cities` - Get property count by city
@@ -84,6 +87,7 @@ The environment includes two variables:
 - 🔐 GET `/stats/admin` - Get admin stats (admin only)
 
 ### Inquiries (`/api/inquiries`)
+
 - 🔒 POST `/` - Create inquiry
 - 🔒 GET `/received` - Get received inquiries
 - 🔒 GET `/sent` - Get sent inquiries
@@ -94,6 +98,7 @@ The environment includes two variables:
 - 🔒 DELETE `/:id` - Delete inquiry
 
 ### Reviews (`/api/reviews`)
+
 - ✅ GET `/property/:propertyId` - Get property reviews
 - 🔒 POST `/` - Create review
 - 🔒 GET `/my` - Get my reviews
@@ -105,6 +110,7 @@ The environment includes two variables:
 - 🔐 PUT `/:id/moderate` - Moderate review (admin only)
 
 ### Alerts (`/api/alerts`)
+
 - 🔒 POST `/` - Create alert
 - 🔒 GET `/` - Get my alerts
 - 🔒 GET `/:id` - Get alert by ID
@@ -114,6 +120,7 @@ The environment includes two variables:
 - 🔒 GET `/:id/matches` - Get matching properties
 
 ### Projects (`/api/projects`)
+
 - ✅ GET `/` - Get all projects
 - ✅ GET `/:id` - Get project by ID
 
