@@ -13,7 +13,6 @@ import {
 import { propertyService } from '../services/propertyservice';
 import { useAuth } from '../context/authcontext.jsx';
 import './PostProperty.css';
-import PricePrediction from '../components/PricePrediction.jsx';
 const PostProperty = () => {
   const navigate = useNavigate();
   const { id: propertyId } = useParams();
@@ -72,6 +71,39 @@ const PostProperty = () => {
     images: [],
   });
 
+  // Ensure all inputs are controlled by setting initial defaults
+  useEffect(() => {
+    // Provide fallback values to ensure inputs never transition from uncontrolled to controlled
+    setFormData((prev) => ({
+      ...prev,
+      location: {
+        address: prev.location.address ?? '',
+        city: prev.location.city ?? '',
+        state: prev.location.state ?? '',
+        pincode: prev.location.pincode ?? '',
+        landmark: prev.location.landmark ?? '',
+      },
+      specifications: {
+        bedrooms: prev.specifications.bedrooms ?? '',
+        bathrooms: prev.specifications.bathrooms ?? '',
+        carpetArea: prev.specifications.carpetArea ?? '',
+        builtUpArea: prev.specifications.builtUpArea ?? '',
+        floorNumber: prev.specifications.floorNumber ?? '',
+        totalFloors: prev.specifications.totalFloors ?? '',
+        balconies: prev.specifications.balconies ?? '',
+        furnishing: prev.specifications.furnishing ?? '',
+        facing: prev.specifications.facing ?? '',
+        ageOfProperty: prev.specifications.ageOfProperty ?? '',
+        possessionStatus:
+          prev.specifications.possessionStatus ?? 'ready-to-move',
+      },
+      priceBreakdown: {
+        maintenanceCharges: prev.priceBreakdown.maintenanceCharges ?? '',
+        negotiable: prev.priceBreakdown.negotiable ?? false,
+      },
+    }));
+  }, []);
+
   // Pre-fill form when editing an existing property
   useEffect(() => {
     if (!isEditMode) return;
@@ -79,17 +111,18 @@ const PostProperty = () => {
       try {
         const data = await propertyService.getProperty(propertyId);
         const p = data.property || data;
-        setFormData({
-          title: p.title || '',
-          description: p.description || '',
-          listingType: p.listingType || 'buy',
-          propertyType: p.propertyType || 'apartment',
+        setFormData((prevState) => ({
+          ...prevState,
+          title: p.title ?? '',
+          description: p.description ?? '',
+          listingType: p.listingType ?? 'buy',
+          propertyType: p.propertyType ?? 'apartment',
           location: {
-            address: p.location?.address || '',
-            city: p.location?.city || '',
-            state: p.location?.state || '',
-            pincode: p.location?.pincode || '',
-            landmark: p.location?.landmark || '',
+            address: p.location?.address ?? '',
+            city: p.location?.city ?? '',
+            state: p.location?.state ?? '',
+            pincode: p.location?.pincode ?? '',
+            landmark: p.location?.landmark ?? '',
           },
           specifications: {
             bedrooms: p.specifications?.bedrooms ?? '',
@@ -99,26 +132,26 @@ const PostProperty = () => {
             floorNumber: p.specifications?.floorNumber ?? '',
             totalFloors: p.specifications?.totalFloors ?? '',
             balconies: p.specifications?.balconies ?? '',
-            furnishing: p.specifications?.furnishing || '',
-            facing: p.specifications?.facing || '',
+            furnishing: p.specifications?.furnishing ?? '',
+            facing: p.specifications?.facing ?? '',
             ageOfProperty: p.specifications?.ageOfProperty ?? '',
             possessionStatus:
-              p.specifications?.possessionStatus || 'ready-to-move',
+              p.specifications?.possessionStatus ?? 'ready-to-move',
           },
-          price: p.price || '',
+          price: p.price ?? '',
           priceBreakdown: {
-            maintenanceCharges: p.priceBreakdown?.maintenanceCharges || '',
-            negotiable: p.priceBreakdown?.negotiable || false,
+            maintenanceCharges: p.priceBreakdown?.maintenanceCharges ?? '',
+            negotiable: p.priceBreakdown?.negotiable ?? false,
           },
-          amenities: p.amenities || [],
-          highlights: p.highlights || [],
+          amenities: p.amenities ?? [],
+          highlights: p.highlights ?? [],
           // Map server images to the local format (no file object — these are existing)
           images: (p.images || []).map((img) => ({
             url: img.url,
             isPrimary: img.isPrimary || false,
             file: null,
           })),
-        });
+        }));
       } catch {
         setErrors({
           submit: 'Failed to load property data. Please try again.',
@@ -193,12 +226,7 @@ const PostProperty = () => {
     'Rajasthan',
     'Haryana',
   ];
-  const handlePredictedPrice = (price) => {
-    setFormData({
-      ...formData,
-      price: Math.round(price),
-    });
-  };
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -1087,18 +1115,6 @@ const PostProperty = () => {
                   your dashboard.
                 </p>
               </div>
-              <PricePrediction
-                propertyData={{
-                  city: formData.location.city,
-                  area:
-                    formData.specifications.carpetArea ||
-                    formData.specifications.builtUpArea,
-                  bedrooms: formData.specifications.bedrooms,
-                  bathrooms: formData.specifications.bathrooms,
-                  amenities: formData.amenities,
-                }}
-                onPriceSelect={handlePredictedPrice}
-              />
               <div className="pp-grid">
                 <div
                   className={`pp-field pp-full${errors.price ? ' pp-field-err' : ''}`}

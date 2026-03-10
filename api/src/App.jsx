@@ -16,8 +16,6 @@ import TopCities from './components/TopCities';
 import FeaturedProjects from './components/FeaturedProjects';
 import PopularTools from './components/PopularTools';
 import TestimonialsSection from './components/TestimonialsSection';
-import InvestmentHowItWorks from './components/I_How-it-Works';
-import FeaturedInvestmentProperties from './components/F_Investment.jsx';
 
 // Pages
 import PropertyDetails from './pages/propertydetails.jsx';
@@ -48,6 +46,7 @@ const HomePage = () => {
       <ExploreOptions />
       <TopCities />
       <PopularTools />
+
       <FeaturedProjects />
       <TestimonialsSection />
     </>
@@ -129,14 +128,7 @@ function AppContent() {
               <Route path="/projects" element={<Projects />} />
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/emi-calculator" element={<EMICalculator />} />
-              <Route
-                path="/I_How-it-Works"
-                element={<InvestmentHowItWorks />}
-              />
-              <Route
-                path="/F_Investment"
-                element={<FeaturedInvestmentProperties />}
-              />
+
               <Route path="/home-interior" element={<HomeInterior />} />
               {/* Protected Routes */}
               <Route

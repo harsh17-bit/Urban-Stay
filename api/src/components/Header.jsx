@@ -14,7 +14,6 @@ const Header = () => {
     { label: 'Buy', href: '/properties?listingType=buy' },
     { label: 'Rent', href: '/properties?listingType=rent' },
     { label: 'Sell', href: '/post-property' },
-    { label: 'Investment', href: '/F_Investment' },
     { label: 'Home Interior', href: '/home-interior' },
     { label: 'About Us', href: '/about-us' },
     { label: 'FAQs', href: '/faq' },
