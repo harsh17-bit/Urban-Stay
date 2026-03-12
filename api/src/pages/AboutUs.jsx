@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import {
   FiShield,
   FiTrendingUp,
@@ -9,73 +9,73 @@ import {
   FiPhone,
   FiMail,
   FiCheckCircle,
-} from "react-icons/fi";
-import "./AboutUs.css";
+} from 'react-icons/fi';
+import './AboutUs.css';
 
 /* ─────────────────── data ─────────────────── */
 
 const VALUES = [
   {
     icon: FiShield,
-    title: "Trust & Transparency",
-    desc: "Every property is verified. We believe honest information builds lasting relationships.",
+    title: 'Trust & Transparency',
+    desc: 'Every property is verified. We believe honest information builds lasting relationships.',
   },
   {
     icon: FiTarget,
-    title: "Customer First",
-    desc: "Your dream matters most. We work to match you with the perfect property.",
+    title: 'Customer First',
+    desc: 'Your dream matters most. We work to match you with the perfect property.',
   },
   {
     icon: FiZap,
-    title: "Innovation",
-    desc: "We use modern technology to make your property search faster and smarter.",
+    title: 'Innovation',
+    desc: 'We use modern technology to make your property search faster and smarter.',
   },
   {
     icon: FiHeart,
-    title: "Community",
+    title: 'Community',
     desc: "We don't just sell homes — we help build thriving neighbourhoods across India.",
   },
   {
     icon: FiTrendingUp,
-    title: "Growth",
-    desc: "Continuously expanding our reach to serve more cities and more families every year.",
+    title: 'Growth',
+    desc: 'Continuously expanding our reach to serve more cities and more families every year.',
   },
 ];
 
 const TEAM = [
   {
-    name: "Arjun Mehta",
-    role: "Founder & CEO",
-    initials: "AM",
-    bio: "15 years in real estate, passionate about making home ownership accessible to every family.",
+    name: 'Arjun Mehta',
+    role: 'Founder & CEO',
+    initials: 'AM',
+    bio: '15 years in real estate, passionate about making home ownership accessible to every family.',
   },
   {
-    name: "Priya Sharma",
-    role: "Chief Technology Officer",
-    initials: "PS",
+    name: 'Priya Sharma',
+    role: 'Chief Technology Officer',
+    initials: 'PS',
     bio: "Built UrbanStay's property matching platform from the ground up.",
   },
   {
-    name: "Ravi Kumar",
-    role: "Head of Operations",
-    initials: "RK",
-    bio: "Ensures every listing is verified and every customer experience is smooth.",
+    name: 'Ravi Kumar',
+    role: 'Head of Operations',
+    initials: 'RK',
+    bio: 'Ensures every listing is verified and every customer experience is smooth.',
   },
   {
-    name: "Sneha Patel",
-    role: "Head of Customer Success",
-    initials: "SP",
-    bio: "Makes sure that buying a home is exciting, not stressful.",
+    name: 'Sneha Patel',
+    role: 'Head of Customer Success',
+    initials: 'SP',
+    bio: 'Makes sure that buying a home is exciting, not stressful.',
   },
 ];
 
 const WHY_US = [
-  "10,000+ new properties added every day",
-  "Physical verification of photos, videos & documents",
-  "Dedicated relationship managers for premium buyers",
-  "Zero brokerage on select listings",
-  "Secure and transparent transactions",
-  "24 × 7 customer support",
+  '10,000+ new properties added every day',
+  'Physical verification of photos, videos & documents',
+  'Dedicated relationship managers for premium buyers',
+  'Zero brokerage on select listings',
+  'Secure and transparent transactions',
+  '24*7 customer support',
 ];
 
 const AboutUs = () => {

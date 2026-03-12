@@ -167,7 +167,7 @@ const PostProperty = () => {
         setLoadingProperty(false);
       }
     })();
-  }, [isEditMode, propertyId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isEditMode, propertyId]);
 
   const propertyTypes = [
     { value: 'apartment', label: 'Apartment' },

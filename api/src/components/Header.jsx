@@ -26,6 +26,23 @@ const Header = () => {
     navigate('/');
   };
 
+  const handleSellClick = (e) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      alert('Kindly Login For Post-Prperty');
+      setIsMenuOpen(false);
+      navigate('/login');
+      return;
+    }
+
+    if (user?.role !== 'seller' && user?.role !== 'admin') {
+      e.preventDefault();
+      alert('Only sellers can post property. Please register first.');
+      setIsMenuOpen(false);
+      navigate('/register');
+    }
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -49,6 +66,7 @@ const Header = () => {
                 key={link.label}
                 to={link.href}
                 className="px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-100 hover:text-gray-900 transition-colors"
+                onClick={link.label === 'Sell' ? handleSellClick : undefined}
               >
                 {link.label}
               </Link>
@@ -137,7 +155,13 @@ const Header = () => {
                 key={link.label}
                 to={link.href}
                 className="px-3 py-2.5 text-sm text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900 rounded-md transition-colors"
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => {
+                  if (link.label === 'Sell') {
+                    handleSellClick(e);
+                    return;
+                  }
+                  setIsMenuOpen(false);
+                }}
               >
                 {link.label}
               </Link>

@@ -1,5 +1,11 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/authcontext.jsx';
 import { AnimatePresence } from 'framer-motion';
 import { API_URL } from './services/api';
@@ -54,6 +60,41 @@ const HomePage = () => {
 // Protected Route Component
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { isAuthenticated, user, loading } = useAuth();
+  const location = useLocation();
+  const alertShownRef = React.useRef(false);
+
+  const writeRedirectLog = (reason, targetPath) => {
+    const payload = {
+      reason,
+      from: `${location.pathname}${location.search}`,
+      to: targetPath,
+      at: new Date().toISOString(),
+      userRole: user?.role || 'guest',
+    };
+
+    sessionStorage.setItem('lastRedirectLog', JSON.stringify(payload));
+    console.info('Redirect log:', payload);
+  };
+
+  useEffect(() => {
+    alertShownRef.current = false;
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const isPostPropertyRoute = location.pathname === '/post-property';
+    if (loading || !isPostPropertyRoute || alertShownRef.current) return;
+
+    if (!isAuthenticated) {
+      alert('Kindly Login For Post-Prperty');
+      alertShownRef.current = true;
+      return;
+    }
+
+    if (allowedRoles && !allowedRoles.includes(user?.role)) {
+      alert('Only sellers can post property. Please register first.');
+      alertShownRef.current = true;
+    }
+  }, [loading, location.pathname, isAuthenticated, user?.role, allowedRoles]);
 
   if (loading) {
     return (
@@ -65,11 +106,30 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    writeRedirectLog('login_required', '/login');
+    return (
+      <Navigate
+        to="/login"
+        replace
+        state={{ redirectFrom: location.pathname, reason: 'login_required' }}
+      />
+    );
   }
 
   if (allowedRoles && !allowedRoles.includes(user?.role)) {
-    return <Navigate to="/" replace />;
+    const target = location.pathname === '/post-property' ? '/register' : '/';
+    writeRedirectLog('insufficient_role', target);
+    return (
+      <Navigate
+        to={target}
+        replace
+        state={{
+          redirectFrom: location.pathname,
+          reason: 'insufficient_role',
+          requiredRoles: allowedRoles,
+        }}
+      />
+    );
   }
 
   return children;
