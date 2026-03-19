@@ -161,6 +161,7 @@ function AppContent() {
         }
       } catch {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         window.location.href = '/login';
       }
     }, 60000);

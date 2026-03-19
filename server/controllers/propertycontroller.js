@@ -1,10 +1,42 @@
-const Property = require("../models/property");
+const Property = require('../models/property');
 
 // @desc    Get all properties
 // @route   GET /api/properties
 // @access  Public
 exports.getAllProperties = async (req, res) => {
   try {
+    const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+    const toTrimmedString = (value) =>
+      typeof value === 'string' ? value.trim() : '';
+    const toValidNumber = (value) => {
+      if (value === undefined || value === null || value === '') return null;
+      const parsed = Number(value);
+      return Number.isFinite(parsed) ? parsed : null;
+    };
+
+    const listingType = toTrimmedString(req.query.listingType);
+    const propertyType = toTrimmedString(req.query.propertyType);
+    const city = toTrimmedString(req.query.city);
+    const furnishing = toTrimmedString(req.query.furnishing);
+    const search = toTrimmedString(req.query.search);
+    const amenities = toTrimmedString(req.query.amenities);
+    const bedrooms = toValidNumber(req.query.bedrooms);
+    const bathrooms = toValidNumber(req.query.bathrooms);
+
+    let minPrice = toValidNumber(req.query.minPrice);
+    let maxPrice = toValidNumber(req.query.maxPrice);
+    let minArea = toValidNumber(req.query.minArea);
+    let maxArea = toValidNumber(req.query.maxArea);
+
+    if (minPrice !== null && maxPrice !== null && minPrice > maxPrice) {
+      [minPrice, maxPrice] = [maxPrice, minPrice];
+    }
+
+    if (minArea !== null && maxArea !== null && minArea > maxArea) {
+      [minArea, maxArea] = [maxArea, minArea];
+    }
+
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 12;
     const skip = (page - 1) * limit;
@@ -16,92 +48,108 @@ exports.getAllProperties = async (req, res) => {
     // - 'all'        → admin view, no filter
     // - explicit val → use it (e.g. 'available', 'sold')
     // - default      → show available + sold + rented so buyers see sold cards too
-    if (req.query.status && req.query.status !== "all") {
+    if (req.query.status && req.query.status !== 'all') {
       filter.status = req.query.status;
     } else if (!req.query.status) {
-      filter.status = { $in: ["available", "sold", "rented"] };
+      filter.status = { $in: ['available', 'sold', 'rented'] };
     }
     // if status=all, no status filter applied (used by admin)
 
     // Listing type filter
-    if (req.query.listingType) {
-      filter.listingType = req.query.listingType;
+    if (listingType) {
+      filter.listingType = listingType;
     }
 
     // Property type filter
-    if (req.query.propertyType) {
-      filter.propertyType = req.query.propertyType;
+    if (propertyType) {
+      filter.propertyType = propertyType;
     }
 
     // City filter
-    if (req.query.city) {
-      filter["location.city"] = { $regex: req.query.city, $options: "i" };
+    if (city) {
+      filter['location.city'] = { $regex: escapeRegex(city), $options: 'i' };
     }
 
     // Price range filter
-    if (req.query.minPrice || req.query.maxPrice) {
+    // If user enters an open-ended baseline like "1 to infinity",
+    // treat it as no price restriction so all properties are shown.
+    const isOpenEndedAllRange =
+      maxPrice === null && minPrice !== null && minPrice <= 1;
+    if (!isOpenEndedAllRange && (minPrice !== null || maxPrice !== null)) {
       filter.price = {};
-      if (req.query.minPrice) filter.price.$gte = parseInt(req.query.minPrice);
-      if (req.query.maxPrice) filter.price.$lte = parseInt(req.query.maxPrice);
+      if (minPrice !== null) filter.price.$gte = minPrice;
+      if (maxPrice !== null) filter.price.$lte = maxPrice;
     }
 
     // Bedrooms filter
-    if (req.query.bedrooms) {
-      filter["specifications.bedrooms"] = parseInt(req.query.bedrooms);
+    if (bedrooms !== null) {
+      filter['specifications.bedrooms'] = bedrooms;
+    }
+
+    // Bathrooms filter
+    if (bathrooms !== null) {
+      filter['specifications.bathrooms'] = bathrooms;
     }
 
     // Area filter
-    if (req.query.minArea || req.query.maxArea) {
-      filter["specifications.carpetArea"] = {};
-      if (req.query.minArea)
-        filter["specifications.carpetArea"].$gte = parseInt(req.query.minArea);
-      if (req.query.maxArea)
-        filter["specifications.carpetArea"].$lte = parseInt(req.query.maxArea);
+    if (minArea !== null || maxArea !== null) {
+      filter['specifications.carpetArea'] = {};
+      if (minArea !== null) filter['specifications.carpetArea'].$gte = minArea;
+      if (maxArea !== null) filter['specifications.carpetArea'].$lte = maxArea;
     }
 
     // Furnishing filter
-    if (req.query.furnishing) {
-      filter["specifications.furnishing"] = req.query.furnishing;
+    if (furnishing) {
+      filter['specifications.furnishing'] = furnishing;
     }
 
     // Amenities filter
-    if (req.query.amenities) {
-      const amenitiesArray = req.query.amenities.split(",");
+    if (amenities) {
+      const amenitiesArray = amenities
+        .split(',')
+        .map((item) => item.trim())
+        .filter(Boolean);
       filter.amenities = { $all: amenitiesArray };
     }
 
     // Featured filter
-    if (req.query.featured === "true") {
+    if (req.query.featured === 'true') {
       filter.isFeatured = true;
       filter.featuredUntil = { $gte: new Date() };
     }
 
     // Verified filter
-    if (req.query.verified === "true") {
+    if (req.query.verified === 'true') {
       filter.isVerified = true;
     }
 
     // Text search
-    if (req.query.search) {
-      filter.$text = { $search: req.query.search };
+    if (search) {
+      const safeSearch = escapeRegex(search);
+      filter.$or = [
+        { title: { $regex: safeSearch, $options: 'i' } },
+        { description: { $regex: safeSearch, $options: 'i' } },
+        { 'location.city': { $regex: safeSearch, $options: 'i' } },
+        { 'location.address': { $regex: safeSearch, $options: 'i' } },
+      ];
     }
 
     // Build sort object
     let sort = {};
     switch (req.query.sort) {
-      case "price_low":
+      case 'price_low':
         sort = { price: 1 };
         break;
-      case "price_high":
+      case 'price_high':
         sort = { price: -1 };
         break;
-      case "newest":
+      case 'newest':
         sort = { createdAt: -1 };
         break;
-      case "oldest":
+      case 'oldest':
         sort = { createdAt: 1 };
         break;
-      case "popular":
+      case 'popular':
         sort = { views: -1 };
         break;
       default:
@@ -116,7 +164,7 @@ exports.getAllProperties = async (req, res) => {
     // Populate safely
     for (const prop of properties) {
       try {
-        await prop.populate("owner", "name email phone avatar companyName");
+        await prop.populate('owner', 'name email phone avatar companyName');
       } catch (err) {
         // Ignore populate errors for list view
       }
@@ -133,10 +181,10 @@ exports.getAllProperties = async (req, res) => {
       properties,
     });
   } catch (error) {
-    console.error("Get all properties error:", error);
+    console.error('Get all properties error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching properties",
+      message: 'Error fetching properties',
     });
   }
 };
@@ -149,10 +197,10 @@ exports.getProperty = async (req, res) => {
     const { id } = req.params;
 
     // Validate ObjectId
-    if (!require("mongoose").Types.ObjectId.isValid(id)) {
+    if (!require('mongoose').Types.ObjectId.isValid(id)) {
       return res.status(404).json({
         success: false,
-        message: "Property not found (Invalid ID)",
+        message: 'Property not found (Invalid ID)',
       });
     }
 
@@ -161,17 +209,17 @@ exports.getProperty = async (req, res) => {
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found',
       });
     }
 
     try {
       await property.populate(
-        "owner",
-        "name email phone avatar companyName bio reraNumber createdAt",
+        'owner',
+        'name email phone avatar companyName bio reraNumber createdAt'
       );
     } catch (popError) {
-      console.warn("Populate failed for property owner:", popError.message);
+      console.warn('Populate failed for property owner:', popError.message);
     }
 
     // Increment views
@@ -183,10 +231,10 @@ exports.getProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    console.error("Get property error:", error);
+    console.error('Get property error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching property",
+      message: 'Error fetching property',
     });
   }
 };
@@ -201,26 +249,26 @@ exports.getPropertyBySlug = async (req, res) => {
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found',
       });
     }
 
     try {
       await property.populate(
-        "owner",
-        "name email phone avatar companyName bio reraNumber createdAt",
+        'owner',
+        'name email phone avatar companyName bio reraNumber createdAt'
       );
     } catch (popError) {
       console.warn(
-        "Populate failed for property slug owner:",
-        popError.message,
+        'Populate failed for property slug owner:',
+        popError.message
       );
     }
 
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found',
       });
     }
 
@@ -233,10 +281,10 @@ exports.getPropertyBySlug = async (req, res) => {
       property,
     });
   } catch (error) {
-    console.error("Get property by slug error:", error);
+    console.error('Get property by slug error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching property",
+      message: 'Error fetching property',
     });
   }
 };
@@ -268,16 +316,16 @@ exports.createProperty = async (req, res) => {
       // Cloudinary returns path (URL) for each uploaded file
       images = req.files.map((file, index) => ({
         url: file.path, // Cloudinary URL
-        caption: "",
+        caption: '',
         isPrimary: parseInt(req.body.primaryImageIndex || 0) === index,
       }));
 
-      console.log("Uploaded images to Cloudinary:", images);
+      console.log('Uploaded images to Cloudinary:', images);
     } else if (req.body.images) {
       // Fallback for images in JSON format
       try {
         images =
-          typeof req.body.images === "string"
+          typeof req.body.images === 'string'
             ? JSON.parse(req.body.images)
             : req.body.images;
       } catch (e) {
@@ -311,8 +359,8 @@ exports.createProperty = async (req, res) => {
     };
 
     console.log(
-      "Creating property with data:",
-      JSON.stringify(propertyData, null, 2),
+      'Creating property with data:',
+      JSON.stringify(propertyData, null, 2)
     );
 
     const property = await Property.create(propertyData);
@@ -322,16 +370,16 @@ exports.createProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    console.error("Create property error:", error);
-    console.error("Error name:", error.name);
-    console.error("Error message:", error.message);
+    console.error('Create property error:', error);
+    console.error('Error name:', error.name);
+    console.error('Error message:', error.message);
 
     // Send detailed validation errors
-    if (error.name === "ValidationError") {
+    if (error.name === 'ValidationError') {
       const errors = Object.values(error.errors).map((err) => err.message);
       return res.status(400).json({
         success: false,
-        message: "Validation failed",
+        message: 'Validation failed',
         errors: errors,
         details: error.message,
       });
@@ -339,8 +387,8 @@ exports.createProperty = async (req, res) => {
 
     res.status(500).json({
       success: false,
-      message: error.message || "Error creating property",
-      error: process.env.NODE_ENV === "development" ? error : {},
+      message: error.message || 'Error creating property',
+      error: process.env.NODE_ENV === 'development' ? error : {},
     });
   }
 };
@@ -355,25 +403,25 @@ exports.updateProperty = async (req, res) => {
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found',
       });
     }
 
     // Check ownership (unless admin)
     if (
       property.owner.toString() !== req.user.id &&
-      req.user.role !== "admin"
+      req.user.role !== 'admin'
     ) {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to update this property",
+        message: 'Not authorized to update this property',
       });
     }
 
     // Build update payload — supports both multipart/form-data and plain JSON
     const isMultipart =
-      req.headers["content-type"] &&
-      req.headers["content-type"].includes("multipart/form-data");
+      req.headers['content-type'] &&
+      req.headers['content-type'].includes('multipart/form-data');
 
     let updateData;
     if (isMultipart) {
@@ -408,7 +456,7 @@ exports.updateProperty = async (req, res) => {
       if (req.files && req.files.length > 0) {
         newImages = req.files.map((file, index) => ({
           url: file.path, // Cloudinary URL
-          caption: "",
+          caption: '',
           isPrimary: false,
         }));
       }
@@ -437,7 +485,7 @@ exports.updateProperty = async (req, res) => {
     }
 
     property = await Property.findByIdAndUpdate(req.params.id, updateData, {
-      returnDocument: "after",
+      returnDocument: 'after',
       runValidators: true,
     });
 
@@ -446,21 +494,19 @@ exports.updateProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    console.error("Update property error:", error);
-    if (error.name === "ValidationError") {
+    console.error('Update property error:', error);
+    if (error.name === 'ValidationError') {
       const errors = Object.values(error.errors).map((err) => err.message);
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Validation failed",
-          details: error.message,
-          errors,
-        });
+      return res.status(400).json({
+        success: false,
+        message: 'Validation failed',
+        details: error.message,
+        errors,
+      });
     }
     res.status(500).json({
       success: false,
-      message: error.message || "Error updating property",
+      message: error.message || 'Error updating property',
     });
   }
 };
@@ -475,18 +521,18 @@ exports.deleteProperty = async (req, res) => {
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found',
       });
     }
 
     // Check ownership (unless admin)
     if (
       property.owner.toString() !== req.user.id &&
-      req.user.role !== "admin"
+      req.user.role !== 'admin'
     ) {
       return res.status(403).json({
         success: false,
-        message: "Not authorized to delete this property",
+        message: 'Not authorized to delete this property',
       });
     }
 
@@ -494,13 +540,13 @@ exports.deleteProperty = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Property deleted successfully",
+      message: 'Property deleted successfully',
     });
   } catch (error) {
-    console.error("Delete property error:", error);
+    console.error('Delete property error:', error);
     res.status(500).json({
       success: false,
-      message: "Error deleting property",
+      message: 'Error deleting property',
     });
   }
 };
@@ -520,12 +566,12 @@ exports.getMyProperties = async (req, res) => {
     const properties = await Property.find(filter)
       .skip(skip)
       .limit(limit)
-      .sort("-createdAt");
+      .sort('-createdAt');
 
     // Populate safely
     for (const prop of properties) {
       try {
-        await prop.populate("owner", "name email phone avatar companyName");
+        await prop.populate('owner', 'name email phone avatar companyName');
       } catch (err) {}
     }
 
@@ -536,10 +582,10 @@ exports.getMyProperties = async (req, res) => {
       { $match: { owner: req.user._id } },
       {
         $group: {
-          _id: "$status",
+          _id: '$status',
           count: { $sum: 1 },
-          totalViews: { $sum: "$views" },
-          totalInquiries: { $sum: "$inquiries" },
+          totalViews: { $sum: '$views' },
+          totalInquiries: { $sum: '$inquiries' },
         },
       },
     ]);
@@ -554,10 +600,10 @@ exports.getMyProperties = async (req, res) => {
       properties,
     });
   } catch (error) {
-    console.error("Get my properties error:", error);
+    console.error('Get my properties error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching properties",
+      message: 'Error fetching properties',
     });
   }
 };
@@ -569,10 +615,10 @@ exports.getSimilarProperties = async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (!require("mongoose").Types.ObjectId.isValid(id)) {
+    if (!require('mongoose').Types.ObjectId.isValid(id)) {
       return res.status(404).json({
         success: false,
-        message: "Property not found (Invalid ID)",
+        message: 'Property not found (Invalid ID)',
       });
     }
 
@@ -581,16 +627,16 @@ exports.getSimilarProperties = async (req, res) => {
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found',
       });
     }
 
     const similarProperties = await Property.find({
       _id: { $ne: property._id },
-      status: "available",
+      status: 'available',
       listingType: property.listingType,
       $or: [
-        { "location.city": property.location.city },
+        { 'location.city': property.location.city },
         { propertyType: property.propertyType },
         {
           price: {
@@ -601,11 +647,11 @@ exports.getSimilarProperties = async (req, res) => {
       ],
     })
       .limit(6)
-      .sort("-createdAt");
+      .sort('-createdAt');
 
     for (const prop of similarProperties) {
       try {
-        await prop.populate("owner", "name avatar");
+        await prop.populate('owner', 'name avatar');
       } catch (err) {}
     }
 
@@ -614,10 +660,10 @@ exports.getSimilarProperties = async (req, res) => {
       properties: similarProperties,
     });
   } catch (error) {
-    console.error("Get similar properties error:", error);
+    console.error('Get similar properties error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching similar properties",
+      message: 'Error fetching similar properties',
     });
   }
 };
@@ -628,16 +674,16 @@ exports.getSimilarProperties = async (req, res) => {
 exports.getFeaturedProperties = async (req, res) => {
   try {
     const properties = await Property.find({
-      status: "available",
+      status: 'available',
       isFeatured: true,
       featuredUntil: { $gte: new Date() },
     })
       .limit(8)
-      .sort("-createdAt");
+      .sort('-createdAt');
 
     for (const prop of properties) {
       try {
-        await prop.populate("owner", "name avatar");
+        await prop.populate('owner', 'name avatar');
       } catch (err) {}
     }
 
@@ -646,10 +692,10 @@ exports.getFeaturedProperties = async (req, res) => {
       properties,
     });
   } catch (error) {
-    console.error("Get featured properties error:", error);
+    console.error('Get featured properties error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching featured properties",
+      message: 'Error fetching featured properties',
     });
   }
 };
@@ -660,12 +706,12 @@ exports.getFeaturedProperties = async (req, res) => {
 exports.getPropertyCountByCity = async (req, res) => {
   try {
     const cities = await Property.aggregate([
-      { $match: { status: "available" } },
+      { $match: { status: 'available' } },
       {
         $group: {
-          _id: "$location.city",
+          _id: '$location.city',
           count: { $sum: 1 },
-          avgPrice: { $avg: "$price" },
+          avgPrice: { $avg: '$price' },
         },
       },
       { $sort: { count: -1 } },
@@ -677,10 +723,10 @@ exports.getPropertyCountByCity = async (req, res) => {
       cities,
     });
   } catch (error) {
-    console.error("Get property count by city error:", error);
+    console.error('Get property count by city error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching city stats",
+      message: 'Error fetching city stats',
     });
   }
 };
@@ -697,13 +743,13 @@ exports.verifyProperty = async (req, res) => {
         verifiedAt: new Date(),
         verifiedBy: req.user.id,
       },
-      { returnDocument: "after" },
+      { returnDocument: 'after' }
     );
 
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found',
       });
     }
 
@@ -712,10 +758,10 @@ exports.verifyProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    console.error("Verify property error:", error);
+    console.error('Verify property error:', error);
     res.status(500).json({
       success: false,
-      message: "Error verifying property",
+      message: 'Error verifying property',
     });
   }
 };
@@ -735,13 +781,13 @@ exports.featureProperty = async (req, res) => {
         isFeatured: true,
         featuredUntil,
       },
-      { returnDocument: "after" },
+      { returnDocument: 'after' }
     );
 
     if (!property) {
       return res.status(404).json({
         success: false,
-        message: "Property not found",
+        message: 'Property not found',
       });
     }
 
@@ -750,10 +796,10 @@ exports.featureProperty = async (req, res) => {
       property,
     });
   } catch (error) {
-    console.error("Feature property error:", error);
+    console.error('Feature property error:', error);
     res.status(500).json({
       success: false,
-      message: "Error featuring property",
+      message: 'Error featuring property',
     });
   }
 };
@@ -765,10 +811,10 @@ exports.getAdminStats = async (req, res) => {
   try {
     const totalProperties = await Property.countDocuments();
     const activeProperties = await Property.countDocuments({
-      status: "available",
+      status: 'available',
     });
     const pendingProperties = await Property.countDocuments({
-      status: "pending",
+      status: 'pending',
     });
     const verifiedProperties = await Property.countDocuments({
       isVerified: true,
@@ -777,7 +823,7 @@ exports.getAdminStats = async (req, res) => {
     const propertyByType = await Property.aggregate([
       {
         $group: {
-          _id: "$propertyType",
+          _id: '$propertyType',
           count: { $sum: 1 },
         },
       },
@@ -786,17 +832,17 @@ exports.getAdminStats = async (req, res) => {
     const propertyByListing = await Property.aggregate([
       {
         $group: {
-          _id: "$listingType",
+          _id: '$listingType',
           count: { $sum: 1 },
         },
       },
     ]);
 
-    const recentProperties = await Property.find().sort("-createdAt").limit(5);
+    const recentProperties = await Property.find().sort('-createdAt').limit(5);
 
     for (const prop of recentProperties) {
       try {
-        await prop.populate("owner", "name email");
+        await prop.populate('owner', 'name email');
       } catch (err) {}
     }
 
@@ -813,10 +859,10 @@ exports.getAdminStats = async (req, res) => {
       recentProperties,
     });
   } catch (error) {
-    console.error("Get admin stats error:", error);
+    console.error('Get admin stats error:', error);
     res.status(500).json({
       success: false,
-      message: "Error fetching admin stats",
+      message: 'Error fetching admin stats',
     });
   }
 };

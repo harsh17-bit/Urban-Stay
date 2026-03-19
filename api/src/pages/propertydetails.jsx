@@ -189,6 +189,11 @@ const PropertyDetails = () => {
     return `₹${price?.toLocaleString()}`;
   };
 
+  const formatListingTypeLabel = (type) => {
+    if (type === 'buy') return 'sale';
+    return type;
+  };
+
   // Share functions
   const shareUrl = window.location.href;
   const shareText = `Check out this property: ${property?.title} - ${formatPrice(property?.price, property?.listingType)}`;
@@ -251,7 +256,7 @@ const PropertyDetails = () => {
         <div class="section">
           <div class="section-title">Details</div>
           <div class="row">
-            <div class="item"><div class="label">Type</div><div class="value">${property?.propertyType} for ${property?.listingType}</div></div>
+            <div class="item"><div class="label">Type</div><div class="value">${property?.propertyType} for ${formatListingTypeLabel(property?.listingType)}</div></div>
             ${property?.specifications?.bedrooms ? `<div class="item"><div class="label">Bedrooms</div><div class="value">${property?.specifications?.bedrooms}</div></div>` : ''}
             ${property?.specifications?.bathrooms ? `<div class="item"><div class="label">Bathrooms</div><div class="value">${property?.specifications?.bathrooms}</div></div>` : ''}
             ${property?.specifications?.carpetArea ? `<div class="item"><div class="label">Area</div><div class="value">${property?.specifications?.carpetArea} sq.ft</div></div>` : ''}
@@ -464,7 +469,8 @@ const PropertyDetails = () => {
           <div className="property-header">
             <div className="header-info">
               <span className="property-type">
-                {property.propertyType} for {property.listingType}
+                {property.propertyType} for{' '}
+                {formatListingTypeLabel(property.listingType)}
               </span>
               <h1>{property.title}</h1>
               <p className="location">

@@ -1,17 +1,26 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   FiSearch,
-  FiFilter,
   FiMapPin,
   FiGrid,
   FiList,
   FiX,
-  FiChevronDown,
-} from "react-icons/fi";
-import { propertyService } from "../services/propertyservice";
-import PropertyCard from "../components/propertycard";
-import "./SearchResults.css";
+} from 'react-icons/fi';
+import { propertyService } from '../services/propertyservice';
+import PropertyCard from '../components/propertycard';
+import './SearchResults.css';
+
+const getFiltersFromParams = (params) => ({
+  search: params.get('search') || '',
+  listingType: params.get('listingType') || params.get('listingtype') || '',
+  propertyType: params.get('propertyType') || '',
+  city: params.get('city') || '',
+  minPrice: params.get('minPrice') || '',
+  maxPrice: params.get('maxPrice') || '',
+  bedrooms: params.get('bedrooms') || '',
+  sort: params.get('sort') || 'newest',
+});
 
 const SearchResults = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,47 +29,27 @@ const SearchResults = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [viewMode, setViewMode] = useState("grid");
-  const [showFilters, setShowFilters] = useState(false);
-
-  const [filters, setFilters] = useState({
-    search: searchParams.get("search") || "",
-    listingType: searchParams.get("listingType") || "",
-    propertyType: searchParams.get("propertyType") || "",
-    city: searchParams.get("city") || "",
-    minPrice: searchParams.get("minPrice") || "",
-    maxPrice: searchParams.get("maxPrice") || "",
-    sort: searchParams.get("sort") || "newest",
-  });
-
-  const propertyTypes = [
-    "apartment",
-    "house",
-    "villa",
-    "plot",
-    "commercial",
-    "office",
-    "shop",
-  ];
+  const [viewMode, setViewMode] = useState('grid');
+  const [filters, setFilters] = useState(() => getFiltersFromParams(searchParams));
 
   const cities = [
-    "Mumbai",
-    "Delhi",
-    "Bangalore",
-    "Hyderabad",
-    "Chennai",
-    "Kolkata",
-    "Pune",
-    "Ahmedabad",
-    "Jaipur",
-    "Lucknow",
+    'Mumbai',
+    'Delhi',
+    'Bangalore',
+    'Hyderabad',
+    'Chennai',
+    'Kolkata',
+    'Pune',
+    'Ahmedabad',
+    'Jaipur',
+    'Lucknow',
   ];
 
   useEffect(() => {
-    fetchProperties();
-  }, [searchParams, currentPage]);
+    setFilters(getFiltersFromParams(searchParams));
+  }, [searchParams]);
 
-  const fetchProperties = async () => {
+  const fetchProperties = useCallback(async () => {
     setLoading(true);
     try {
       const params = Object.fromEntries(searchParams.entries());
@@ -72,42 +61,79 @@ const SearchResults = () => {
       setTotalResults(response.total || 0);
       setTotalPages(response.pages || 1);
     } catch (error) {
-      console.error("Error fetching properties:", error);
+      console.error('Error fetching properties:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [searchParams, currentPage]);
+
+  useEffect(() => {
+    fetchProperties();
+  }, [fetchProperties]);
 
   const handleFilterChange = (key, value) => {
-    setFilters({ ...filters, [key]: value });
+    setFilters((prev) => ({ ...prev, [key]: value }));
   };
 
-  const applyFilters = () => {
+  const applyFilters = (nextFilters = filters) => {
+    const normalizedFilters = { ...nextFilters };
+    normalizedFilters.search = (normalizedFilters.search || '').trim();
+    const min = Number(normalizedFilters.minPrice);
+    const max = Number(normalizedFilters.maxPrice);
+
+    // Treat ranges like "1 to infinity" as no price constraint.
+    if (
+      normalizedFilters.minPrice !== '' &&
+      normalizedFilters.maxPrice === '' &&
+      Number.isFinite(min) &&
+      min <= 1
+    ) {
+      normalizedFilters.minPrice = '';
+    }
+
+    if (
+      normalizedFilters.minPrice !== '' &&
+      normalizedFilters.maxPrice !== '' &&
+      Number.isFinite(min) &&
+      Number.isFinite(max) &&
+      min > max
+    ) {
+      normalizedFilters.minPrice = String(max);
+      normalizedFilters.maxPrice = String(min);
+      setFilters(normalizedFilters);
+    }
+
     const params = new URLSearchParams();
-    Object.entries(filters).forEach(([key, value]) => {
+    Object.entries(normalizedFilters).forEach(([key, value]) => {
       if (value) params.set(key, value);
     });
     setSearchParams(params);
     setCurrentPage(1);
-    setShowFilters(false);
+  };
+
+  const updateFilterAndApply = (key, value) => {
+    const nextFilters = { ...filters, [key]: value };
+    setFilters(nextFilters);
+    applyFilters(nextFilters);
   };
 
   const clearFilters = () => {
     setFilters({
-      search: "",
-      listingType: "",
-      propertyType: "",
-      city: "",
-      minPrice: "",
-      maxPrice: "",
-      sort: "newest",
+      search: '',
+      listingType: '',
+      propertyType: '',
+      city: '',
+      minPrice: '',
+      maxPrice: '',
+      bedrooms: '',
+      sort: 'newest',
     });
     setSearchParams(new URLSearchParams());
     setCurrentPage(1);
   };
 
   const activeFilterCount = Object.values(filters).filter(
-    (v) => v && v !== "newest",
+    (v) => (typeof v === 'string' ? v.trim() : v) && v !== 'newest'
   ).length;
 
   return (
@@ -121,8 +147,8 @@ const SearchResults = () => {
               type="text"
               placeholder="Search by location, project, or keyword..."
               value={filters.search}
-              onChange={(e) => handleFilterChange("search", e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && applyFilters()}
+              onChange={(e) => handleFilterChange('search', e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && applyFilters()}
             />
           </div>
 
@@ -130,8 +156,7 @@ const SearchResults = () => {
             <select
               value={filters.listingType}
               onChange={(e) => {
-                handleFilterChange("listingType", e.target.value);
-                setTimeout(applyFilters, 0);
+                updateFilterAndApply('listingType', e.target.value);
               }}
             >
               <option value="">Buy/Rent</option>
@@ -142,8 +167,7 @@ const SearchResults = () => {
             <select
               value={filters.city}
               onChange={(e) => {
-                handleFilterChange("city", e.target.value);
-                setTimeout(applyFilters, 0);
+                updateFilterAndApply('city', e.target.value);
               }}
             >
               <option value="">All Cities</option>
@@ -153,83 +177,6 @@ const SearchResults = () => {
                 </option>
               ))}
             </select>
-
-            <button
-              className={`filter-btn ${showFilters ? "active" : ""}`}
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <FiFilter />
-              Filters
-              {activeFilterCount > 0 && (
-                <span className="filter-count">{activeFilterCount}</span>
-              )}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Filter Panel */}
-      <div className={`filter-panel ${showFilters ? "open" : ""}`}>
-        <div className="filter-panel-content">
-          <div className="filter-header">
-            <h3>Filters</h3>
-            <button className="clear-btn" onClick={clearFilters}>
-              Clear All
-            </button>
-          </div>
-
-          <div className="filter-grid">
-            <div className="filter-group">
-              <label>Property Type</label>
-              <select
-                value={filters.propertyType}
-                onChange={(e) =>
-                  handleFilterChange("propertyType", e.target.value)
-                }
-              >
-                <option value="">All Types</option>
-                {propertyTypes.map((type) => (
-                  <option key={type} value={type} className="capitalize">
-                    {type}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="filter-group">
-              <label>Price Range</label>
-              <div className="range-inputs">
-                <input
-                  type="number"
-                  placeholder="Min"
-                  value={filters.minPrice}
-                  onChange={(e) =>
-                    handleFilterChange("minPrice", e.target.value)
-                  }
-                />
-                <span>to</span>
-                <input
-                  type="number"
-                  placeholder="Max"
-                  value={filters.maxPrice}
-                  onChange={(e) =>
-                    handleFilterChange("maxPrice", e.target.value)
-                  }
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="filter-actions">
-            <button
-              className="btn-outline"
-              onClick={() => setShowFilters(false)}
-            >
-              Cancel
-            </button>
-            <button className="btn-primary" onClick={applyFilters}>
-              Apply Filters
-            </button>
           </div>
         </div>
       </div>
@@ -239,7 +186,7 @@ const SearchResults = () => {
         <div className="results-header">
           <div className="results-info">
             <h2>
-              {loading ? "Searching..." : `${totalResults} Properties Found`}
+              {loading ? 'Searching...' : `${totalResults} Properties Found`}
             </h2>
             {filters.city && (
               <span className="location-tag">
@@ -252,8 +199,7 @@ const SearchResults = () => {
             <select
               value={filters.sort}
               onChange={(e) => {
-                handleFilterChange("sort", e.target.value);
-                setTimeout(applyFilters, 0);
+                updateFilterAndApply('sort', e.target.value);
               }}
               className="sort-select"
             >
@@ -266,14 +212,14 @@ const SearchResults = () => {
 
             <div className="view-toggle">
               <button
-                className={viewMode === "grid" ? "active" : ""}
-                onClick={() => setViewMode("grid")}
+                className={viewMode === 'grid' ? 'active' : ''}
+                onClick={() => setViewMode('grid')}
               >
                 <FiGrid />
               </button>
               <button
-                className={viewMode === "list" ? "active" : ""}
-                onClick={() => setViewMode("list")}
+                className={viewMode === 'list' ? 'active' : ''}
+                onClick={() => setViewMode('list')}
               >
                 <FiList />
               </button>
@@ -284,13 +230,24 @@ const SearchResults = () => {
         {/* Active Filters */}
         {activeFilterCount > 0 && (
           <div className="active-filters">
+            {filters.search?.trim() && (
+              <span className="filter-tag">
+                Search: {filters.search.trim()}
+                <button
+                  onClick={() => {
+                    updateFilterAndApply('search', '');
+                  }}
+                >
+                  <FiX />
+                </button>
+              </span>
+            )}
             {filters.listingType && (
               <span className="filter-tag">
                 For {filters.listingType}
                 <button
                   onClick={() => {
-                    handleFilterChange("listingType", "");
-                    applyFilters();
+                    updateFilterAndApply('listingType', '');
                   }}
                 >
                   <FiX />
@@ -302,8 +259,7 @@ const SearchResults = () => {
                 {filters.propertyType}
                 <button
                   onClick={() => {
-                    handleFilterChange("propertyType", "");
-                    applyFilters();
+                    updateFilterAndApply('propertyType', '');
                   }}
                 >
                   <FiX />
@@ -315,8 +271,7 @@ const SearchResults = () => {
                 {filters.bedrooms} BHK
                 <button
                   onClick={() => {
-                    handleFilterChange("bedrooms", "");
-                    applyFilters();
+                    updateFilterAndApply('bedrooms', '');
                   }}
                 >
                   <FiX />
@@ -325,12 +280,16 @@ const SearchResults = () => {
             )}
             {(filters.minPrice || filters.maxPrice) && (
               <span className="filter-tag">
-                ₹{filters.minPrice || "0"} - ₹{filters.maxPrice || "∞"}
+                ₹{filters.minPrice || '0'} - ₹{filters.maxPrice || '∞'}
                 <button
                   onClick={() => {
-                    handleFilterChange("minPrice", "");
-                    handleFilterChange("maxPrice", "");
-                    applyFilters();
+                    const nextFilters = {
+                      ...filters,
+                      minPrice: '',
+                      maxPrice: '',
+                    };
+                    setFilters(nextFilters);
+                    applyFilters(nextFilters);
                   }}
                 >
                   <FiX />
@@ -373,7 +332,7 @@ const SearchResults = () => {
                     return (
                       <button
                         key={page}
-                        className={currentPage === page ? "active" : ""}
+                        className={currentPage === page ? 'active' : ''}
                         onClick={() => setCurrentPage(page)}
                       >
                         {page}
@@ -394,8 +353,8 @@ const SearchResults = () => {
         ) : (
           <div className="empty-state">
             <FiSearch />
-            <h3>No properties found</h3>
-            <p>Try adjusting your filters or search in a different area</p>
+            <h3>Sorry, no properties matched your search</h3>
+            <p>We regret the inconvenience. Please try a different filter or city.</p>
             <button className="btn-primary" onClick={clearFilters}>
               Clear All Filters
             </button>

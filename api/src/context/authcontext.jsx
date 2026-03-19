@@ -1,7 +1,44 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { authService } from "../services/authservice";
+import { createContext, useContext, useState, useEffect } from 'react';
+import { authService } from '../services/authservice';
 
-const AuthContext = createContext(null);
+const defaultAuthContext = {
+  user: null,
+  loading: false,
+  error: null,
+  isAuthenticated: false,
+  isAdmin: false,
+  isSeller: false,
+  register: async () => {
+    throw new Error('AuthProvider is not available');
+  },
+  login: async () => {
+    throw new Error('AuthProvider is not available');
+  },
+  logout: () => {},
+  updateProfile: async () => {
+    throw new Error('AuthProvider is not available');
+  },
+  toggleFavorite: async () => {
+    throw new Error('AuthProvider is not available');
+  },
+  setError: () => {},
+};
+
+const AuthContext = createContext(defaultAuthContext);
+const TOKEN_KEY = 'token';
+const USER_KEY = 'user';
+
+const readStoredUser = () => {
+  const rawUser = localStorage.getItem(USER_KEY);
+  if (!rawUser) return null;
+
+  try {
+    return JSON.parse(rawUser);
+  } catch {
+    localStorage.removeItem(USER_KEY);
+    return null;
+  }
+};
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -11,8 +48,8 @@ export const AuthProvider = ({ children }) => {
   // Check for existing session on mount
   useEffect(() => {
     const initAuth = async () => {
-      const token = sessionStorage.getItem("token");
-      const savedUser = sessionStorage.getItem("user");
+      const token = localStorage.getItem(TOKEN_KEY);
+      const savedUser = localStorage.getItem(USER_KEY);
 
       if (token && savedUser) {
         try {
@@ -21,8 +58,8 @@ export const AuthProvider = ({ children }) => {
           setUser(response.user);
         } catch {
           // Token invalid - clear storage
-          sessionStorage.removeItem("token");
-          sessionStorage.removeItem("user");
+          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(USER_KEY);
         }
       }
       setLoading(false);
@@ -30,6 +67,29 @@ export const AuthProvider = ({ children }) => {
 
     initAuth();
   }, []);
+
+  // Keep auth state synchronized across all tabs/windows.
+  useEffect(() => {
+    const onStorageChange = (event) => {
+      if (event.key && event.key !== TOKEN_KEY && event.key !== USER_KEY)
+        return;
+
+      const token = localStorage.getItem(TOKEN_KEY);
+      if (!token) {
+        setUser(null);
+        return;
+      }
+
+      const storedUser = readStoredUser();
+      if (storedUser) {
+        setUser(storedUser);
+      }
+    };
+
+    window.addEventListener('storage', onStorageChange);
+    return () => window.removeEventListener('storage', onStorageChange);
+  }, []);
+
   const register = async (userData) => {
     try {
       setError(null);
@@ -37,7 +97,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.user);
       return response;
     } catch (err) {
-      setError(err.response?.data?.message || "Registration failed");
+      setError(err.response?.data?.message || 'Registration failed');
       throw err;
     }
   };
@@ -46,20 +106,20 @@ export const AuthProvider = ({ children }) => {
     try {
       setError(null);
       const response = await authService.login(credentials);
-      sessionStorage.setItem("token", response.token);
-      sessionStorage.setItem("user", JSON.stringify(response.user));
+      localStorage.setItem(TOKEN_KEY, response.token);
+      localStorage.setItem(USER_KEY, JSON.stringify(response.user));
       setUser(response.user);
       return response;
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
+      setError(err.response?.data?.message || 'Login failed');
       throw err;
     }
   };
 
   const logout = () => {
     authService.logout();
-    sessionStorage.removeItem("token");
-    sessionStorage.removeItem("user");
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
     setUser(null);
   };
 
@@ -70,7 +130,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.user);
       return response;
     } catch (err) {
-      setError(err.response?.data?.message || "Update failed");
+      setError(err.response?.data?.message || 'Update failed');
       throw err;
     }
   };
@@ -84,13 +144,13 @@ export const AuthProvider = ({ children }) => {
       setUser(updatedUser.user);
       return response;
     } catch {
-      throw new Error("Failed to update favorites");
+      throw new Error('Failed to update favorites');
     }
   };
 
   const isAuthenticated = !!user;
-  const isAdmin = user?.role === "admin";
-  const isSeller = user?.role === "seller" || user?.role === "admin";
+  const isAdmin = user?.role === 'admin';
+  const isSeller = user?.role === 'seller' || user?.role === 'admin';
 
   const value = {
     user,
@@ -107,8 +167,6 @@ export const AuthProvider = ({ children }) => {
     setError,
   };
 
-  console.log("AuthProvider rendering, loading:", loading);
-
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
@@ -116,7 +174,10 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    console.warn(
+      'useAuth called outside AuthProvider. Falling back to defaults.'
+    );
+    return defaultAuthContext;
   }
   return context;
 };

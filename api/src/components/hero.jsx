@@ -1,31 +1,31 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiSearch } from "react-icons/fi";
-import "./Hero.css";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FiSearch } from 'react-icons/fi';
+import './Hero.css';
 
 const Hero = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [propertyFilter, setPropertyFilter] = useState("all"); // all, buy, rent
+  const [searchTerm, setSearchTerm] = useState('');
+  const [propertyFilter, setPropertyFilter] = useState('all'); // all, buy, rent
   const navigate = useNavigate();
 
   const handleSearch = () => {
     const params = new URLSearchParams();
 
     if (searchTerm) {
-      params.append("search", searchTerm);
+      params.append('search', searchTerm);
     }
 
-    if (propertyFilter === "buy") {
-      params.append("listingType", "buy");
-    } else if (propertyFilter === "rent") {
-      params.append("listingType", "rent");
+    if (propertyFilter === 'buy') {
+      params.append('listingType', 'buy');
+    } else if (propertyFilter === 'rent') {
+      params.append('listingType', 'rent');
     }
 
     navigate(`/search?${params.toString()}`);
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       handleSearch();
     }
   };
@@ -56,20 +56,20 @@ const Hero = () => {
             <p className="hero-filter-label">Explore all things property</p>
             <div className="hero-filter-buttons">
               <button
-                className={`filter-btn ${propertyFilter === "all" ? "active" : ""}`}
-                onClick={() => setPropertyFilter("all")}
+                className={`filter-btn ${propertyFilter === 'all' ? 'active' : ''}`}
+                onClick={() => setPropertyFilter('all')}
               >
                 All Properties
               </button>
               <button
-                className={`filter-btn ${propertyFilter === "buy" ? "active" : ""}`}
-                onClick={() => setPropertyFilter("buy")}
+                className={`filter-btn ${propertyFilter === 'buy' ? 'active' : ''}`}
+                onClick={() => setPropertyFilter('buy')}
               >
                 For Sale
               </button>
               <button
-                className={`filter-btn ${propertyFilter === "rent" ? "active" : ""}`}
-                onClick={() => setPropertyFilter("rent")}
+                className={`filter-btn ${propertyFilter === 'rent' ? 'active' : ''}`}
+                onClick={() => setPropertyFilter('rent')}
               >
                 For Rent
               </button>
