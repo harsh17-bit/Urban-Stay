@@ -5,7 +5,7 @@
  * @module services/projectService
  */
 
-import api from "./api";
+import api from './api';
 
 export const projectService = {
   /**
@@ -18,7 +18,7 @@ export const projectService = {
    * @returns {Promise<Object>} Project list
    */
   getProjects: async (params = {}) => {
-    const response = await api.get("/projects", { params });
+    const response = await api.get('/projects', { params });
     return response.data;
   },
 
@@ -33,5 +33,3 @@ export const projectService = {
     return response.data;
   },
 };
-
-export default projectService;

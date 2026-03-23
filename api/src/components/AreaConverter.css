@@ -1,0 +1,279 @@
+.area-converter-page {
+  min-height: 100vh;
+  background: #f5f5f5;
+}
+
+.area-calc-section {
+  padding: 40px 24px;
+  background: linear-gradient(180deg, #e8f4f8 0%, #f5f5f5 100%);
+}
+
+.area-calc-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.area-input-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.area-input-group {
+  margin-bottom: 24px;
+}
+
+.area-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #00a88e;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.area-input-field {
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 8px;
+}
+
+.area-text-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  background: transparent;
+}
+
+.area-input-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.area-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d8e2ea;
+  border-radius: 10px;
+  background: #fff;
+  outline: none;
+  color: #1f2937;
+}
+
+.area-select:focus,
+.area-text-input:focus {
+  border-color: #00a88e;
+}
+
+.area-calculate-btn {
+  width: 100%;
+  padding: 16px 24px;
+  background: #d9534f;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.area-calculate-btn:hover {
+  background: #c9302c;
+}
+
+.area-result-panel {
+  background: linear-gradient(180deg, #e8f4f8 0%, #d4eef5 100%);
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.area-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.area-result-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.area-result-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00a88e;
+}
+
+.area-chart-section {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.area-donut-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.area-donut-chart {
+  width: 170px;
+  height: 170px;
+}
+
+.area-chart-legend {
+  display: grid;
+  gap: 12px;
+}
+
+.area-legend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.area-legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  margin-top: 3px;
+}
+
+.area-legend-dot.input {
+  background: #00a88e;
+}
+
+.area-legend-dot.output {
+  background: #ffc107;
+}
+
+.area-legend-info {
+  display: grid;
+  gap: 2px;
+}
+
+.area-legend-label {
+  color: #667085;
+  font-size: 0.95rem;
+}
+
+.area-legend-value {
+  color: #1f2937;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.area-result-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.area-result-item {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid #d3e8ef;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.area-result-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #50606d;
+  margin-bottom: 4px;
+}
+
+.area-result-number {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.area-result-number.highlight {
+  color: #00a88e;
+}
+
+.area-info-section {
+  padding: 48px 24px 56px;
+}
+
+.area-info-container {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.area-info-container h2 {
+  margin: 0;
+  font-size: 2rem;
+  color: #1f2937;
+}
+
+.area-info-subtitle {
+  margin-top: 10px;
+  color: #667085;
+}
+
+.area-formula-box {
+  margin-top: 28px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: left;
+}
+
+.formula-text {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 18px;
+}
+
+.formula-legend {
+  display: grid;
+  gap: 10px;
+  color: #475569;
+}
+
+.formula-legend strong {
+  color: #00a88e;
+}
+
+@media (max-width: 900px) {
+  .area-calc-container {
+    grid-template-columns: 1fr;
+  }
+
+  .area-input-panel,
+  .area-result-panel {
+    padding: 22px;
+  }
+
+  .area-input-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .area-result-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .area-chart-section {
+    grid-template-columns: 1fr;
+  }
+}

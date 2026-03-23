@@ -43,6 +43,7 @@ import InquiryDetails from './pages/InquiryDetails.jsx';
 import AboutUs from './pages/AboutUs.jsx';
 import EMICalculator from './pages/EMICalculator.jsx';
 import HomeInterior from './pages/HomeInterior.jsx';
+import AreaConverter from './components/AreaConverter.jsx';
 
 // Home Page Component with all sections
 const HomePage = () => {
@@ -156,13 +157,13 @@ function AppContent() {
     const interval = setInterval(async () => {
       try {
         const res = await fetch(`${API_URL}/health`);
-        if (!res.ok) {
-          throw new Error('Server Down');
+        if (res.status === 401 || res.status === 403) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          window.location.href = '/login';
         }
       } catch {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '/login';
+        // Ignore transient network/server issues; auth interceptor handles real auth expiry.
       }
     }, 60000);
     return () => clearInterval(interval);
@@ -190,6 +191,7 @@ function AppContent() {
               <Route path="/about-us" element={<AboutUs />} />
               <Route path="/emi-calculator" element={<EMICalculator />} />
               <Route path="/home-interior" element={<HomeInterior />} />
+              <Route path="/area-converter" element={<AreaConverter />} />
               {/* Protected Routes */}
               <Route
                 path="/edit-property/:id"

@@ -6,7 +6,7 @@
  * @module services/propertyService
  */
 
-import api from "./api";
+import api from './api';
 
 /**
  * Property service object containing all property-related methods
@@ -29,7 +29,7 @@ export const propertyService = {
    * @returns {Promise<Object>} Properties list with pagination info
    */
   getProperties: async (params = {}) => {
-    const response = await api.get("/properties", { params });
+    const response = await api.get('/properties', { params });
     return response.data;
   },
 
@@ -62,7 +62,7 @@ export const propertyService = {
    * @returns {Promise<Object>} Featured properties list
    */
   getFeatured: async () => {
-    const response = await api.get("/properties/featured");
+    const response = await api.get('/properties/featured');
     return response.data;
   },
 
@@ -86,7 +86,7 @@ export const propertyService = {
    * @returns {Promise<Object>} Seller's properties with stats
    */
   getMyProperties: async (params = {}) => {
-    const response = await api.get("/properties/user/my", { params });
+    const response = await api.get('/properties/user/my', { params });
     return response.data;
   },
 
@@ -105,7 +105,7 @@ export const propertyService = {
    * @returns {Promise<Object>} Created property data
    */
   createProperty: async (propertyData) => {
-    const response = await api.post("/properties", propertyData);
+    const response = await api.post('/properties', propertyData);
     return response.data;
   },
 
@@ -141,7 +141,7 @@ export const propertyService = {
    * @returns {Promise<Object>} City-wise statistics
    */
   getCityStats: async () => {
-    const response = await api.get("/properties/stats/cities");
+    const response = await api.get('/properties/stats/cities');
     return response.data;
   },
 
@@ -152,7 +152,7 @@ export const propertyService = {
    * @returns {Promise<Object>} Platform-wide stats
    */
   getAdminStats: async () => {
-    const response = await api.get("/properties/stats/admin");
+    const response = await api.get('/properties/stats/admin');
     return response.data;
   },
 
@@ -191,15 +191,3 @@ export const propertyService = {
     return response.data;
   },
 };
-
-/**
- * Legacy function for backward compatibility
- * @deprecated Use propertyService.getProperties() instead
- * @returns {Promise<Array>} Array of properties
- */
-export const fetchProperties = async () => {
-  const response = await propertyService.getProperties();
-  return response.properties || [];
-};
-
-export default propertyService;

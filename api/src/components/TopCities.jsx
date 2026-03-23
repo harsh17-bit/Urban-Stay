@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { propertyService } from "../services/propertyservice";
-import "./TopCities.css";
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { propertyService } from '../services/propertyservice';
+import './TopCities.css';
 
 const FALLBACK_CITIES = [
-  { name: "Delhi", count: 0 },
-  { name: "Mumbai", count: 0 },
-  { name: "Bangalore", count: 0 },
-  { name: "Hyderabad", count: 0 },
-  { name: "Pune", count: 0 },
-  { name: "Kolkata", count: 0 },
-  { name: "Chennai", count: 0 },
-  { name: "Ahmedabad", count: 0 },
+  { name: 'Delhi', count: 0 },
+  { name: 'Mumbai', count: 0 },
+  { name: 'Bangalore', count: 0 },
+  { name: 'Hyderabad', count: 0 },
+  { name: 'Pune', count: 0 },
+  { name: 'Kolkata', count: 0 },
+  { name: 'Chennai', count: 0 },
+  { name: 'Ahmedabad', count: 0 },
 ];
 
 /** Builds the search URL — change routing logic here only. */
-const cityUrl = ({ name }) =>
-  `/properties?city=${encodeURIComponent(name)}`;
+const cityUrl = ({ name }) => `/properties?city=${encodeURIComponent(name)}`;
 
 /** Single card — isolated, easy to test and style independently. */
 const CityCard = ({ city }) => (
@@ -43,8 +42,8 @@ const TopCities = () => {
         if (dynamicCities.length > 0) {
           setCities(dynamicCities);
         }
-      } catch (error) {
-        console.error("Failed to load city stats:", error);
+      } catch {
+        // Keep fallback cities when API is unavailable.
       }
     };
 

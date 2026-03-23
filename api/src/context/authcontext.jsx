@@ -136,7 +136,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const toggleFavorite = async (propertyId) => {
-    // eslint-disable-next-line no-useless-catch
     try {
       const response = await authService.toggleFavorite(propertyId);
       // Update user favorites in state
@@ -181,5 +180,3 @@ export const useAuth = () => {
   }
   return context;
 };
-
-export default AuthContext;
