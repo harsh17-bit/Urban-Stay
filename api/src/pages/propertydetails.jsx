@@ -31,6 +31,7 @@ import { getImageUrl } from '../utils/imageUtils';
 import PropertyCard from '../components/propertycard';
 import RentalAgreement from '../components/RentalAgreement';
 import BuyerAgreement from '../components/BuyerAgreement';
+import PaymentToast from '../components/PaymentToast.jsx';
 import './PropertyDetails.css';
 
 // Fix Leaflet default icon issue with Vite
@@ -82,6 +83,18 @@ const PropertyDetails = () => {
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const [wishlistToast, setWishlistToast] = useState({
+    show: false,
+    type: 'success',
+    message: '',
+  });
+
+  const showWishlistToast = (type, message) => {
+    setWishlistToast({ show: false, type, message: '' });
+    setTimeout(() => {
+      setWishlistToast({ show: true, type, message });
+    }, 0);
+  };
 
   useEffect(() => {
     const isValidId = id && id !== 'undefined' && /^[a-f\d]{24}$/i.test(id);
@@ -135,15 +148,29 @@ const PropertyDetails = () => {
 
   const handleFavoriteToggle = async () => {
     if (!isAuthenticated) {
-      // Redirect to login
-      alert('Please login to manage your favorites.');
+      showWishlistToast('error', 'Please login to manage wishlist.');
       return;
     }
+
+    if (user?.role === 'admin') {
+      showWishlistToast('error', 'Admin cannot do any property wishlist.');
+      return;
+    }
+
     try {
       await toggleFavorite(id);
       setIsFavorite(!isFavorite);
+      showWishlistToast(
+        'success',
+        !isFavorite
+          ? 'Property added to wishlist.'
+          : 'Property removed from wishlist.'
+      );
     } catch (error) {
-      console.error('Error toggling favorite:', error);
+      showWishlistToast(
+        'error',
+        error?.message || 'Failed to update wishlist. Please try again.'
+      );
     }
   };
 
@@ -410,6 +437,14 @@ const PropertyDetails = () => {
 
   return (
     <div className="property-details-page">
+      <PaymentToast
+        show={wishlistToast.show}
+        type={wishlistToast.type}
+        message={wishlistToast.message}
+        duration={2500}
+        onClose={() => setWishlistToast((prev) => ({ ...prev, show: false }))}
+      />
+
       {/* Image Gallery */}
       <section className="image-gallery">
         <div className="gallery-main">

@@ -142,8 +142,10 @@ export const AuthProvider = ({ children }) => {
       const updatedUser = await authService.getMe();
       setUser(updatedUser.user);
       return response;
-    } catch {
-      throw new Error('Failed to update favorites');
+    } catch (err) {
+      throw new Error(
+        err?.response?.data?.message || 'Failed to update favorites'
+      );
     }
   };
 

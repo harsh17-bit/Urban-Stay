@@ -1,10 +1,28 @@
 const Property = require('../models/property');
 
+const cleanupExpiredFeaturedProperties = async () => {
+  const now = new Date();
+  await Property.updateMany(
+    {
+      isFeatured: true,
+      featuredUntil: { $lt: now },
+    },
+    {
+      $set: {
+        isFeatured: false,
+        featuredUntil: null,
+      },
+    }
+  );
+};
+
 // @desc    Get all properties
 // @route   GET /api/properties
 // @access  Public
 exports.getAllProperties = async (req, res) => {
   try {
+    await cleanupExpiredFeaturedProperties();
+
     const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
     const toTrimmedString = (value) =>
@@ -556,6 +574,8 @@ exports.deleteProperty = async (req, res) => {
 // @access  Private
 exports.getMyProperties = async (req, res) => {
   try {
+    await cleanupExpiredFeaturedProperties();
+
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
@@ -673,6 +693,8 @@ exports.getSimilarProperties = async (req, res) => {
 // @access  Public
 exports.getFeaturedProperties = async (req, res) => {
   try {
+    await cleanupExpiredFeaturedProperties();
+
     const properties = await Property.find({
       status: 'available',
       isFeatured: true,
@@ -809,6 +831,8 @@ exports.featureProperty = async (req, res) => {
 // @access  Private/Admin
 exports.getAdminStats = async (req, res) => {
   try {
+    await cleanupExpiredFeaturedProperties();
+
     const totalProperties = await Property.countDocuments();
     const activeProperties = await Property.countDocuments({
       status: 'available',

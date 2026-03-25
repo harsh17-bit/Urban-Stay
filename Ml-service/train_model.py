@@ -164,8 +164,40 @@ def prepare_training_frame(csv_path="data/Bangalore.csv"):
         "feature_columns": feature_columns,
         "amenity_columns": amenity_columns,
         "supported_locations": sorted(df["location"].unique().tolist()),
+        "supported_cities": ["bangalore"],
+        "supported_states": ["karnataka"],
+        "location_to_city_state": {
+            location: {"city": "bangalore", "state": "karnataka"}
+            for location in sorted(df["location"].unique().tolist())
+        },
         "location_frequency": location_frequency.to_dict(),
         "medians": {column: float(df[column].median()) for column in feature_columns},
+        "realistic_bounds": {
+            "area": {
+                "min": float(df["area"].quantile(0.01)),
+                "max": float(df["area"].quantile(0.99)),
+            },
+            "bedrooms": {
+                "min": float(df["bedrooms"].quantile(0.01)),
+                "max": float(df["bedrooms"].quantile(0.99)),
+            },
+            "bathrooms": {
+                "min": float(df["bathrooms"].quantile(0.01)),
+                "max": float(df["bathrooms"].quantile(0.99)),
+            },
+            "area_per_bedroom": {
+                "min": float(df["area_per_bedroom"].quantile(0.01)),
+                "max": float(df["area_per_bedroom"].quantile(0.99)),
+            },
+            "amenities_count": {
+                "min": float(df["amenities_count"].quantile(0.01)),
+                "max": float(df["amenities_count"].quantile(0.99)),
+            },
+            "price_per_sqft": {
+                "min": float(df["price_per_sqft"].quantile(0.01)),
+                "max": float(df["price_per_sqft"].quantile(0.99)),
+            },
+        },
         "training_rows": int(len(df)),
     }
     return df, metadata

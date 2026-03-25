@@ -6,7 +6,7 @@ import { useAuth } from '../context/authcontext.jsx';
 import PaymentToast from './PaymentToast.jsx';
 import './PropertyCard.css';
 
-const PropertyCard = ({ property, viewMode = 'grid' }) => {
+const PropertyCard = ({ property, viewMode = 'grid', onWishlistToast }) => {
   const { user, isAuthenticated, toggleFavorite } = useAuth();
   const navigate = useNavigate();
   const [wishlistToast, setWishlistToast] = useState({
@@ -44,6 +44,11 @@ const PropertyCard = ({ property, viewMode = 'grid' }) => {
     e.stopPropagation();
 
     const showWishlistToast = (type, message) => {
+      if (typeof onWishlistToast === 'function') {
+        onWishlistToast(type, message);
+        return;
+      }
+
       // Reset first so repeated clicks always retrigger toast animation/timer.
       setWishlistToast({ show: false, type, message: '' });
       setTimeout(() => {
@@ -54,6 +59,11 @@ const PropertyCard = ({ property, viewMode = 'grid' }) => {
     if (!isAuthenticated) {
       showWishlistToast('error', 'Please login to manage wishlist.');
       navigate('/register');
+      return;
+    }
+
+    if (user?.role === 'admin') {
+      showWishlistToast('error', 'Admin cannot do any property wishlist.');
       return;
     }
 
@@ -68,10 +78,9 @@ const PropertyCard = ({ property, viewMode = 'grid' }) => {
           : 'Property removed from wishlist.'
       );
     } catch (err) {
-      console.error('Failed to toggle favorite:', err);
       showWishlistToast(
         'error',
-        'Failed to update wishlist. Please try again.'
+        err?.message || 'Failed to update wishlist. Please try again.'
       );
     }
   };

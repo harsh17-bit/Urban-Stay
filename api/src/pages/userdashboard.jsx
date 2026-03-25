@@ -20,6 +20,7 @@ import { useAuth } from '../context/authcontext.jsx';
 import { inquiryService, alertService } from '../services/dataservice';
 import { getImageUrl } from '../utils/imageUtils';
 import PropertyCard from '../components/propertycard';
+import PaymentToast from '../components/PaymentToast.jsx';
 import './Dashboard.css';
 
 const UserDashboard = () => {
@@ -35,6 +36,11 @@ const UserDashboard = () => {
     phone: user?.phone || '',
     bio: user?.bio || '',
     role: user?.role || 'user',
+  });
+  const [wishlistToast, setWishlistToast] = useState({
+    show: false,
+    type: 'success',
+    message: '',
   });
 
   async function fetchData() {
@@ -54,6 +60,13 @@ const UserDashboard = () => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchData();
   }, []);
+
+  const showWishlistToast = (type, message) => {
+    setWishlistToast({ show: false, type, message: '' });
+    setTimeout(() => {
+      setWishlistToast({ show: true, type, message });
+    }, 0);
+  };
 
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -100,6 +113,13 @@ const UserDashboard = () => {
 
   return (
     <div className="dashboard-page">
+      <PaymentToast
+        show={wishlistToast.show}
+        type={wishlistToast.type}
+        message={wishlistToast.message}
+        duration={2500}
+        onClose={() => setWishlistToast((prev) => ({ ...prev, show: false }))}
+      />
       <div className="dashboard-container">
         {/* Sidebar */}
         <aside className="dashboard-sidebar">
@@ -205,7 +225,11 @@ const UserDashboard = () => {
               {favorites.length > 0 ? (
                 <div className="properties-grid">
                   {favorites.map((property) => (
-                    <PropertyCard key={property._id} property={property} />
+                    <PropertyCard
+                      key={property._id}
+                      property={property}
+                      onWishlistToast={showWishlistToast}
+                    />
                   ))}
                 </div>
               ) : (

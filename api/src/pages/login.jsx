@@ -46,12 +46,12 @@ const Login = () => {
     }
   }
 
-  const redirectMessage =
-    redirectReason === 'post_property_login_required'
-      ? 'Kindly Login For Post-Property'
-      : redirectReason === 'login_required'
-        ? 'Please login to continue.'
-        : '';
+  // const redirectMessage =
+  //   redirectReason === 'post_property_login_required'
+  //     ? 'Kindly Login For Post-Property'
+  //     : redirectReason === 'login_required'
+  //       ? 'Please login to continue.'
+  //       : '';
 
   const roles = [
     {
@@ -164,9 +164,9 @@ const Login = () => {
               <h2>Welcome Back</h2>
               <p>Sign in to your account to continue</p>
             </div>
-            {redirectMessage && (
+            {/* {redirectMessage && (
               <div className="auth-error">{redirectMessage}</div>
-            )}
+            )} */}
             <form onSubmit={handleSubmit} className="auth-form">
               <div className="form-group slide-in-1">
                 <label htmlFor="email">Email Address</label>
@@ -227,7 +227,7 @@ const Login = () => {
                   'Sign In'
                 )}
               </button>
-              {error && <div className="auth-error">{error}</div>}
+              {/* {error && <div className="auth-error">{error}</div>} */}
             </form>
             <p className="auth-switch">
               Don't have an account? <Link to="/register">Create Account</Link>

@@ -6,7 +6,7 @@
   justify-content: center;
 
   padding: 2rem;
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .auth-container {
@@ -57,18 +57,6 @@
     var(--color-purple) 0%,
     var(--color-indigo) 100%
   );
-}
-
-.auth-left::before {
-  content: "";
-  position: absolute;
-  top: -50px;
-  left: -50px;
-  width: 200px;
-  height: 200px;
-  background: var(--white-10);
-  border-radius: 50%;
-  backdrop-filter: blur(10px);
 }
 
 .circle-1,
@@ -199,7 +187,7 @@
 }
 
 .role-option::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -445,17 +433,6 @@
   position: relative;
   text-align: center;
 }
-
-.auth-divider::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--color-ink-200);
-}
-
 .auth-divider span {
   position: relative;
   background: var(--color-surface);

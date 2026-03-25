@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   FiHome,
   FiPlus,
@@ -20,43 +20,43 @@ import {
   FiUser,
   FiFileText,
   FiDownload,
-} from "react-icons/fi";
-import FeaturedUpgradeModal from "../components/FeaturedUpgradeModal.jsx";
-import PaymentToast from "../components/PaymentToast.jsx";
-import { useAuth } from "../context/authcontext.jsx";
-import { propertyService } from "../services/propertyservice";
-import { inquiryService, paymentService } from "../services/dataservice";
-import { getImageUrl } from "../utils/imageUtils";
-import "./Dashboard.css";
+} from 'react-icons/fi';
+import FeaturedUpgradeModal from '../components/FeaturedUpgradeModal.jsx';
+import PaymentToast from '../components/PaymentToast.jsx';
+import { useAuth } from '../context/authcontext.jsx';
+import { propertyService } from '../services/propertyservice';
+import { inquiryService, paymentService } from '../services/dataservice';
+import { getImageUrl } from '../utils/imageUtils';
+import './Dashboard.css';
 
 const SellerDashboard = () => {
   const { user, updateProfile } = useAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("overview");
+  const [activeTab, setActiveTab] = useState('overview');
   const [properties, setProperties] = useState([]);
   const [inquiries, setInquiries] = useState([]);
   const [, setStats] = useState(null);
   const [, setLoading] = useState(true);
   const [respondingTo, setRespondingTo] = useState(null);
-  const [replyMessage, setReplyMessage] = useState("");
+  const [replyMessage, setReplyMessage] = useState('');
   const [actionLoading, setActionLoading] = useState(false);
   const [inquiryError, setInquiryError] = useState(null);
 
   const [featuredProperty, setFeaturedProperty] = useState(null);
   const [paymentToast, setPaymentToast] = useState({
     show: false,
-    type: "success",
-    message: "",
-    txnId: "",
+    type: 'success',
+    message: '',
+    txnId: '',
   });
   const [payments, setPayments] = useState([]);
   const [invoiceItem, setInvoiceItem] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [profileData, setProfileData] = useState({
-    name: user?.name || "",
-    phone: user?.phone || "",
-    bio: user?.bio || "",
-    role: user?.role || "user",
+    name: user?.name || '',
+    phone: user?.phone || '',
+    bio: user?.bio || '',
+    role: user?.role || 'user',
   });
   useEffect(() => {
     fetchData();
@@ -67,20 +67,20 @@ const SellerDashboard = () => {
       await updateProfile(profileData);
       setEditMode(false);
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error('Error updating profile:', error);
     }
   };
   const handleFeatureSuccess = (updatedProp, txnId) => {
     setProperties((prev) =>
       prev.map((p) =>
-        p._id === updatedProp._id ? { ...p, ...updatedProp } : p,
-      ),
+        p._id === updatedProp._id ? { ...p, ...updatedProp } : p
+      )
     );
     setPaymentToast({
       show: true,
-      type: "success",
-      message: "Payment Successful!",
-      txnId: txnId || "",
+      type: 'success',
+      message: 'Payment Successful!',
+      txnId: txnId || '',
     });
   };
 
@@ -92,8 +92,8 @@ const SellerDashboard = () => {
 
   const featuredLabel = (property) =>
     isFeaturedActive(property)
-      ? `Featured until ${new Date(property.featuredUntil).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" })}`
-      : "Feature this listing — ₹499 / 30 days";
+      ? `Featured until ${new Date(property.featuredUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`
+      : 'Feature this listing — ₹499 / 30 days';
 
   const fetchData = async () => {
     setLoading(true);
@@ -103,37 +103,37 @@ const SellerDashboard = () => {
       setProperties(propertiesRes.properties || []);
       setStats(propertiesRes.stats || []);
     } catch (error) {
-      console.error("Error fetching properties:", error);
+      console.error('Error fetching properties:', error);
     }
     try {
       const inquiriesRes = await inquiryService.getReceived();
       setInquiries(inquiriesRes.inquiries || []);
     } catch (error) {
       console.error(
-        "Error fetching inquiries:",
-        error?.response?.data || error.message,
+        'Error fetching inquiries:',
+        error?.response?.data || error.message
       );
       setInquiryError(
         error?.response?.data?.message ||
-          "Failed to load inquiries. Please try again.",
+          'Failed to load inquiries. Please try again.'
       );
     }
     try {
       const paymentsRes = await paymentService.getMy();
       setPayments(paymentsRes.payments || []);
     } catch (error) {
-      console.error("Error fetching payments:", error);
+      console.error('Error fetching payments:', error);
     }
     setLoading(false);
   };
 
   const handleDeleteProperty = async (id) => {
-    if (window.confirm("Are you sure you want to delete this property?")) {
+    if (window.confirm('Are you sure you want to delete this property?')) {
       try {
         await propertyService.deleteProperty(id);
         setProperties(properties.filter((p) => p._id !== id));
       } catch (error) {
-        console.error("Error deleting property:", error);
+        console.error('Error deleting property:', error);
       }
     }
   };
@@ -141,17 +141,17 @@ const SellerDashboard = () => {
     try {
       await propertyService.updateProperty(id, { status: newStatus });
       setProperties(
-        properties.map((p) => (p._id === id ? { ...p, status: newStatus } : p)),
+        properties.map((p) => (p._id === id ? { ...p, status: newStatus } : p))
       );
     } catch (error) {
-      console.error("Error updating status", error);
-      alert("Failed to update status. Please try again.");
+      console.error('Error updating status', error);
+      alert('Failed to update status. Please try again.');
     }
   };
 
   const handleOpenReply = (inquiry) => {
     setRespondingTo(inquiry);
-    setReplyMessage("");
+    setReplyMessage('');
   };
 
   const handleSendReply = async (e) => {
@@ -165,34 +165,217 @@ const SellerDashboard = () => {
       // Update local state
       setInquiries(
         inquiries.map((iq) =>
-          iq._id === respondingTo._id ? { ...iq, status: "responded" } : iq,
-        ),
+          iq._id === respondingTo._id ? { ...iq, status: 'responded' } : iq
+        )
       );
 
       // Close modal and show success (using simple alert for now as requested)
       setRespondingTo(null);
-      alert("Response sent successfully!");
+      alert('Response sent successfully!');
     } catch (error) {
-      console.error("Error sending reply:", error);
-      alert("Failed to send response. Please try again.");
+      console.error('Error sending reply:', error);
+      alert('Failed to send response. Please try again.');
     } finally {
       setActionLoading(false);
     }
   };
 
+  const formatInvoiceDate = (value) =>
+    new Date(value).toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+
+  const escapeHtml = (value) =>
+    String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
+  const handlePrintInvoice = (payment) => {
+    if (!payment) return;
+
+    const invoiceNo = escapeHtml(
+      payment.transactionId || payment._id || 'invoice'
+    );
+    const billedTo = escapeHtml(user?.name || 'User');
+    const propertyTitle = escapeHtml(payment.property?.title || '-');
+    const plan = escapeHtml(payment.plan || '-');
+    const status = escapeHtml(payment.status || '-');
+    const date = escapeHtml(formatInvoiceDate(payment.createdAt));
+    const featuredUntil = escapeHtml(
+      payment.featuredUntil ? formatInvoiceDate(payment.featuredUntil) : '-'
+    );
+    const amount = escapeHtml(
+      `₹${payment.amount || 0} ${payment.currency || 'INR'}`
+    );
+    const logoUrl = `${window.location.origin}/logo.svg`;
+
+    const printWindow = window.open('', '_blank', 'width=900,height=700');
+    if (!printWindow) {
+      setPaymentToast({
+        show: true,
+        type: 'error',
+        message: 'Please allow pop-ups to print invoice.',
+        txnId: payment.transactionId || '',
+      });
+      return;
+    }
+
+    const html = `
+      <!doctype html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <title>Invoice ${invoiceNo}</title>
+          <style>
+            * { box-sizing: border-box; }
+            body {
+              margin: 0;
+              padding: 24px;
+              font-family: Arial, sans-serif;
+              color: #0f172a;
+              background: #f8fafc;
+            }
+            .sheet {
+              max-width: 760px;
+              margin: 0 auto;
+              background: #ffffff;
+              border: 1px solid #e2e8f0;
+              border-radius: 12px;
+              padding: 22px;
+            }
+            .head {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              border-bottom: 1px solid #e2e8f0;
+              padding-bottom: 14px;
+              margin-bottom: 14px;
+            }
+            .brand {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+            }
+            .brand img {
+              width: 36px;
+              height: 36px;
+              object-fit: contain;
+            }
+            .brand h1 {
+              margin: 0;
+              font-size: 20px;
+              letter-spacing: 0.2px;
+            }
+            .payment-logo {
+              border: 1px solid #0f766e;
+              color: #0f766e;
+              border-radius: 999px;
+              padding: 5px 10px;
+              font-size: 12px;
+              font-weight: 700;
+            }
+            .title {
+              margin: 10px 0 16px;
+              font-size: 16px;
+              font-weight: 700;
+            }
+            .row {
+              display: flex;
+              justify-content: space-between;
+              gap: 14px;
+              padding: 8px 0;
+              border-bottom: 1px dashed #e2e8f0;
+            }
+            .row:last-of-type { border-bottom: none; }
+            .k { color: #475569; }
+            .v { font-weight: 600; text-align: right; }
+            .total {
+              margin-top: 14px;
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              background: #f1f5f9;
+              border-radius: 10px;
+              padding: 12px;
+              font-size: 16px;
+              font-weight: 700;
+            }
+            .foot {
+              margin-top: 14px;
+              color: #64748b;
+              font-size: 12px;
+              text-align: center;
+            }
+            @media print {
+              body { background: #fff; padding: 0; }
+              .sheet { border: none; border-radius: 0; box-shadow: none; }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="sheet">
+            <div class="head">
+              <div class="brand">
+                <img src="${logoUrl}" alt="UrbanStay" />
+                <h1>UrbanStay</h1>
+              </div>
+              <span class="payment-logo">PAYMENT</span>
+            </div>
+
+            <div class="title">Payment Invoice</div>
+
+            <div class="row"><span class="k">Invoice No.</span><span class="v">${invoiceNo}</span></div>
+            <div class="row"><span class="k">Date</span><span class="v">${date}</span></div>
+            <div class="row"><span class="k">Billed To</span><span class="v">${billedTo}</span></div>
+            <div class="row"><span class="k">Property</span><span class="v">${propertyTitle}</span></div>
+            <div class="row"><span class="k">Plan</span><span class="v">${plan}</span></div>
+            <div class="row"><span class="k">Status</span><span class="v">${status}</span></div>
+            <div class="row"><span class="k">Featured Until</span><span class="v">${featuredUntil}</span></div>
+
+            <div class="total"><span>Total Paid</span><span>${amount}</span></div>
+            <div class="foot">This is a computer-generated invoice by UrbanStay.</div>
+          </div>
+        </body>
+      </html>
+    `;
+
+    printWindow.document.open();
+    printWindow.document.write(html);
+    printWindow.document.close();
+
+    printWindow.onload = () => {
+      printWindow.focus();
+      printWindow.print();
+    };
+
+    setPaymentToast({
+      show: true,
+      type: 'success',
+      message: 'Invoice print preview opened successfully.',
+      txnId: payment.transactionId || '',
+    });
+  };
+
   const totalViews = properties.reduce((acc, p) => acc + (p.views || 0), 0);
-  const totalInquiries = inquiries.length;
+  const totalInquiries = inquiries.filter(
+    (inquiry) => inquiry.status !== 'responded'
+  ).length;
   const activeListings = properties.filter(
-    (p) => p.status === "available",
+    (p) => p.status === 'available'
   ).length;
 
   const tabs = [
-    { id: "overview", label: "Overview", icon: FiBarChart2 },
-    { id: "properties", label: "My Properties", icon: FiHome },
-    { id: "inquiries", label: "Inquiries", icon: FiMessageSquare },
-    { id: "analytics", label: "Analytics", icon: FiTrendingUp },
-    { id: "payments", label: "Payments", icon: FiDollarSign },
-    { id: "profile", label: "Profile", icon: FiUser },
+    { id: 'overview', label: 'Overview', icon: FiBarChart2 },
+    { id: 'properties', label: 'My Properties', icon: FiHome },
+    { id: 'inquiries', label: 'Inquiries', icon: FiMessageSquare },
+    { id: 'analytics', label: 'Analytics', icon: FiTrendingUp },
+    { id: 'payments', label: 'Payments', icon: FiDollarSign },
+    { id: 'profile', label: 'Profile', icon: FiUser },
   ];
 
   return (
@@ -209,7 +392,7 @@ const SellerDashboard = () => {
               )}
             </div>
             <h3>{user?.name}</h3>
-            <p>{user?.companyName || "Property Seller"}</p>
+            <p>{user?.companyName || 'Property Seller'}</p>
             <span className="user-badge seller">Seller</span>
           </div>
 
@@ -217,7 +400,7 @@ const SellerDashboard = () => {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                className={`nav-item ${activeTab === tab.id ? "active" : ""}`}
+                className={`nav-item ${activeTab === tab.id ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab.id)}
               >
                 <tab.icon />
@@ -230,7 +413,7 @@ const SellerDashboard = () => {
         {/* Main Content */}
         <main className="dashboard-main">
           {/* Overview Tab */}
-          {activeTab === "overview" && (
+          {activeTab === 'overview' && (
             <div className="dashboard-content">
               <h1>Seller Dashboard</h1>
               <p className="subtitle">
@@ -362,7 +545,7 @@ const SellerDashboard = () => {
                   </div>
                   <div className="stat-info">
                     <span className="stat-value">{totalInquiries}</span>
-                    <span className="stat-label">Inquiries</span>
+                    <span className="stat-label">Pending Inquiries</span>
                   </div>
                 </div>
               </div>
@@ -371,22 +554,22 @@ const SellerDashboard = () => {
               <div className="dashboard-section">
                 <div className="section-header">
                   <h2>New Inquiries</h2>
-                  <button onClick={() => setActiveTab("inquiries")}>
+                  <button onClick={() => setActiveTab('inquiries')}>
                     View All
                   </button>
                 </div>
-                {inquiries.filter((i) => i.status !== "responded").length >
+                {inquiries.filter((i) => i.status !== 'responded').length >
                 0 ? (
                   <div className="inquiry-list">
                     {inquiries
-                      .filter((i) => i.status !== "responded")
+                      .filter((i) => i.status !== 'responded')
                       .slice(0, 5)
                       .map((inquiry) => (
                         <div key={inquiry._id} className="inquiry-card">
                           <div className="inquiry-property">
                             <img
                               src={getImageUrl(
-                                inquiry.property?.images?.[0]?.url,
+                                inquiry.property?.images?.[0]?.url
                               )}
                               alt=""
                             />
@@ -414,7 +597,7 @@ const SellerDashboard = () => {
                     <FiMessageSquare />
                     {inquiryError ? (
                       <>
-                        <p style={{ color: "#dc2626" }}>{inquiryError}</p>
+                        <p style={{ color: '#dc2626' }}>{inquiryError}</p>
                         <button
                           className="btn-outline small"
                           onClick={fetchData}
@@ -433,7 +616,7 @@ const SellerDashboard = () => {
               <div className="dashboard-section">
                 <div className="section-header">
                   <h2>Your Properties</h2>
-                  <button onClick={() => setActiveTab("properties")}>
+                  <button onClick={() => setActiveTab('properties')}>
                     View All
                   </button>
                 </div>
@@ -468,7 +651,7 @@ const SellerDashboard = () => {
                                 onChange={(e) =>
                                   handleStatusChange(
                                     property._id,
-                                    e.target.value,
+                                    e.target.value
                                   )
                                 }
                               >
@@ -498,7 +681,7 @@ const SellerDashboard = () => {
                                   <FiEdit2 />
                                 </button>
                                 <button
-                                  className={`btn-icon feature${isFeaturedActive(property) ? " featured" : ""}`}
+                                  className={`btn-icon feature${isFeaturedActive(property) ? ' featured' : ''}`}
                                   onClick={() =>
                                     !isFeaturedActive(property) &&
                                     setFeaturedProperty(property)
@@ -529,7 +712,7 @@ const SellerDashboard = () => {
                     <p>No properties listed yet</p>
                     <button
                       className="btn-primary"
-                      onClick={() => navigate("/post-property")}
+                      onClick={() => navigate('/post-property')}
                     >
                       <FiPlus /> Add Your First Property
                     </button>
@@ -540,14 +723,14 @@ const SellerDashboard = () => {
           )}
 
           {/* Properties Tab */}
-          {activeTab === "properties" && (
+          {activeTab === 'properties' && (
             <div className="dashboard-content">
               <div className="section-header">
                 <div>
                   <h1>My Properties</h1>
                   <p className="subtitle">Manage all your property listings</p>
                 </div>
-                <button onClick={() => navigate("/post-property")}>
+                <button onClick={() => navigate('/post-property')}>
                   <FiPlus /> Add Property
                 </button>
               </div>
@@ -607,13 +790,13 @@ const SellerDashboard = () => {
                               <div className="featured-status-cell">
                                 <FiStar className="featured-star-active" />
                                 <span className="featured-until-text">
-                                  Until{" "}
+                                  Until{' '}
                                   {new Date(
-                                    property.featuredUntil,
-                                  ).toLocaleDateString("en-IN", {
-                                    day: "numeric",
-                                    month: "short",
-                                    year: "numeric",
+                                    property.featuredUntil
+                                  ).toLocaleDateString('en-IN', {
+                                    day: 'numeric',
+                                    month: 'short',
+                                    year: 'numeric',
                                   })}
                                 </span>
                               </div>
@@ -648,7 +831,7 @@ const SellerDashboard = () => {
                                 <FiEdit2 />
                               </button>
                               <button
-                                className={`btn-icon feature${isFeaturedActive(property) ? " featured" : ""}`}
+                                className={`btn-icon feature${isFeaturedActive(property) ? ' featured' : ''}`}
                                 onClick={() =>
                                   !isFeaturedActive(property) &&
                                   setFeaturedProperty(property)
@@ -684,7 +867,7 @@ const SellerDashboard = () => {
           )}
 
           {/* Inquiries Tab */}
-          {activeTab === "inquiries" && (
+          {activeTab === 'inquiries' && (
             <div className="dashboard-content">
               <h1>Property Inquiries</h1>
               <p className="subtitle">Respond to buyer inquiries</p>
@@ -693,7 +876,7 @@ const SellerDashboard = () => {
                 <div className="empty-state large">
                   <FiMessageSquare />
                   <h3>Could not load inquiries</h3>
-                  <p style={{ color: "#dc2626" }}>{inquiryError}</p>
+                  <p style={{ color: '#dc2626' }}>{inquiryError}</p>
                   <button className="btn-primary" onClick={fetchData}>
                     Retry
                   </button>
@@ -710,7 +893,7 @@ const SellerDashboard = () => {
                         <div>
                           <h4>{inquiry.property?.title}</h4>
                           <p className="sender-info">
-                            <strong>{inquiry.sender?.name}</strong> •{" "}
+                            <strong>{inquiry.sender?.name}</strong> •{' '}
                             {inquiry.sender?.email}
                           </p>
                           <p className="inquiry-message">{inquiry.message}</p>
@@ -723,7 +906,7 @@ const SellerDashboard = () => {
                         <span className="inquiry-date">
                           {new Date(inquiry.createdAt).toLocaleDateString()}
                         </span>
-                        {inquiry.status !== "responded" ? (
+                        {inquiry.status !== 'responded' ? (
                           <button
                             className="btn-primary small"
                             onClick={() => handleOpenReply(inquiry)}
@@ -756,7 +939,7 @@ const SellerDashboard = () => {
           )}
 
           {/* Analytics Tab */}
-          {activeTab === "analytics" && (
+          {activeTab === 'analytics' && (
             <div className="dashboard-content">
               <h1>Analytics & Insights</h1>
               <p className="subtitle">Track your property performance</p>
@@ -781,7 +964,7 @@ const SellerDashboard = () => {
                         <div className="performance-info">
                           <span>{property.title}</span>
                           <small>
-                            {property.views} views • {property.inquiries || 0}{" "}
+                            {property.views} views • {property.inquiries || 0}{' '}
                             inquiries
                           </small>
                         </div>
@@ -792,7 +975,7 @@ const SellerDashboard = () => {
             </div>
           )}
           {/* Payments Tab */}
-          {activeTab === "payments" && (
+          {activeTab === 'payments' && (
             <div className="dashboard-content">
               <div className="section-header">
                 <div>
@@ -825,7 +1008,7 @@ const SellerDashboard = () => {
                               {p.transactionId}
                             </small>
                           </td>
-                          <td>{p.property?.title || "—"}</td>
+                          <td>{p.property?.title || '—'}</td>
                           <td>{p.plan}</td>
                           <td>₹{p.amount}</td>
                           <td>
@@ -834,15 +1017,23 @@ const SellerDashboard = () => {
                             </span>
                           </td>
                           <td>
-                            {new Date(p.createdAt).toLocaleDateString("en-IN")}
+                            {new Date(p.createdAt).toLocaleDateString('en-IN')}
                           </td>
                           <td>
-                            <button
-                              className="btn-outline small"
-                              onClick={() => setInvoiceItem(p)}
-                            >
-                              <FiFileText /> View
-                            </button>
+                            <div className="invoice-actions">
+                              <button
+                                className="btn-outline small"
+                                onClick={() => setInvoiceItem(p)}
+                              >
+                                <FiFileText /> View
+                              </button>
+                              <button
+                                className="btn-outline small"
+                                onClick={() => handlePrintInvoice(p)}
+                              >
+                                <FiDownload /> Print
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}
@@ -860,7 +1051,7 @@ const SellerDashboard = () => {
           )}
 
           {/* Profile Tab */}
-          {activeTab === "profile" && (
+          {activeTab === 'profile' && (
             <div className="dashboard-content">
               <div className="section-header">
                 <div>
@@ -868,11 +1059,11 @@ const SellerDashboard = () => {
                   <p className="subtitle">Manage your account information</p>
                 </div>
                 <button
-                  className={`btn-outline ${editMode ? "cancel" : ""}`}
+                  className={`btn-outline ${editMode ? 'cancel' : ''}`}
                   onClick={() => setEditMode(!editMode)}
                 >
                   {editMode ? (
-                    "Cancel"
+                    'Cancel'
                   ) : (
                     <>
                       <FiEdit2 /> Edit Profile
@@ -942,7 +1133,7 @@ const SellerDashboard = () => {
                           }
                         />
                       ) : (
-                        <p>{user?.phone || "Not provided"}</p>
+                        <p>{user?.phone || 'Not provided'}</p>
                       )}
                     </div>
 
@@ -965,9 +1156,9 @@ const SellerDashboard = () => {
                         </select>
                       ) : (
                         <p>
-                          {(user?.role === "seller") | "buyer"
-                            ? "Sell / List Property"
-                            : "Buy / Rent Property"}
+                          {(user?.role === 'seller') | 'buyer'
+                            ? 'Sell / List Property'
+                            : 'Buy / Rent Property'}
                         </p>
                       )}
                     </div>
@@ -987,7 +1178,7 @@ const SellerDashboard = () => {
                           placeholder="Tell us about yourself..."
                         />
                       ) : (
-                        <p>{user?.bio || "No bio added"}</p>
+                        <p>{user?.bio || 'No bio added'}</p>
                       )}
                     </div>
                   </div>
@@ -1034,10 +1225,10 @@ const SellerDashboard = () => {
               <div className="invoice-row">
                 <span>Date</span>
                 <strong>
-                  {new Date(invoiceItem.createdAt).toLocaleDateString("en-IN", {
-                    day: "numeric",
-                    month: "long",
-                    year: "numeric",
+                  {new Date(invoiceItem.createdAt).toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric',
                   })}
                 </strong>
               </div>
@@ -1047,7 +1238,7 @@ const SellerDashboard = () => {
               </div>
               <div className="invoice-row">
                 <span>Property</span>
-                <strong>{invoiceItem.property?.title || "—"}</strong>
+                <strong>{invoiceItem.property?.title || '—'}</strong>
               </div>
               <div className="invoice-row">
                 <span>Plan</span>
@@ -1057,8 +1248,8 @@ const SellerDashboard = () => {
                 <span>Featured Until</span>
                 <strong>
                   {new Date(invoiceItem.featuredUntil).toLocaleDateString(
-                    "en-IN",
-                    { day: "numeric", month: "long", year: "numeric" },
+                    'en-IN',
+                    { day: 'numeric', month: 'long', year: 'numeric' }
                   )}
                 </strong>
               </div>
@@ -1068,6 +1259,14 @@ const SellerDashboard = () => {
                 <strong>
                   ₹{invoiceItem.amount} {invoiceItem.currency}
                 </strong>
+              </div>
+              <div className="invoice-actions invoice-actions-modal">
+                <button
+                  className="btn-outline small"
+                  onClick={() => handlePrintInvoice(invoiceItem)}
+                >
+                  <FiDownload /> Print Invoice
+                </button>
               </div>
             </div>
           </div>
@@ -1124,7 +1323,7 @@ const SellerDashboard = () => {
                     className="btn-primary"
                     disabled={actionLoading}
                   >
-                    {actionLoading ? "Sending..." : "Send Reply"}
+                    {actionLoading ? 'Sending...' : 'Send Reply'}
                   </button>
                 </div>
               </form>
