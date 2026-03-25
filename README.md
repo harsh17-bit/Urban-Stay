@@ -75,6 +75,8 @@ EMAIL_USER=your@gmail.com
 EMAIL_PASS=your_app_password
 RAZORPAY_KEY_ID=your_razorpay_key
 RAZORPAY_KEY_SECRET=your_razorpay_secret
+ML_SERVICE_URL=https://your-ml-service-domain
+ML_TIMEOUT_MS=15000
 ```
 
 **Frontend** — create `api/.env`:
@@ -82,6 +84,8 @@ RAZORPAY_KEY_SECRET=your_razorpay_secret
 ```env
 VITE_API_URL=http://localhost:5000/api
 ```
+
+Note: AI price prediction is proxied through backend endpoints (`/api/ml/*`), so only backend needs `ML_SERVICE_URL` in production.
 
 ### 3. Install dependencies & run
 

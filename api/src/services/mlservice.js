@@ -1,7 +1,4 @@
-import axios from 'axios';
-
-const ML_SERVICE_URL =
-  import.meta.env.VITE_ML_SERVICE_URL || 'http://localhost:5001';
+import api from './api';
 
 /**
  * ML Service for price prediction
@@ -19,8 +16,8 @@ class MLService {
    */
   async predictPrice(propertyData) {
     try {
-      const response = await axios.post(
-        `${ML_SERVICE_URL}/predict`,
+      const response = await api.post(
+        '/ml/predict',
         {
           city: propertyData.city || '',
           area: Number(propertyData.area) || 1000,
@@ -59,7 +56,7 @@ class MLService {
    */
   async healthCheck() {
     try {
-      const response = await axios.get(`${ML_SERVICE_URL}/health`, {
+      const response = await api.get('/ml/health', {
         timeout: 5000,
       });
       return {
@@ -81,7 +78,7 @@ class MLService {
    */
   async getSupportedCities() {
     try {
-      const response = await axios.get(`${ML_SERVICE_URL}/cities`, {
+      const response = await api.get('/ml/locations', {
         timeout: 5000,
       });
       return response.data.cities || [];
