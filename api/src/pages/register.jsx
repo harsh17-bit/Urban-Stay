@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   FiUser,
@@ -7,8 +7,10 @@ import {
   FiPhone,
   FiEye,
   FiEyeOff,
+  FiCheckCircle,
 } from 'react-icons/fi';
 import { useAuth } from '../context/authcontext.jsx';
+import authService from '../services/authservice';
 import './Register.css';
 
 const Register = () => {
@@ -20,6 +22,11 @@ const Register = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [showOtpBox, setShowOtpBox] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
+  const [otpCountdown, setOtpCountdown] = useState(0);
   const [formErrors, setFormErrors] = useState({});
   const { register, error, setError } = useAuth();
   const navigate = useNavigate();
@@ -40,17 +47,79 @@ const Register = () => {
     }
   }
 
-  const redirectMessage =
-    redirectReason === 'insufficient_role'
-      ? 'Only sellers can post property. Please register first.'
-      : '';
+  // Note: redirectReason is tracked but not displayed on register page
+  // Error messages for insufficient_role should only appear on post-property page
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'email') {
+      setIsEmailVerified(false);
+      setShowOtpBox(false);
+      setOtpCode('');
+      setOtpCountdown(0);
+    }
     setError(null);
     if (formErrors[name]) {
       setFormErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+  };
+
+  useEffect(() => {
+    if (!showOtpBox || otpCountdown <= 0) return;
+
+    const timer = setInterval(() => {
+      setOtpCountdown((prev) => {
+        if (prev <= 1) {
+          setShowOtpBox(false);
+          setOtpCode('');
+          setError('OTP input closed. Click Verify again.');
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [showOtpBox, otpCountdown, setError]);
+
+  const handleVerifyEmail = async () => {
+    // Prevent re-verification if already verified
+    if (isEmailVerified) {
+      return;
+    }
+
+    const email = formData.email.trim().toLowerCase();
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setFormErrors((prev) => ({
+        ...prev,
+        email: 'Please enter a valid email',
+      }));
+      return;
+    }
+
+    setIsVerifyingEmail(true);
+    try {
+      if (!showOtpBox) {
+        await authService.sendRegisterOtp(email);
+        setShowOtpBox(true);
+        setOtpCode('');
+        setOtpCountdown(45);
+        setError(null);
+      } else {
+        await authService.verifyRegisterOtp(email, otpCode);
+        setIsEmailVerified(true);
+        setShowOtpBox(false);
+        setOtpCode('');
+        setOtpCountdown(0);
+        setError(null);
+      }
+    } catch (err) {
+      setIsEmailVerified(false);
+      setError(err?.response?.data?.message || 'Email verification failed');
+    } finally {
+      setIsVerifyingEmail(false);
     }
   };
 
@@ -60,6 +129,9 @@ const Register = () => {
     if (!formData.email.trim()) errors.email = 'Email is required';
     if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
       errors.email = 'Please enter a valid email';
+    }
+    if (!isEmailVerified) {
+      errors.email = 'Please verify your email before registration';
     }
     if (!formData.phone.trim()) errors.phone = 'Phone number is required';
     if (formData.phone && !/^[0-9]{10}$/.test(formData.phone)) {
@@ -125,10 +197,6 @@ const Register = () => {
               <p>Fill in your details to get started</p>
             </div>
 
-            {redirectMessage && (
-              <div className="register-error">{redirectMessage}</div>
-            )}
-
             {error && <div className="register-error">{error}</div>}
 
             <form onSubmit={handleSubmit} className="register-form" noValidate>
@@ -161,6 +229,9 @@ const Register = () => {
                   <FiMail /> Email Address
                 </label>
                 <div className="register-input-wrapper">
+                  {isEmailVerified && (
+                    <FiCheckCircle className="register-verified-icon" />
+                  )}
                   <input
                     type="email"
                     id="email"
@@ -168,9 +239,44 @@ const Register = () => {
                     value={formData.email}
                     onChange={handleChange}
                     autoComplete="email"
-                    className={formErrors.email ? 'input-error' : ''}
+                    disabled={isEmailVerified}
+                    className={`${formErrors.email ? 'input-error' : ''} ${isEmailVerified ? 'input-locked' : ''}`}
                   />
+                  {!isEmailVerified && (
+                    <button
+                      type="button"
+                      className="register-verify-btn"
+                      onClick={handleVerifyEmail}
+                      disabled={
+                        isVerifyingEmail ||
+                        !formData.email.trim() ||
+                        (showOtpBox && otpCode.trim().length !== 6)
+                      }
+                    >
+                      {isVerifyingEmail
+                        ? 'Verifying...'
+                        : showOtpBox
+                          ? 'Submit OTP'
+                          : 'Verify'}
+                    </button>
+                  )}
                 </div>
+                {showOtpBox && !isEmailVerified && (
+                  <div className="register-otp-box">
+                    <input
+                      type="text"
+                      maxLength={6}
+                      value={otpCode}
+                      onChange={(e) =>
+                        setOtpCode(
+                          e.target.value.replace(/\D/g, '').slice(0, 6)
+                        )
+                      }
+                      placeholder="Enter 6-digit OTP"
+                    />
+                    <span className="register-otp-timer">{otpCountdown}s</span>
+                  </div>
+                )}
                 {formErrors.email && (
                   <span className="register-field-error">
                     {formErrors.email}

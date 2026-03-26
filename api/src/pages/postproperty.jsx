@@ -438,6 +438,16 @@ const PostProperty = () => {
       ) {
         newErrors['specifications.bedrooms'] = 'Bedrooms required';
       }
+
+      if (formData.propertyType !== 'plot') {
+        const bedrooms = Number(formData.specifications.bedrooms) || 0;
+        const bathrooms = Number(formData.specifications.bathrooms) || 0;
+        if (bathrooms > bedrooms) {
+          newErrors['specifications.bedrooms'] =
+            'BHK should be equal to or greater than bathrooms';
+        }
+      }
+
       if (!formData.specifications.carpetArea) {
         newErrors['specifications.carpetArea'] = 'Area is required';
       }
@@ -462,7 +472,13 @@ const PostProperty = () => {
   };
 
   const handleSubmit = async () => {
-    if (!validateStep(2)) return;
+    if (
+      !validateStep(1) ||
+      !validateStep(2) ||
+      !validateStep(3) ||
+      !validateStep(4)
+    )
+      return;
 
     setLoading(true);
     try {
@@ -655,6 +671,37 @@ const PostProperty = () => {
   const beds = stepSpec('bedrooms', 1, 10);
   const baths = stepSpec('bathrooms', 1, 6);
   const balcs = stepSpec('balconies', 0, 5);
+
+  const handleBedsDec = () => {
+    setFormData((prev) => {
+      const bathrooms = Number(prev.specifications.bathrooms || 1);
+      const currentBeds = Number(prev.specifications.bedrooms || 1);
+      const minAllowedBeds = Math.max(1, bathrooms);
+
+      return {
+        ...prev,
+        specifications: {
+          ...prev.specifications,
+          bedrooms: Math.max(minAllowedBeds, currentBeds - 1),
+        },
+      };
+    });
+  };
+
+  const handleBathsInc = () => {
+    setFormData((prev) => {
+      const bedrooms = Number(prev.specifications.bedrooms || 1);
+      const bathrooms = Number(prev.specifications.bathrooms || 1);
+
+      return {
+        ...prev,
+        specifications: {
+          ...prev.specifications,
+          bathrooms: Math.min(bedrooms, Math.min(6, bathrooms + 1)),
+        },
+      };
+    });
+  };
 
   if (loadingProperty) {
     return (
@@ -959,7 +1006,7 @@ const PostProperty = () => {
                         <button
                           type="button"
                           className="pp-stepper-btn"
-                          onClick={beds.dec}
+                          onClick={handleBedsDec}
                         >
                           −
                         </button>
@@ -993,7 +1040,7 @@ const PostProperty = () => {
                         <button
                           type="button"
                           className="pp-stepper-btn"
-                          onClick={baths.inc}
+                          onClick={handleBathsInc}
                         >
                           +
                         </button>

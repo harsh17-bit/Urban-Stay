@@ -46,6 +46,19 @@ export const authService = {
     return response.data;
   },
 
+  sendRegisterOtp: async (email) => {
+    const response = await api.post('/auth/send-register-otp', { email });
+    return response.data;
+  },
+
+  verifyRegisterOtp: async (email, otp) => {
+    const response = await api.post('/auth/verify-register-otp', {
+      email,
+      otp,
+    });
+    return response.data;
+  },
+
   /**
    * Login existing user
    * Stores auth token and user data in localStorage upon success

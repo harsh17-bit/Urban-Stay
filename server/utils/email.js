@@ -7,7 +7,7 @@
  * @requires nodemailer
  */
 
-const nodemailer = require("nodemailer");
+const nodemailer = require('nodemailer');
 
 /**
  * Creates and configures the email transporter
@@ -17,13 +17,13 @@ const nodemailer = require("nodemailer");
  * @throws {Error} If EMAIL_USER or EMAIL_PASSWORD is not configured
  */
 const createTransporter = () => {
-  console.log("EMAIL_USER:", process.env.EMAIL_USER);
-  console.log("EMAIL_PASS exists:", !!process.env.EMAIL_PASS);
+  console.log('EMAIL_USER:', process.env.EMAIL_USER);
+  console.log('EMAIL_PASS exists:', !!process.env.EMAIL_PASS);
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-    throw new Error("Email service is not configured");
+    throw new Error('Email service is not configured');
   }
   return nodemailer.createTransport({
-    host: "smtp.gmail.com",
+    host: 'smtp.gmail.com',
     port: 587,
     secure: false,
     auth: {
@@ -81,11 +81,11 @@ const sendInquiryNotification = async (data) => {
                 <h1>New Property Inquiry</h1>
               <div class="content">
                 <p>Hello,</p>
-                <p>You have received a new <strong>${data.inquiryType.replace(/-/g, " ")}</strong> inquiry for your property.</p>
+                <p>You have received a new <strong>${data.inquiryType.replace(/-/g, ' ')}</strong> inquiry for your property.</p>
                 
                 <div class="info-box">
                   <p><span class="label">Property:</span> ${data.propertyTitle}</p>
-                  <p><span class="label">Inquiry Type:</span> ${data.inquiryType.replace(/-/g, " ").toUpperCase()}</p>
+                  <p><span class="label">Inquiry Type:</span> ${data.inquiryType.replace(/-/g, ' ').toUpperCase()}</p>
                 </div>
                 
                 <h3>Inquirer Details:</h3>
@@ -106,10 +106,10 @@ const sendInquiryNotification = async (data) => {
                 <h3>Preferred Visit:</h3>
                 <div class="info-box">
                   <p><span class="label">Date:</span> ${new Date(data.preferredVisitDate).toLocaleDateString()}</p>
-                  ${data.preferredVisitTime ? `<p><span class="label">Time:</span> ${data.preferredVisitTime}</p>` : ""}
+                  ${data.preferredVisitTime ? `<p><span class="label">Time:</span> ${data.preferredVisitTime}</p>` : ''}
                 </div>
                 `
-                    : ""
+                    : ''
                 }
                 
                 <p>Please respond to the inquirer as soon as possible.</p>
@@ -124,10 +124,10 @@ const sendInquiryNotification = async (data) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log(" Inquiry notification email sent:", info.messageId);
+    console.log(' Inquiry notification email sent:', info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(" Error sending email:", error.message);
+    console.error(' Error sending email:', error.message);
     throw error;
   }
 };
@@ -150,88 +150,73 @@ const sendWelcomeEmail = async (data) => {
     const transporter = createTransporter();
 
     const mailOptions = {
-      from: `"UrbanStay.com" <${process.env.EMAIL_USER}>`,
+      from: `"Urban Stay" <${process.env.EMAIL_USER}>`,
       to: data.email,
-      subject: "Welcome to UrbanStay.com!",
+      subject: 'Welcome to Urban Stay!',
       html: `
         <!DOCTYPE html>
-  <html>
-  <body style="margin:0;background:#f5f7fa;font-family:Arial,Helvetica,sans-serif;">
-
-  <table width="100%" cellpadding="0" cellspacing="0" style="padding:20px 0;">
-  <tr>
-  <td align="center">
-
-  <table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:8px;padding:28px;">
-
-  <tr>
-  <td align="center">
-  <h2 style="margin:0;color:#0f172a;">Welcome to UrbanStay</h2>
-  <p style="margin:8px 0 20px;color:#64748b;font-size:14px;">
-  Find your perfect property easily
-  </p>
-  </td>
-  </tr>
-
-  <tr>
-  <td style="font-size:15px;color:#334155;line-height:1.6;">
-  Hello <strong>${data.name}</strong>,<br><br>
-
-  Thanks for joining UrbanStay. Your account as a 
-  <strong>${data.role}</strong> is now ready.
-  </td>
-  </tr>
-
-  <tr>
-  <td style="padding-top:18px;">
-  <strong style="color:#0f172a;">What you can do:</strong>
-
-  <ul style="margin-top:10px;padding-left:18px;color:#475569;">
-  <li>Browse verified properties</li>
-  <li>Save favourite listings</li>
-  <li>Contact property owners</li>
-  <li>Get property alerts</li>
-  </ul>
-
-  </td>
-  </tr>
-
-  <tr>
-  <td align="center" style="padding:25px 0;">
-  <a href="${process.env.FRONTEND_URL || "http://localhost:5173"}"
-  style="background:#0ea5a4;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:6px;display:inline-block;font-size:14px;">
-  Start Exploring
-  </a>
-  </td>
-  </tr>
-
-  <tr>
-  <td style="border-top:1px solid #e5e7eb;padding-top:18px;font-size:12px;color:#94a3b8;text-align:center;">
-  Need help? Contact
-  <a href="mailto:${process.env.EMAIL_USER}" style="color:#0ea5a4;text-decoration:none;">
-  ${process.env.EMAIL_USER}
-  </a><br><br>
-  © ${new Date().getFullYear()} UrbanStay
-  </td>
-  </tr>
-
-  </table>
-
-  </td>
-  </tr>
-  </table>
-
-  </body>
-  </html>
-
-        `,
+        <html>
+        <body style="margin:0;padding:20px;background:#f8fafc;font-family:Arial,sans-serif;">
+          <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td align="center" style="padding:20px 0;">
+                <table width="550" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e2e8f0;">
+                  
+                  <!-- Header with Logo -->
+                  <tr>
+                    <td style="padding:30px;text-align:center;border-bottom:3px solid #62c85f;">
+                      <h1 style="margin:0;color:#785835;font-size:28px;">Urban Stay</h1>
+                    </td>
+                  </tr>
+                  
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding:30px;">
+                      <p style="margin:0 0 20px;font-size:16px;color:#1e293b;">Hi <strong>${data.name}</strong>,</p>
+                      <p style="margin:0 0 20px;font-size:14px;color:#475569;line-height:1.6;">Welcome to Urban Stay! Your account has been created successfully as a <strong>${data.role === 'seller' ? 'Seller' : 'Buyer'}</strong>.</p>
+                      
+                      <p style="margin:0 0 15px;font-size:14px;color:#475569;font-weight:600;">You can now:</p>
+                      <ul style="margin:0 0 25px;padding:0 0 0 20px;color:#475569;font-size:14px;">
+                        <li style="margin-bottom:8px;">Browse thousands of properties</li>
+                        <li style="margin-bottom:8px;">Save your favorite listings</li>
+                        <li style="margin-bottom:8px;">Get instant notifications</li>
+                        <li>Connect with ${data.role === 'seller' ? 'our community of buyers' : 'verified sellers and agents'}</li>
+                      </ul>
+                      
+                      <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td align="center" style="padding:20px 0;">
+                            <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}" style="background:#62c85f;color:#ffffff;text-decoration:none;padding:12px 30px;border-radius:4px;display:inline-block;font-weight:600;font-size:14px;">Get Started</a>
+                          </td>
+                        </tr>
+                      </table>
+                      
+                      <hr style="border:none;border-top:1px solid #e2e8f0;margin:25px 0;">
+                      
+                      <p style="margin:0;font-size:12px;color:#64748b;">Need help? <a href="mailto:${process.env.EMAIL_USER}" style="color:#785835;text-decoration:none;font-weight:600;">Contact us</a></p>
+                    </td>
+                  </tr>
+                  
+                  <!-- Footer -->
+                  <tr>
+                    <td style="background:#f8fafc;padding:20px 30px;text-align:center;font-size:11px;color:#94a3b8;border-top:1px solid #e2e8f0;">
+                      © ${new Date().getFullYear()} Urban Stay. All rights reserved.
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `,
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("Welcome email sent:", info.messageId);
+    console.log('Welcome email sent:', info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error("Error sending welcome email:", error.message);
+    console.error('Error sending welcome email:', error.message);
     throw error;
   }
 };
@@ -253,7 +238,7 @@ const sendPasswordResetOtpEmail = async (data) => {
     const mailOptions = {
       from: `"UrbanStay.com" <${process.env.EMAIL_USER}>`,
       to: data.email,
-      subject: "Your UrbanStay.com password reset OTP",
+      subject: 'Your UrbanStay.com password reset OTP',
       text: `Your OTP for password reset is ${data.otp}. It is valid for 10 minutes.`,
       html: `
           <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
@@ -266,10 +251,10 @@ const sendPasswordResetOtpEmail = async (data) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("Password reset OTP email sent:", info.messageId);
+    console.log('Password reset OTP email sent:', info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error("Error sending OTP email:", error.message);
+    console.error('Error sending OTP email:', error.message);
     throw error;
   }
 };
@@ -288,7 +273,7 @@ const sendPasswordResetOtpEmail = async (data) => {
 const sendInquiryReplyNotification = async (data) => {
   try {
     const transporter = createTransporter();
-    const dashboardUrl = `${process.env.FRONTEND_URL || "http://localhost:5173"}/inquiry/${data.inquiryId}`;
+    const dashboardUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}/inquiry/${data.inquiryId}`;
 
     const mailOptions = {
       from: `"Urban Stay Property" <${process.env.EMAIL_USER}>`,
@@ -353,10 +338,10 @@ const sendInquiryReplyNotification = async (data) => {
     };
 
     const info = await transporter.sendMail(mailOptions);
-    console.log("Inquiry reply notification sent:", info.messageId);
+    console.log('Inquiry reply notification sent:', info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error("Error sending reply notification email:", error.message);
+    console.error('Error sending reply notification email:', error.message);
     throw error;
   }
 };

@@ -15,6 +15,7 @@ import {
   FiHome,
   FiEye,
   FiTrash2,
+  FiCheckCircle,
 } from 'react-icons/fi';
 import { useAuth } from '../context/authcontext.jsx';
 import { inquiryService, alertService } from '../services/dataservice';
@@ -133,6 +134,11 @@ const UserDashboard = () => {
             </div>
             <h3>{user?.name}</h3>
             <p>{user?.email}</p>
+            {user?.isVerified && (
+              <span className="profile-verified-badge">
+                <FiCheckCircle /> Verified Profile
+              </span>
+            )}
             <span className="user-badge">{user?.role}</span>
           </div>
 

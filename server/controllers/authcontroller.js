@@ -69,6 +69,10 @@ const fs = require('fs');
 const path = require('path');
 const { deleteImage, getPublicIdFromUrl } = require('../config/cloudinary');
 
+// In-memory cache for registration email verification.
+// Keeps implementation minimal and avoids schema changes.
+const registrationEmailOtpStore = new Map();
+
 /**
  * Generates a JWT token for authenticated users
  *
@@ -127,8 +131,10 @@ exports.register = async (req, res) => {
       bio,
     } = req.body;
 
+    const normalizedEmail = (email || '').toLowerCase().trim();
+
     // Validate: Check if email is already registered
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ email: normalizedEmail });
     if (existingUser) {
       return res.status(400).json({
         success: false,
@@ -136,23 +142,38 @@ exports.register = async (req, res) => {
       });
     }
 
+    const verification = registrationEmailOtpStore.get(normalizedEmail);
+    if (
+      !verification ||
+      !verification.verified ||
+      verification.expiresAt < Date.now()
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please verify your email before registering',
+      });
+    }
+
     // Create new user with provided details
     // Only 'user' and 'seller' roles allowed during registration
     const user = await User.create({
       name,
-      email,
+      email: normalizedEmail,
       password,
       phone,
       role: role === 'seller' ? 'seller' : 'user',
+      isVerified: true,
       dateOfBirth,
       gender,
       address: address || {},
       companyName: role === 'seller' ? companyName : '',
       reraNumber: role === 'seller' ? reraNumber : '',
       bio,
-      registrationStatus: 'complete',
+      registrationStatus: 'verified',
       registrationDate: new Date(),
     });
+
+    registrationEmailOtpStore.delete(normalizedEmail);
 
     // Send welcome email asynchronously
     // Don't block registration if email fails
@@ -172,6 +193,113 @@ exports.register = async (req, res) => {
     res.status(500).json({
       success: false,
       message: error.message || 'Error creating user',
+    });
+  }
+};
+
+// @desc    Send OTP for registration email verification
+// @route   POST /api/auth/send-register-otp
+// @access  Public
+exports.sendRegisterOtp = async (req, res) => {
+  try {
+    const email = (req.body?.email || '').toLowerCase().trim();
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enter a valid email',
+      });
+    }
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email already registered',
+      });
+    }
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    registrationEmailOtpStore.set(email, {
+      otp,
+      verified: false,
+      expiresAt: Date.now() + 10 * 60 * 1000,
+    });
+
+    await transporter.sendMail({
+      to: email,
+      subject: 'Urban Stay - Registration Email OTP',
+      text: `Your Urban Stay registration OTP is ${otp}. It expires in 10 minutes.`,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'OTP sent to email',
+    });
+  } catch (error) {
+    console.error('Send register OTP error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error sending OTP',
+    });
+  }
+};
+
+// @desc    Verify OTP for registration email verification
+// @route   POST /api/auth/verify-register-otp
+// @access  Public
+exports.verifyRegisterOtp = async (req, res) => {
+  try {
+    const email = (req.body?.email || '').toLowerCase().trim();
+    const otp = String(req.body?.otp || '')
+      .replace(/\D/g, '')
+      .slice(0, 6);
+
+    if (!email || !/^\d{6}$/.test(otp)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email and valid 6-digit OTP are required',
+      });
+    }
+
+    const verification = registrationEmailOtpStore.get(email);
+    if (!verification) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please request OTP first',
+      });
+    }
+
+    if (verification.expiresAt < Date.now()) {
+      registrationEmailOtpStore.delete(email);
+      return res.status(400).json({
+        success: false,
+        message: 'OTP expired, please request a new OTP',
+      });
+    }
+
+    if (verification.otp !== otp) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid OTP',
+      });
+    }
+
+    registrationEmailOtpStore.set(email, {
+      ...verification,
+      verified: true,
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Email verified successfully',
+      verified: true,
+    });
+  } catch (error) {
+    console.error('Verify register OTP error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Error verifying OTP',
     });
   }
 };
@@ -214,6 +342,12 @@ exports.login = async (req, res) => {
         success: false,
         message: 'Invalid credentials',
       });
+    }
+
+    // Keep verification flag consistent for already-verified registrations.
+    if (!user.isVerified && user.registrationStatus === 'verified') {
+      user.isVerified = true;
+      await user.save();
     }
 
     // Track last login time for analytics (bypass validators to avoid phone/field validation errors)
@@ -599,65 +733,74 @@ exports.deleteUser = async (req, res) => {
       });
     }
 
-    // 1. Find all properties owned by this user
+    const normalizedEmail = (user.email || '').toLowerCase().trim();
+
+    // Collect metadata for response and cleanup
     const userProperties = await Property.find({ owner: userId }).select(
       '_id images'
     );
     const propertyIds = userProperties.map((p) => p._id);
+    const projectCount = await Project.countDocuments({ developer: userId });
 
-    // 2. Delete uploaded image files for those properties (local and Cloudinary)
-    for (const property of userProperties) {
-      if (Array.isArray(property.images)) {
+    // Delete user account first so email becomes reusable even if cleanup fails later
+    const deletedUser = await User.findByIdAndDelete(userId);
+
+    if (!deletedUser) {
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to delete user account',
+      });
+    }
+
+    // Safety purge: remove any residual duplicate documents with same email.
+    await User.deleteMany({ email: normalizedEmail });
+
+    // Best-effort cleanup: do not fail request if child cleanup throws
+    try {
+      for (const property of userProperties) {
+        if (!Array.isArray(property.images)) continue;
+
         for (const img of property.images) {
-          if (img.url) {
-            if (img.url.startsWith('/uploads/')) {
-              // Local file
-              const filePath = path.join(__dirname, '../', img.url);
-              fs.unlink(filePath, () => {}); // silent — file may already be gone
-            } else if (img.url.includes('cloudinary')) {
-              // Cloudinary image
-              const publicId = getPublicIdFromUrl(img.url);
-              if (publicId) {
+          if (!img.url) continue;
+
+          if (img.url.startsWith('/uploads/')) {
+            const filePath = path.join(__dirname, '../', img.url);
+            fs.unlink(filePath, () => {});
+          } else if (img.url.includes('cloudinary')) {
+            const publicId = getPublicIdFromUrl(img.url);
+            if (publicId) {
+              try {
                 await deleteImage(publicId);
+              } catch (imgError) {
+                console.warn('Image delete warning:', imgError.message);
               }
             }
           }
         }
       }
+
+      if (propertyIds.length > 0) {
+        await Review.deleteMany({ property: { $in: propertyIds } });
+        await Inquiry.deleteMany({ property: { $in: propertyIds } });
+      }
+
+      await Property.deleteMany({ owner: userId });
+      await Project.deleteMany({ developer: userId });
+      await Review.deleteMany({ user: userId });
+      await Inquiry.deleteMany({
+        $or: [{ sender: userId }, { receiver: userId }],
+      });
+      await Alert.deleteMany({ user: userId });
+    } catch (cleanupError) {
+      console.warn('Post-user-delete cleanup warning:', cleanupError.message);
     }
 
-    // 3. Delete reviews ON the user's properties
-    if (propertyIds.length > 0) {
-      await Review.deleteMany({ property: { $in: propertyIds } });
-      await Inquiry.deleteMany({ property: { $in: propertyIds } });
-    }
-
-    // 4. Delete the user's own properties
-    await Property.deleteMany({ owner: userId });
-
-    // 5. Delete projects created by the user
-    await Project.deleteMany({ developer: userId });
-
-    // 6. Delete reviews written by the user
-    await Review.deleteMany({ user: userId });
-
-    // 7. Delete inquiries sent or received by the user
-    await Inquiry.deleteMany({
-      $or: [{ sender: userId }, { receiver: userId }],
-    });
-
-    // 8. Delete price/search alerts set by the user
-    await Alert.deleteMany({ user: userId });
-
-    // 9. Finally delete the user account
-    await User.findByIdAndDelete(userId);
-
-    res.status(200).json({
+    return res.status(200).json({
       success: true,
       message: 'User and all associated data deleted successfully',
       deleted: {
         properties: propertyIds.length,
-        projects: await Project.countDocuments({ developer: userId }),
+        projects: projectCount,
       },
     });
   } catch (error) {

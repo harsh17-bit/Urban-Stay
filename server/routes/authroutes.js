@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const {
   register,
@@ -13,27 +13,31 @@ const {
   updateUserRole,
   deleteUser,
   checkEmail,
-} = require("../controllers/authcontroller");
-const { protect, authorize } = require("../middleware/auth");
+  sendRegisterOtp,
+  verifyRegisterOtp,
+} = require('../controllers/authcontroller');
+const { protect, authorize } = require('../middleware/auth');
 //for checking if auth route is healthy
-router.get("/health", (req, res) => {
-  res.json({ status: "ok", message: "Auth route is healthy" });
+router.get('/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Auth route is healthy' });
 });
 // Public routes
-router.get("/check-email", checkEmail);
-router.post("/register", register);
-router.post("/login", login);
-router.post("/forgotpassword", forgotPassword);
-router.post("/resetpassword", resetPassword);
+router.get('/check-email', checkEmail);
+router.post('/send-register-otp', sendRegisterOtp);
+router.post('/verify-register-otp', verifyRegisterOtp);
+router.post('/register', register);
+router.post('/login', login);
+router.post('/forgotpassword', forgotPassword);
+router.post('/resetpassword', resetPassword);
 
 // Protected routes
-router.get("/me", protect, getMe);
-router.put("/updateprofile", protect, updateProfile);
-router.put("/updatepassword", protect, updatePassword);
-router.put("/favorites/:propertyId", protect, toggleFavorite);
+router.get('/me', protect, getMe);
+router.put('/updateprofile', protect, updateProfile);
+router.put('/updatepassword', protect, updatePassword);
+router.put('/favorites/:propertyId', protect, toggleFavorite);
 
 // Admin routes
-router.get("/users", protect, authorize("admin"), getAllUsers);
-router.put("/users/:id/role", protect, authorize("admin"), updateUserRole);
-router.delete("/users/:id", protect, authorize("admin"), deleteUser);
+router.get('/users', protect, authorize('admin'), getAllUsers);
+router.put('/users/:id/role', protect, authorize('admin'), updateUserRole);
+router.delete('/users/:id', protect, authorize('admin'), deleteUser);
 module.exports = router;
