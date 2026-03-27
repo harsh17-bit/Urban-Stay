@@ -19,7 +19,7 @@ class MLService {
       const response = await api.post(
         '/ml/predict',
         {
-          city: propertyData.city || '',
+          city: (propertyData.city || '').toLowerCase(),
           area: Number(propertyData.area) || 1000,
           bedrooms: Number(propertyData.bedrooms) || 2,
           bathrooms: Number(propertyData.bathrooms) || 1,

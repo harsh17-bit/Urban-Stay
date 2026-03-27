@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/user");
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
 // Protect routes - require authentication
 exports.protect = async (req, res, next) => {
@@ -9,15 +9,15 @@ exports.protect = async (req, res, next) => {
     // Get token from header
     if (
       req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
+      req.headers.authorization.startsWith('Bearer')
     ) {
-      token = req.headers.authorization.split(" ")[1];
+      token = req.headers.authorization.split(' ')[1];
     }
 
     if (!token) {
       return res.status(401).json({
         success: false,
-        message: "Not authorized to access this route",
+        message: 'Not authorized to access this route',
       });
     }
 
@@ -30,16 +30,23 @@ exports.protect = async (req, res, next) => {
     if (!req.user) {
       return res.status(401).json({
         success: false,
-        message: "User not found",
+        message: 'User not found',
+      });
+    }
+
+    if (req.user.isActive === false) {
+      return res.status(403).json({
+        success: false,
+        message: 'Your account has been disabled by admin',
       });
     }
 
     next();
   } catch (error) {
-    console.error("Auth middleware error:", error);
+    console.error('Auth middleware error:', error);
     return res.status(401).json({
       success: false,
-      message: "Not authorized to access this route",
+      message: 'Not authorized to access this route',
     });
   }
 };
@@ -64,12 +71,17 @@ exports.optionalAuth = async (req, res, next) => {
 
     if (
       req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
+      req.headers.authorization.startsWith('Bearer')
     ) {
-      token = req.headers.authorization.split(" ")[1];
+      token = req.headers.authorization.split(' ')[1];
 
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.id);
+      const user = await User.findById(decoded.id);
+
+      // Disabled accounts should not be treated as authenticated, even on optional auth routes.
+      if (user && user.isActive !== false) {
+        req.user = user;
+      }
     }
 
     next();

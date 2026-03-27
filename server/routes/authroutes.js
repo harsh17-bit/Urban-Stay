@@ -11,6 +11,7 @@ const {
   toggleFavorite,
   getAllUsers,
   updateUserRole,
+  updateUserStatus,
   deleteUser,
   checkEmail,
   sendRegisterOtp,
@@ -39,5 +40,6 @@ router.put('/favorites/:propertyId', protect, toggleFavorite);
 // Admin routes
 router.get('/users', protect, authorize('admin'), getAllUsers);
 router.put('/users/:id/role', protect, authorize('admin'), updateUserRole);
+router.put('/users/:id/status', protect, authorize('admin'), updateUserStatus);
 router.delete('/users/:id', protect, authorize('admin'), deleteUser);
 module.exports = router;

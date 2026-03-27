@@ -150,6 +150,23 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleToggleUserStatus = async (targetUser) => {
+    try {
+      const nextStatus = targetUser.isActive === false;
+      await api.put(`/auth/users/${targetUser._id}/status`, {
+        isActive: nextStatus,
+      });
+      setUsers((prev) =>
+        prev.map((u) =>
+          u._id === targetUser._id ? { ...u, isActive: nextStatus } : u
+        )
+      );
+    } catch (error) {
+      console.error('Error updating user status:', error);
+      alert(error.response?.data?.message || 'Error updating user status');
+    }
+  };
+
   const handleDeleteUser = async () => {
     if (!userToDelete) return;
 
@@ -486,6 +503,7 @@ const AdminDashboard = () => {
                       <th>User</th>
                       <th>Contact</th>
                       <th>Role</th>
+                      <th>Status</th>
                       <th>Professional Details</th>
                       <th>Joined</th>
                       <th>Actions</th>
@@ -535,6 +553,15 @@ const AdminDashboard = () => {
                           </select>
                         </td>
                         <td>
+                          <span
+                            className={`user-status-badge ${
+                              u.isActive === false ? 'inactive' : 'active'
+                            }`}
+                          >
+                            {u.isActive === false ? 'Disabled' : 'Active'}
+                          </span>
+                        </td>
+                        <td>
                           {u.role === 'seller' ? (
                             <div className="professional-info">
                               {u.companyName && (
@@ -570,6 +597,20 @@ const AdminDashboard = () => {
                               title="View Details"
                             >
                               <FiEye />
+                            </button>
+                            <button
+                              className={`btn-icon ${
+                                u.isActive === false ? 'success' : 'danger'
+                              }`}
+                              onClick={() => handleToggleUserStatus(u)}
+                              disabled={u._id === user?._id}
+                              title={
+                                u.isActive === false
+                                  ? 'Enable User'
+                                  : 'Disable User'
+                              }
+                            >
+                              {u.isActive === false ? <FiCheck /> : <FiX />}
                             </button>
                             <button
                               className="btn-icon delete"

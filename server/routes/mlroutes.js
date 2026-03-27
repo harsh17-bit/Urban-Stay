@@ -73,6 +73,10 @@ router.get('/locations', async (req, res) => {
 });
 
 router.post('/predict', async (req, res) => {
+  // Normalize city to lowercase for consistency with ML service
+  if (req.body.city) {
+    req.body.city = req.body.city.toLowerCase();
+  }
   const result = await forwardToMl({
     method: 'POST',
     path: '/predict',

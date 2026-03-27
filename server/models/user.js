@@ -64,6 +64,11 @@ const userSchema = new mongoose.Schema(
       default: false,
       // Email verification status
     },
+    isActive: {
+      type: Boolean,
+      default: true,
+      // Admin can disable account access without deleting user
+    },
 
     // User Preferences
     favorites: [

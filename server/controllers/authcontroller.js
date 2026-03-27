@@ -335,6 +335,13 @@ exports.login = async (req, res) => {
       });
     }
 
+    if (user.isActive === false) {
+      return res.status(403).json({
+        success: false,
+        message: 'Your account has been disabled by admin',
+      });
+    }
+
     // Verify password using bcrypt comparison
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
@@ -637,6 +644,53 @@ exports.updateUserRole = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Error updating user role',
+    });
+  }
+};
+
+// @desc    Enable/Disable user account (Admin)
+// @route   PUT /api/auth/users/:id/status
+// @access  Private/Admin
+exports.updateUserStatus = async (req, res) => {
+  try {
+    const { isActive } = req.body;
+
+    if (typeof isActive !== 'boolean') {
+      return res.status(400).json({
+        success: false,
+        message: 'isActive must be true or false',
+      });
+    }
+
+    if (req.user.id === req.params.id && isActive === false) {
+      return res.status(400).json({
+        success: false,
+        message: 'You cannot disable your own admin account',
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { isActive },
+      { returnDocument: 'after' }
+    );
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    console.error('Update user status error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error updating user status',
     });
   }
 };
