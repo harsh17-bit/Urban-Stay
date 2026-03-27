@@ -504,7 +504,6 @@ const AdminDashboard = () => {
                       <th>Contact</th>
                       <th>Role</th>
                       <th>Status</th>
-                      <th>Professional Details</th>
                       <th>Joined</th>
                       <th>Actions</th>
                     </tr>
@@ -561,7 +560,7 @@ const AdminDashboard = () => {
                             {u.isActive === false ? 'Disabled' : 'Active'}
                           </span>
                         </td>
-                        <td>
+                        {/* <td>
                           {u.role === 'seller' ? (
                             <div className="professional-info">
                               {u.companyName && (
@@ -580,7 +579,7 @@ const AdminDashboard = () => {
                           ) : (
                             <span className="text-muted">-</span>
                           )}
-                        </td>
+                        </td> */}
                         <td>
                           <span className="date-text">
                             {new Date(u.createdAt).toLocaleDateString()}
