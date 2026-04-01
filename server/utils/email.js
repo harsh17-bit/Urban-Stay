@@ -9,6 +9,36 @@
 
 const nodemailer = require('nodemailer');
 
+const buildOtpEmailTemplate = ({ title, message, otp, footer }) => {
+  return `
+    <div style="margin:0;padding:0;background:#f7f7f7;font-family:Arial,sans-serif;color:#222;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="padding:20px 0;">
+        <tr>
+          <td align="center">
+            <table width="520" cellpadding="0" cellspacing="0" style="background:#ffffff;border:1px solid #e5e5e5;border-radius:8px;overflow:hidden;">
+              <tr>
+                <td style="padding:20px 24px;border-bottom:1px solid #f0f0f0;">
+                  <h2 style="margin:0;font-size:20px;color:#111;">${title}</h2>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:20px 24px;">
+                  <p style="margin:0 0 12px;font-size:14px;line-height:1.6;color:#333;">${message}</p>
+                  <div style="display:inline-block;padding:10px 14px;border:1px solid #dcdcdc;border-radius:6px;background:#fafafa;font-size:24px;font-weight:700;letter-spacing:4px;color:#111;">
+                    ${otp}
+                  </div>
+                  <p style="margin:12px 0 0;font-size:13px;line-height:1.6;color:#555;">This code is valid for 10 minutes.</p>
+                  <p style="margin:10px 0 0;font-size:13px;line-height:1.6;color:#555;">${footer}</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  `;
+};
+
 /**
  * Creates and configures the email transporter
  * Uses Gmail SMTP service with credentials from environment variables
@@ -234,20 +264,21 @@ const sendWelcomeEmail = async (data) => {
 const sendPasswordResetOtpEmail = async (data) => {
   try {
     const transporter = createTransporter();
+    const text = `Your OTP for password reset is ${data.otp}. It is valid for 10 minutes.`;
+    const html = buildOtpEmailTemplate({
+      title: 'Password Reset OTP',
+      message:
+        'We received a request to reset your Urban Stay password. Use the OTP below to continue:',
+      otp: data.otp,
+      footer: 'If you did not request this, you can safely ignore this email.',
+    });
 
     const mailOptions = {
       from: `"UrbanStay.com" <${process.env.EMAIL_USER}>`,
       to: data.email,
       subject: 'Your UrbanStay.com password reset OTP',
-      text: `Your OTP for password reset is ${data.otp}. It is valid for 10 minutes.`,
-      html: `
-          <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-            <h2 style="margin: 0 0 12px;">Password Reset OTP</h2>
-            <p>Your OTP for password reset is:</p>
-            <p style="font-size: 24px; font-weight: bold; letter-spacing: 2px;">${data.otp}</p>
-            <p>This code is valid for 10 minutes. If you did not request this, you can ignore this email.</p>
-          </div>
-        `,
+      text,
+      html,
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -255,6 +286,46 @@ const sendPasswordResetOtpEmail = async (data) => {
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Error sending OTP email:', error.message);
+    throw error;
+  }
+};
+
+/**
+ * Sends a registration email verification OTP email
+ *
+ * @param {Object} data - OTP email data
+ * @param {string} data.email - User's email address
+ * @param {string} data.otp - 6-digit OTP code
+ *
+ * @returns {Promise<Object>} Success object with messageId
+ * @throws {Error} If email sending fails
+ */
+const sendRegistrationOtpEmail = async (data) => {
+  try {
+    const transporter = createTransporter();
+    const text = `Your Urban Stay registration OTP is ${data.otp}. It expires in 10 minutes.`;
+    const html = buildOtpEmailTemplate({
+      title: 'Email Verification OTP',
+      message:
+        'Use the OTP below to verify your email address and continue creating your Urban Stay account:',
+      otp: data.otp,
+      footer:
+        'If you did not start this signup process, no further action is needed.',
+    });
+
+    const mailOptions = {
+      from: `"Urban Stay" <${process.env.EMAIL_USER}>`,
+      to: data.email,
+      subject: 'Urban Stay - Verify Your Email',
+      text,
+      html,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Registration OTP email sent:', info.messageId);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('Error sending registration OTP email:', error.message);
     throw error;
   }
 };
@@ -351,4 +422,5 @@ module.exports = {
   sendInquiryReplyNotification,
   sendWelcomeEmail,
   sendPasswordResetOtpEmail,
+  sendRegistrationOtpEmail,
 };

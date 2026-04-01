@@ -1,12 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import {
-  FiSearch,
-  FiMapPin,
-  FiGrid,
-  FiList,
-  FiX,
-} from 'react-icons/fi';
+import { FiSearch, FiMapPin, FiGrid, FiList, FiX } from 'react-icons/fi';
 import { propertyService } from '../services/propertyservice';
 import PropertyCard from '../components/propertycard';
 import './SearchResults.css';
@@ -29,8 +23,10 @@ const SearchResults = () => {
   const [totalResults, setTotalResults] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [viewMode, setViewMode] = useState('grid');
-  const [filters, setFilters] = useState(() => getFiltersFromParams(searchParams));
+  const [viewMode] = useState('grid');
+  const [filters, setFilters] = useState(() =>
+    getFiltersFromParams(searchParams)
+  );
 
   const cities = [
     'Mumbai',
@@ -211,18 +207,18 @@ const SearchResults = () => {
             </select>
 
             <div className="view-toggle">
-              <button
+              {/* <button
                 className={viewMode === 'grid' ? 'active' : ''}
                 onClick={() => setViewMode('grid')}
               >
                 <FiGrid />
-              </button>
-              <button
+              </button> */}
+              {/* <button
                 className={viewMode === 'list' ? 'active' : ''}
                 onClick={() => setViewMode('list')}
               >
                 <FiList />
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -354,7 +350,10 @@ const SearchResults = () => {
           <div className="empty-state">
             <FiSearch />
             <h3>Sorry, no properties matched your search</h3>
-            <p>We regret the inconvenience. Please try a different filter or city.</p>
+            <p>
+              We regret the inconvenience. Please try a different filter or
+              city.
+            </p>
             <button className="btn-primary" onClick={clearFilters}>
               Clear All Filters
             </button>

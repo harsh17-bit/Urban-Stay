@@ -46,23 +46,10 @@ const Review = require('../models/review');
 const Alert = require('../models/alert');
 const Project = require('../models/project');
 const jwt = require('jsonwebtoken');
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false,
-  },
-});
 const {
   sendWelcomeEmail,
   sendPasswordResetOtpEmail,
+  sendRegistrationOtpEmail,
 } = require('../utils/email');
 const crypto = require('crypto');
 const fs = require('fs');
@@ -226,11 +213,7 @@ exports.sendRegisterOtp = async (req, res) => {
       expiresAt: Date.now() + 10 * 60 * 1000,
     });
 
-    await transporter.sendMail({
-      to: email,
-      subject: 'Urban Stay - Registration Email OTP',
-      text: `Your Urban Stay registration OTP is ${otp}. It expires in 10 minutes.`,
-    });
+    await sendRegistrationOtpEmail({ email, otp });
 
     return res.status(200).json({
       success: true,
@@ -508,11 +491,7 @@ exports.forgotPassword = async (req, res) => {
     await user.save();
 
     // send email BEFORE response (safe version)
-    await transporter.sendMail({
-      to: user.email,
-      subject: 'Password Reset OTP',
-      text: `Your OTP is ${otp}. It expires in 10 minutes.`,
-    });
+    await sendPasswordResetOtpEmail({ email: user.email, otp });
 
     return res.status(200).json({
       success: true,
