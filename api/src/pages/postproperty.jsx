@@ -15,6 +15,13 @@ import { propertyService } from '../services/propertyservice';
 import mlService from '../services/mlservice';
 import { useAuth } from '../context/authcontext.jsx';
 import './PostProperty.css';
+
+const normalizePossessionStatus = (value) => {
+  if (value === 'ready') return 'ready-to-move';
+  if (value === 'new-launch') return 'under-construction';
+  return value;
+};
+
 const PostProperty = () => {
   const navigate = useNavigate();
   const { id: propertyId } = useParams();
@@ -141,8 +148,9 @@ const PostProperty = () => {
             furnishing: p.specifications?.furnishing ?? '',
             facing: p.specifications?.facing ?? '',
             ageOfProperty: p.specifications?.ageOfProperty ?? '',
-            possessionStatus:
-              p.specifications?.possessionStatus ?? 'ready-to-move',
+            possessionStatus: normalizePossessionStatus(
+              p.specifications?.possessionStatus ?? 'ready-to-move'
+            ),
             parkingSlots: p.specifications?.parkingSlots ?? '',
           },
           price: p.price ?? '',
@@ -514,8 +522,9 @@ const PostProperty = () => {
         cleanedSpecifications.facing = formData.specifications.facing;
       }
       if (formData.specifications.possessionStatus) {
-        cleanedSpecifications.possessionStatus =
-          formData.specifications.possessionStatus;
+        cleanedSpecifications.possessionStatus = normalizePossessionStatus(
+          formData.specifications.possessionStatus
+        );
       }
 
       // Check if any images have new file objects
@@ -753,6 +762,13 @@ const PostProperty = () => {
           {errors.submit && (
             <div className="pp-error-banner">
               <FiX size={16} /> {errors.submit}
+            </div>
+          )}
+
+          {!isEditMode && (
+            <div className="pp-disclaimer-banner">
+              <strong>Note:</strong> Your listing will be reviewed by admin and
+              will be visible on the website only after approval.
             </div>
           )}
 
@@ -1186,11 +1202,10 @@ const PostProperty = () => {
                     value={formData.specifications.possessionStatus}
                     onChange={handleChange}
                   >
-                    <option value="ready">Ready to Move</option>
+                    <option value="ready-to-move">Ready to Move</option>
                     <option value="under-construction">
                       Under Construction
                     </option>
-                    <option value="new-launch">New Launch</option>
                   </select>
                 </div>
 

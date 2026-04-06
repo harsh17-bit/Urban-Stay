@@ -2,12 +2,12 @@
    PROPERTY CARD  —  Modern Redesign
    Inspired by dark-overlay card with Reserve CTA
 ═══════════════════════════════════════════════ */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* ── Base card: white padded frame ── */
 .property-card {
   font-family:
-    "Inter",
+    'Inter',
     system-ui,
     -apple-system,
     sans-serif;
@@ -21,6 +21,11 @@
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease;
+}
+
+.property-card-shell {
+  position: relative;
+  overflow: visible;
 }
 
 .property-card:hover {
@@ -58,7 +63,7 @@
 
 /* Heavy gradient at bottom for text readability */
 .property-image-wrap::after {
-  content: "";
+  content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(

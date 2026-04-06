@@ -19,7 +19,7 @@ const { protect, authorize, optionalAuth } = require('../middleware/auth');
 const { uploadPropertyImages } = require('../config/cloudinary');
 
 // Public routes
-router.get('/', getAllProperties);
+router.get('/', optionalAuth, getAllProperties);
 router.get('/featured', getFeaturedProperties);
 router.get('/stats/cities', getPropertyCountByCity);
 

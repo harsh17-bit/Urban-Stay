@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiHeart, FiMapPin, FiMaximize, FiHome } from 'react-icons/fi';
 import { getImageUrl } from '../utils/imageUtils';
 import { useAuth } from '../context/authcontext.jsx';
@@ -14,6 +14,8 @@ const PropertyCard = ({ property, viewMode = 'grid', onWishlistToast }) => {
     type: 'success',
     message: '',
   });
+  const guestFavoriteClickTimer = useRef(null);
+  const [guestFavoriteClickCount, setGuestFavoriteClickCount] = useState(0);
 
   if (!property) return null;
 
@@ -57,8 +59,36 @@ const PropertyCard = ({ property, viewMode = 'grid', onWishlistToast }) => {
     };
 
     if (!isAuthenticated) {
-      showWishlistToast('error', 'Please login to manage wishlist.');
-      navigate('/register');
+      if (guestFavoriteClickCount === 0) {
+        showWishlistToast(
+          'error',
+          'Please login/register for wishlist this property.'
+        );
+        setGuestFavoriteClickCount(1);
+
+        if (guestFavoriteClickTimer.current) {
+          clearTimeout(guestFavoriteClickTimer.current);
+        }
+
+        guestFavoriteClickTimer.current = setTimeout(() => {
+          setGuestFavoriteClickCount(0);
+        }, 1800);
+        return;
+      }
+
+      if (guestFavoriteClickTimer.current) {
+        clearTimeout(guestFavoriteClickTimer.current);
+      }
+      setGuestFavoriteClickCount(0);
+      showWishlistToast(
+        'error',
+        'Please login/register for wishlist this property.'
+      );
+      navigate('/register', {
+        state: {
+          message: 'Please login/register for wishlist this property.',
+        },
+      });
       return;
     }
 
@@ -113,7 +143,7 @@ const PropertyCard = ({ property, viewMode = 'grid', onWishlistToast }) => {
 
   if (viewMode === 'list') {
     return (
-      <>
+      <div className="property-card-shell">
         <PaymentToast
           show={wishlistToast.show}
           type={wishlistToast.type}
@@ -186,12 +216,12 @@ const PropertyCard = ({ property, viewMode = 'grid', onWishlistToast }) => {
             </div>
           </div>
         </Wrapper>
-      </>
+      </div>
     );
   }
 
   return (
-    <>
+    <div className="property-card-shell">
       <PaymentToast
         show={wishlistToast.show}
         type={wishlistToast.type}
@@ -261,7 +291,7 @@ const PropertyCard = ({ property, viewMode = 'grid', onWishlistToast }) => {
           </div>
         </div>
       </Wrapper>
-    </>
+    </div>
   );
 };
 

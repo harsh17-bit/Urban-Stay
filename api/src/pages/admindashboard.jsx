@@ -421,7 +421,9 @@ const AdminDashboard = () => {
                                 <FiCheck /> Verified
                               </span>
                             ) : (
-                              <span className="unverified-badge">Pending</span>
+                              <span className="unverified-badge">
+                                Pending Approval
+                              </span>
                             )}
                           </td>
                           <td>
@@ -429,6 +431,7 @@ const AdminDashboard = () => {
                               {!property.isVerified && (
                                 <button
                                   className="btn-icon success"
+                                  title="Approve property"
                                   onClick={() =>
                                     handleVerifyProperty(property._id)
                                   }
@@ -682,7 +685,9 @@ const AdminDashboard = () => {
                                 <FiCheck /> Verified
                               </span>
                             ) : (
-                              <span className="unverified-badge">Pending</span>
+                              <span className="unverified-badge">
+                                Pending Approval
+                              </span>
                             )}
                           </td>
                           <td>
@@ -690,7 +695,7 @@ const AdminDashboard = () => {
                               {!property.isVerified && (
                                 <button
                                   className="btn-icon success"
-                                  title="Verify"
+                                  title="Approve property"
                                   onClick={() =>
                                     handleVerifyProperty(property._id)
                                   }

@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
-import "./FeaturedProjects.css";
-import PropertyCard from "./propertycard";
-import { propertyService } from "../services/propertyservice";
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './FeaturedProjects.css';
+import PropertyCard from './propertycard';
+import { propertyService } from '../services/propertyservice';
 
 const FeaturedProjects = () => {
+  const navigate = useNavigate();
   const [featured, setFeatured] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchFeatured = async () => {
       setLoading(true);
-      setError("");
+      setError('');
       try {
         const response = await propertyService.getFeatured();
         setFeatured(response?.properties || []);
         // eslint-disable-next-line no-unused-vars
       } catch (err) {
-        setError("Failed to load featured properties");
+        setError('Failed to load featured properties');
       } finally {
         setLoading(false);
       }

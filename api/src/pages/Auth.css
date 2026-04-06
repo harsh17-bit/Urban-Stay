@@ -393,7 +393,6 @@
   width: 100%;
   padding: 1rem;
   color: white;
-  background: linear-gradient(120deg, #e53935 0%, #ef5350 45%, #22c55e 100%);
   background-size: 220% 220%;
   background-position: 0% 50%;
   border: none;
@@ -405,13 +404,11 @@
     background-position 0.45s ease,
     transform 0.25s ease,
     box-shadow 0.25s ease;
-  box-shadow: 0 8px 18px rgba(229, 57, 53, 0.28);
 }
 
 .auth-button:hover:not(:disabled) {
   background-position: 100% 50%;
   transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(34, 197, 94, 0.28);
 }
 
 .auth-button:active:not(:disabled) {

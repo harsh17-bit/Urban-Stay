@@ -648,6 +648,7 @@ const SellerDashboard = () => {
                               <select
                                 className={`status-select ${property.status}`}
                                 value={property.status}
+                                disabled={!property.isVerified}
                                 onChange={(e) =>
                                   handleStatusChange(
                                     property._id,
@@ -655,6 +656,9 @@ const SellerDashboard = () => {
                                   )
                                 }
                               >
+                                <option value="pending">
+                                  Pending Approval
+                                </option>
                                 <option value="available">Available</option>
                                 <option value="sold">Sold</option>
                                 <option value="rented">Rented</option>
@@ -773,10 +777,12 @@ const SellerDashboard = () => {
                             <select
                               className={`status-select ${property.status}`}
                               value={property.status}
+                              disabled={!property.isVerified}
                               onChange={(e) =>
                                 handleStatusChange(property._id, e.target.value)
                               }
                             >
+                              <option value="pending">Pending Approval</option>
                               <option value="available">Available</option>
                               <option value="sold">Sold</option>
                               <option value="rented">Rented</option>

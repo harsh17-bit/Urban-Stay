@@ -1,7 +1,7 @@
 .top-cities {
-  padding: 48px 20px 56px;
-  background: #fff;
-  border-top: 1px solid #e2e8f0;
+  padding: 64px 20px 72px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+  border-top: 1px solid #edf2f7;
 }
 
 .top-cities-container {
@@ -10,71 +10,77 @@
 }
 
 .top-cities-title {
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: #222;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+  font-weight: 800;
+  color: #111827;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  letter-spacing: -0.03em;
 }
 
 .top-cities-subtitle {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #888;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #6b7280;
   text-align: center;
-  letter-spacing: 0.1em;
-  margin-bottom: 32px;
+  letter-spacing: 0.28em;
+  margin-bottom: 30px;
 }
 
 .top-cities-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
 }
 
 .top-cities-card {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 6px;
-  padding: 20px 24px;
-  background: #f8f9fa;
-  border-radius: 8px;
+  min-height: 86px;
+  padding: 18px 20px;
+  background: #ffffff;
+  border-radius: 16px;
   text-decoration: none;
-  color: #333;
-  border: 1px solid #eee;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
   transition:
-    background 0.2s,
-    border-color 0.2s;
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
 }
 
 .top-cities-card:hover {
-  background: #fff;
-  border-color: var(--primary-color);
-  box-shadow: 0 4px 12px rgba(255, 90, 95, 0.15);
+  transform: translateY(-3px);
+  border-color: rgba(255, 90, 95, 0.25);
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
 }
 
 .top-cities-name {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #222;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #111827;
 }
 
 .top-cities-count {
   font-size: 0.9rem;
-  color: #666;
+  color: #6b7280;
 }
 
 @media (max-width: 768px) {
-  .top-cities-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .top-cities {
+    padding: 52px 16px 60px;
   }
 
-  .top-cities {
-    padding: 36px 16px 44px;
+  .top-cities-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .top-cities-title {
-    font-size: 1.4rem;
+    font-size: 1.45rem;
   }
 }
 
@@ -85,6 +91,7 @@
   }
 
   .top-cities-card {
+    min-height: 82px;
     padding: 16px 18px;
   }
 }

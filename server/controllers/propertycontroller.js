@@ -1,5 +1,11 @@
 const Property = require('../models/property');
 
+const normalizePossessionStatus = (value) => {
+  if (value === 'ready') return 'ready-to-move';
+  if (value === 'new-launch') return 'under-construction';
+  return value;
+};
+
 const cleanupExpiredFeaturedProperties = async () => {
   const now = new Date();
   await Property.updateMany(
@@ -22,6 +28,8 @@ const cleanupExpiredFeaturedProperties = async () => {
 exports.getAllProperties = async (req, res) => {
   try {
     await cleanupExpiredFeaturedProperties();
+
+    const isAdmin = req.user?.role === 'admin';
 
     const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -68,10 +76,15 @@ exports.getAllProperties = async (req, res) => {
     // - default      → show available + sold + rented so buyers see sold cards too
     if (req.query.status && req.query.status !== 'all') {
       filter.status = req.query.status;
-    } else if (!req.query.status) {
+    } else if (!req.query.status || (req.query.status === 'all' && !isAdmin)) {
       filter.status = { $in: ['available', 'sold', 'rented'] };
     }
-    // if status=all, no status filter applied (used by admin)
+    // if status=all, no status filter applied (admin only)
+
+    // Public and seller users should only see admin-approved listings.
+    if (!isAdmin) {
+      filter.isVerified = true;
+    }
 
     // Listing type filter
     if (listingType) {
@@ -231,6 +244,15 @@ exports.getProperty = async (req, res) => {
       });
     }
 
+    const isOwner = req.user && property.owner?.toString() === req.user.id;
+    const isAdmin = req.user?.role === 'admin';
+    if (!property.isVerified && !isOwner && !isAdmin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Property not found',
+      });
+    }
+
     try {
       await property.populate(
         'owner',
@@ -265,6 +287,15 @@ exports.getPropertyBySlug = async (req, res) => {
     const property = await Property.findOne({ slug: req.params.slug });
 
     if (!property) {
+      return res.status(404).json({
+        success: false,
+        message: 'Property not found',
+      });
+    }
+
+    const isOwner = req.user && property.owner?.toString() === req.user.id;
+    const isAdmin = req.user?.role === 'admin';
+    if (!property.isVerified && !isOwner && !isAdmin) {
       return res.status(404).json({
         success: false,
         message: 'Property not found',
@@ -320,6 +351,11 @@ exports.createProperty = async (req, res) => {
     const specifications = req.body.specifications
       ? JSON.parse(req.body.specifications)
       : {};
+    if (specifications.possessionStatus) {
+      specifications.possessionStatus = normalizePossessionStatus(
+        specifications.possessionStatus
+      );
+    }
     const amenities = req.body.amenities ? JSON.parse(req.body.amenities) : [];
     const highlights = req.body.highlights
       ? JSON.parse(req.body.highlights)
@@ -368,6 +404,8 @@ exports.createProperty = async (req, res) => {
       listingType: req.body.listingType,
       propertyType: req.body.propertyType,
       price: Number(req.body.price),
+      status: 'pending',
+      isVerified: false,
       location,
       specifications,
       amenities,
@@ -449,6 +487,11 @@ exports.updateProperty = async (req, res) => {
       const specifications = req.body.specifications
         ? JSON.parse(req.body.specifications)
         : undefined;
+      if (specifications?.possessionStatus) {
+        specifications.possessionStatus = normalizePossessionStatus(
+          specifications.possessionStatus
+        );
+      }
       const amenities = req.body.amenities
         ? JSON.parse(req.body.amenities)
         : undefined;
@@ -500,6 +543,25 @@ exports.updateProperty = async (req, res) => {
       };
     } else {
       updateData = req.body;
+      if (updateData?.specifications?.possessionStatus) {
+        updateData.specifications.possessionStatus = normalizePossessionStatus(
+          updateData.specifications.possessionStatus
+        );
+      }
+    }
+
+    // Enforce admin-only approval/feature controls at API level.
+    if (req.user.role !== 'admin') {
+      delete updateData.isVerified;
+      delete updateData.verifiedAt;
+      delete updateData.verifiedBy;
+      delete updateData.isFeatured;
+      delete updateData.featuredUntil;
+
+      // Seller can change availability status only after admin approval.
+      if (!property.isVerified) {
+        delete updateData.status;
+      }
     }
 
     property = await Property.findByIdAndUpdate(req.params.id, updateData, {
@@ -654,6 +716,7 @@ exports.getSimilarProperties = async (req, res) => {
     const similarProperties = await Property.find({
       _id: { $ne: property._id },
       status: 'available',
+      isVerified: true,
       listingType: property.listingType,
       $or: [
         { 'location.city': property.location.city },
@@ -697,6 +760,7 @@ exports.getFeaturedProperties = async (req, res) => {
 
     const properties = await Property.find({
       status: 'available',
+      isVerified: true,
       isFeatured: true,
       featuredUntil: { $gte: new Date() },
     })
@@ -728,7 +792,7 @@ exports.getFeaturedProperties = async (req, res) => {
 exports.getPropertyCountByCity = async (req, res) => {
   try {
     const cities = await Property.aggregate([
-      { $match: { status: 'available' } },
+      { $match: { status: 'available', isVerified: true } },
       {
         $group: {
           _id: '$location.city',
@@ -762,6 +826,7 @@ exports.verifyProperty = async (req, res) => {
       req.params.id,
       {
         isVerified: true,
+        status: 'available',
         verifiedAt: new Date(),
         verifiedBy: req.user.id,
       },
