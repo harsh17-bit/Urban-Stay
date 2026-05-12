@@ -44,6 +44,8 @@ import AboutUs from './pages/AboutUs.jsx';
 import EMICalculator from './pages/EMICalculator.jsx';
 import HomeInterior from './pages/HomeInterior.jsx';
 import AreaConverter from './components/AreaConverter.jsx';
+import LeasePage from './pages/leases.jsx';
+import MaintenancePage from './pages/maintenance.jsx';
 
 // Home Page Component with all sections
 const HomePage = () => {
@@ -188,6 +190,22 @@ function AppContent() {
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/properties" element={<SearchResults />} />
               <Route path="/search" element={<SearchResults />} />
+              <Route
+                path="/leases"
+                element={
+                  <ProtectedRoute>
+                    <LeasePage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/maintenance"
+                element={
+                  <ProtectedRoute>
+                    <MaintenancePage />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/property/:id" element={<PropertyDetails />} />
               <Route path="/terms-of-service" element={<TermsOfService />} />
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />

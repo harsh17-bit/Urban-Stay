@@ -64,6 +64,8 @@ const alertRoutes = require('./routes/alertroutes');
 const projectRoutes = require('./routes/projectroutes');
 const paymentRoutes = require('./routes/paymentroutes');
 const mlRoutes = require('./routes/mlroutes');
+const leaseRoutes = require('./routes/leaseroutes');
+const maintenanceRoutes = require('./routes/maintenanceroutes');
 
 app.set('trust proxy', true); // Trust first proxy for secure cookies on platforms like Render
 // Connect to database
@@ -107,6 +109,8 @@ app.use('/api/alerts', alertRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/ml', mlRoutes);
+app.use('/api/leases', leaseRoutes);
+app.use('/api/maintenance', maintenanceRoutes);
 
 // Health check — must be before error handler and 404 catch-all
 app.get('/api/health', (req, res) => {
@@ -127,6 +131,8 @@ app.get('/api', (req, res) => {
       alerts: '/api/alerts',
       projects: '/api/projects',
       payments: '/api/payments',
+      leases: '/api/leases',
+      maintenance: '/api/maintenance',
     },
   });
 });
